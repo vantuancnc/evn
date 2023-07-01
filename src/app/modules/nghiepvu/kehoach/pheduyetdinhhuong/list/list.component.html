@@ -7,25 +7,14 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select
-                    [items]="listYears"
-                    bindLabel="name"
-                    bindValue="id"
-                    placeholder="Chọn năm"
-                    [multiple]="true"
-                    [(ngModel)]="selectedYear"
-                >
+                <ng-select [items]="listYears" bindLabel="name" bindValue="id" placeholder="Chọn năm" [multiple]="true"
+                    [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
             <div class="statust-right">
                 <label for="">Trạng thái</label>
-                <ng-select
-                    [items]="listStatus"
-                    bindLabel="name"
-                    bindValue="id"
-                    placeholder="Chọn trạng thái"
-                    [(ngModel)]="selectedStatust"
-                >
+                <ng-select [items]="listStatus" bindLabel="name" bindValue="id" placeholder="Chọn trạng thái"
+                    [(ngModel)]="selectedStatus">
                 </ng-select>
             </div>
             <button class="add_button mg-left mr-5" (click)="addNew()">
@@ -43,7 +32,7 @@
                     <th class="text-center">Tên bản đăng ký</th>
                     <th class="text-center">Người tổng hợp</th>
                     <th class="text-center">Năm</th>
-                    <th  class="text-center">Ngày tổng hợp</th>
+                    <th class="text-center">Ngày tổng hợp</th>
                     <th class="text-center">Trạng thái</th>
                     <th>Ý kiến xét duyệt</th>
                     <th class="text-center action-table"></th>
@@ -63,7 +52,7 @@
                         <div class="flex justify-evenly">
                             <i class="fa fa-info-circle" title="Xem chi tiết"></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" ></i>
+                            <i class="fa fa-check-square-o"></i>
                             <input type="checkbox" class="checkbox_table">
                         </div>
                     </td>
@@ -81,7 +70,7 @@
                         <div class="flex justify-evenly">
                             <i class="fa fa-info-circle" title="Xem chi tiết"></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" ></i>
+                            <i class="fa fa-check-square-o"></i>
                             <input type="checkbox" class="checkbox_table">
                         </div>
                     </td>
@@ -99,7 +88,7 @@
                         <div class="flex justify-evenly">
                             <i class="fa fa-info-circle" title="Xem chi tiết"></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" ></i>
+                            <i class="fa fa-check-square-o"></i>
                             <input type="checkbox" class="checkbox_table">
                         </div>
                     </td>
@@ -118,9 +107,7 @@
 
     <!-- details -->
     <ng-container *ngIf="actionClick">
-        <div
-            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
-        >
+        <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
             <router-outlet></router-outlet>
         </div>
     </ng-container>

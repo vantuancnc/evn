@@ -9,14 +9,14 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="name" bindValue="id" placeholder="Chọn năm"
+                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
             <div class="statust-right">
                 <label for="">Trạng thái</label>
-                <ng-select [items]="listStatus" bindLabel="name" bindValue="id" placeholder="Chọn trạng thái"
-                    [(ngModel)]="selectedStatust">
+                <ng-select [items]="listStatus" bindLabel="NAME" bindValue="ID" placeholder="Chọn trạng thái"
+                    [(ngModel)]="selectedStatus">
                 </ng-select>
             </div>
         </div>
@@ -218,8 +218,8 @@
 
     <!-- details -->
     <ng-container *ngIf="actionClick">
-    <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
-      <router-outlet></router-outlet>
-    </div>
-  </ng-container>
+        <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
 </div>

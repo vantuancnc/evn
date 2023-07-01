@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntil } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
@@ -12,8 +12,7 @@ import { FunctionService } from 'app/core/function/function.service';
 import { ApiDinhHuongService } from '../listdinhhuong.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-
-
+import { ServiceService } from 'app/shared/service/service.service';
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
@@ -21,31 +20,48 @@ import { MatSort } from '@angular/material/sort';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class ApiDinhHuongDetailsComponent  implements OnInit {
+export class ApiDinhHuongDetailsComponent implements OnInit {
 
     public selectedYear: number;
-    public listYears = [
-        { id: 2024, name: '2024' },
-        { id: 2023, name: '2023' },
-        { id: 2022, name: '2022' },
-        { id: 2021, name: '2021' },
-        { id: 2020, name: '2020' },
-        { id: 2019, name: '2019' },
-        { id: 2018, name: '2018' },
-        { id: 2017, name: '2017' }
-    ];
+    public selectedStatus: string;
+    public actionClick: string = null;
+    public getYearSubscription: Subscription;
+    public getStatusSubscription: Subscription;
+    public listYears = [];
+    public listStatus = [];
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _router: Router,
+        private _serviceApi: ServiceService,
     ) {
 
     }
 
 
-    ngOnInit(): void {
+    ngOnInit() {
+        this.geListYears()
+        this.getListStatus()
+    }
 
+    geListYears() {
+        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+            this.listYears = data.data || [];
+        })
+    }
+
+    getListStatus() {
+        this.getStatusSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+            this.listStatus = data.data || [];
+        })
+    }
+
+
+
+    ngOnDestroy() {
+        this.getYearSubscription.unsubscribe();
+        this.getStatusSubscription.unsubscribe();
     }
 
 }
