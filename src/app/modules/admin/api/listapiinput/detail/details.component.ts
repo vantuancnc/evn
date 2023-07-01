@@ -5,6 +5,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
+import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
@@ -20,7 +21,7 @@ import { MatSort } from '@angular/material/sort';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class ApiInputDetailsComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ApiInputDetailsComponent extends BaseComponent implements OnInit, OnDestroy, BaseDetailInterface {
     @ViewChild(MatSort, { static: false }) sort: MatSort;
 
 

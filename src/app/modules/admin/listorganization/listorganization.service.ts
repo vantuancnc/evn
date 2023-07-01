@@ -3,7 +3,7 @@ import { BehaviorSubject, forkJoin, map, Observable, of, switchMap, take, tap, t
 import { ServiceService } from 'app/shared/service/service.service';
 import ShortUniqueId from 'short-unique-id';
 import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailService } from 'app/shared/commons/basedetail.service';
+import { BaseDetailService } from 'app/shared/commons/BaseDetail.service';
 import { BaseService } from 'app/shared/commons/base.service';
 
 @Injectable({
@@ -346,11 +346,9 @@ export class OrganizationService extends BaseService implements BaseDetailServic
                         }
                         return objectResult.data
                     }));
-                } else {
-                    this._object.next(object);
                 }
-                //this._object.next(object);
-                return of(object); 
+                this._object.next(object);
+                return of(object);
             })
         );
     }

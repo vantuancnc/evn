@@ -43,18 +43,7 @@ table {
     flex: 1;
 
 }
-
 .inputFieldButton {
     height: 31px;
     min-height: 31px;
-}
-
-.truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-th.mat-header-cell {
-    text-align: center !important;
 }

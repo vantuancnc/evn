@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { takeUntil } from 'rxjs';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
@@ -9,11 +9,8 @@ import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
 import { ListUserService } from '../listuser.service';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import ShortUniqueId from 'short-unique-id';
-import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { MatTable } from '@angular/material/table';
 
 
 @Component({

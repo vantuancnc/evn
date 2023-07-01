@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest, forkJoin, map, Observable, of, switchMa
 import { ServiceService } from 'app/shared/service/service.service';
 import ShortUniqueId from 'short-unique-id';
 import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailService } from 'app/shared/commons/basedetail.service';
+import { BaseDetailService } from 'app/shared/commons/BaseDetail.service';
 import { BaseService } from 'app/shared/commons/base.service';
 
 @Injectable({
@@ -448,10 +448,8 @@ export class ListRoleService extends BaseService implements BaseDetailService {
                             })
                         );
                     }));
-                } else {
-                    this._object.next(obj);
                 }
-                //this._object.next(obj);
+                this._object.next(obj);
                 return of(obj);
             })
         );

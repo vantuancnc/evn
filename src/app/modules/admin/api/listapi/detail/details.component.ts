@@ -7,6 +7,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
+import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
@@ -21,7 +22,7 @@ import { MatSort } from '@angular/material/sort';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class ApiDetailsComponent extends BaseComponent implements OnInit, OnDestroy {
+export class ApiDetailsComponent extends BaseComponent implements OnInit, OnDestroy, BaseDetailInterface {
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     displayedColumns: string[] = ['FUNCTIONID', 'FUNCTIONNAME', 'ENABLE', 'ISPUPLIC', 'USER_CR_ID', 'USER_CR_DTIME'];
     public StateEnum = State;
@@ -365,22 +366,17 @@ export class ApiDetailsComponent extends BaseComponent implements OnInit, OnDest
             return;
         }
         // get the search keyword
-        try {
-            let search = this.dialogForm.controls.API_SERVICE_LST_INPUTIDFilter.value;
-            if (search == null || search == '') {
-                this.filteredlstApiInputs.next(this.lstApiInputs.slice());
-                return;
-            } else {
-                search = search?.toLowerCase();
-            }
-            // filter the banks
-            this.filteredlstApiInputs.next(
-                this.lstApiInputs.filter(obj => obj.API_SERVICE_INPUTNAME.toLowerCase().indexOf(search) > -1)
-            );
-        } catch (error) {
+        let search = this.dialogForm.controls.API_SERVICE_LST_INPUTIDFilter.value;
+        if (!search) {
+            this.filteredlstApiInputs.next(this.lstApiInputs.slice());
             return;
+        } else {
+            search = search.toLowerCase();
         }
-
+        // filter the banks
+        this.filteredlstApiInputs.next(
+            this.lstApiInputs.filter(obj => obj.API_SERVICE_INPUTNAME.toLowerCase().indexOf(search) > -1)
+        );
     }
     /**
      * On destroy

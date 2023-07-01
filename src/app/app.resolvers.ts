@@ -58,7 +58,7 @@ export class InitialDataResolver implements Resolve<any>
         },
             // how to handle error for fn1, fn2, fn3 separately
             (error) => {
-                this._router.navigate(['sign-in']);
+                this._router.navigate(['404-not-found']);
                 return false;
             }));
     }
@@ -105,53 +105,5 @@ export class SignInAutoResolver implements Resolve<any>
         } else {
             this._router.navigate(['sign-in']);
         }
-    }
-}
-@Injectable({
-    providedIn: 'root'
-})
-export class CapNhatNguoiLamKhoaHocResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(
-        private _router: Router,
-        private _authService: AuthService
-
-    ) {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._authService.gettokenLink(route.paramMap.get('tklink')).pipe(switchMap((response: any) => {
-            if (response != "") {
-                return this._authService.signInUsingTokenLink(response).pipe(switchMap((response: any) => {
-                    if (response) {
-                        //this._router.navigate(['sign-in'], { queryParams: { redirectURL: 'capnhatnguoilamkhoahoc' } });
-                        this._router.navigateByUrl('/nghiepvu/danhmuc/capnhatnguoilamkhoahoc/' + route.paramMap.get('tklink'));
-                        return of(true);
-                    } else {
-                        this._router.navigate(['500-not-found']);
-                        return of(true);
-                    }
-
-                }));
-            } else {
-                this._router.navigate(['500-not-found']);
-                return of(true);
-            }
-
-        }));;
-
     }
 }

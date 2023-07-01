@@ -5,7 +5,6 @@ import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { AuthConfig, environment } from 'environments/environment';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { CookieService } from 'ngx-cookie-service';
 
 import { User } from '../user/user.types';
 
@@ -21,8 +20,7 @@ export class AuthService {
     constructor(
         private _httpClient: HttpClient,
         private deviceService: DeviceDetectorService,
-        private _userService: UserService,
-        private _cookie: CookieService,
+        private _userService: UserService
     ) {
     }
 
@@ -39,17 +37,6 @@ export class AuthService {
 
     get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
-    }
-    set refreshToken(token: string) {
-        this._cookie.set(AuthConfig.REFRESH_TOKEN, token, 20, '/', '', false, "Lax");
-    }
-
-    get refreshToken(): string {
-        return this._cookie.get(AuthConfig.REFRESH_TOKEN) ?? '';
-    }
-
-    set accessTokenEx(token: string) {
-        localStorage.setItem(AuthConfig.ACCESS_TOKEN_EX, token);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -117,13 +104,9 @@ export class AuthService {
                             const data = response.data;
                             let userInfo: User;
                             this.accessToken = response.data.accessToken;
-                            const dateEx = AuthUtils.getTokenExpirationDate(response.data.accessToken);
-                            this.accessTokenEx = dateEx.getTime().toString();
-                            this.refreshToken = response.data.refreshToken;
-                            localStorage.setItem(AuthConfig.DEVICE_ID, deviceID);
                             this._authenticated = true;
                             data.username = credentials.userId;
-                            userInfo = { userId: credentials.userId, userName: data.hoten, userIdhrms: data.idnv, ORGID: data.iddonvi, ORG_TYPEID: data.ORG_TYPEID, ORGLEVEL: data.ORGLEVEL, ORGDESC: data.tendonvi, roles: [], fgrant: [], descript: data.chucdanh, avatar: null };
+                            userInfo = { userId: credentials.userId, userName: data.hoten, userIdhrms: data.idnv, ORGID: data.iddonvi, ORGDESC: data.tendonvi, roles: [], fgrant: [], descript: data.chucdanh, avatar: null };
                             this._userService.user = userInfo;
                             return of({ "status": 1, "token": data.accessToken, "userInfo": userInfo });
                         })
@@ -136,145 +119,30 @@ export class AuthService {
         );
     }
     /**
-     * sign Refresh Token
-     */
-    removeAccessTokenHub(): void {
-        this._cookie.delete(AuthConfig.ACCESS_TOKEN_HUB, '/', '', false, 'Lax');
-    }
-    signRefreshToken(): Observable<any> {
-        // Renew token
-        this.removeAccessTokenHub();
-        const deviceID =
-            localStorage.getItem(AuthConfig.DEVICE_ID) || AuthUtils.guid();
-        if (this.refreshToken == "" || this.refreshToken == null) {
-            this.signOut();
-            location.reload();
-            return of(false);
-        }
-        return this._httpClient
-            .post(environment.appAPI + environment.evnidPath + `/api/auth/refresh`, {
-                deviceId: deviceID,
-                expiration: environment.expiration,
-                refreshToken: `${this.refreshToken}`,
-            })
-            .pipe(
-                catchError((eror) => {
-                    // Return false
-                    //     this.isRefreshing = false;
-                    this.signOut();
-                    location.reload();
-                    return of(false);
-                }),
-                switchMap((response: any) => {
-                    if (response === false) {
-                        return of(false);
-                    } else {
-                        //let userInfo: User;
-                        //const data = response.user;
-                        this.accessToken = response.data.accessToken;
-                        // Store the access token in the local storage
-                        const dateEx = AuthUtils.getTokenExpirationDate(response.data.accessToken);
-                        this.accessTokenEx = dateEx.getTime().toString();
-                        // Store therefresh Token in the local storage
-                        this.refreshToken = response.data.refreshToken;
-                        // Set the authenticated flag to true
-                        this._authenticated = true;
-                        // Store the user on the user service
-                        //this._userService.user = response.user;
-                        //userInfo = { userId: "", userName: data.hoten, userIdhrms: data.idnv, ORGID: data.iddonvi, ORG_TYPEID: data.ORG_TYPEID, ORGLEVEL: data.ORGLEVEL, ORGDESC: data.tendonvi, roles: [], fgrant: [], descript: data.chucdanh, avatar: null };
-                        //this._userService.user = userInfo;
-                        localStorage.setItem(AuthConfig.DEVICE_ID, deviceID);
-                        // Lấy lại mới thông tin người dùng
-                        this.removeAccessTokenHub();
-                        // Return true
-                        return of(response.data.accessToken);
-                    }
-                })
-            );
-    }
-    gettokenLink(tokenLink: string): Observable<any> {
-        // Throw error, if the user is already logged in   
-        const exeParameter = {
-            "serviceId": "8F513952-0837-41EE-8519-FBB616CAF649",
-            "parameters": [
-                { "name": "TOKEN_LINK", "value": tokenLink }
-            ]
-        };
-        if (tokenLink == null || tokenLink == '') {
-            return of("");
-        }
-
-        return this._httpClient.post<any>(environment.appAPI + environment.appPath + '/service/execServiceNoLogin', exeParameter).pipe(
-            switchMap((response: any) => {
-                if (response.status) {
-                    return of(response.data)
-
-                } else {
-                    return of("");
-                }
-
-            })
-
-        );
-    }
-    /**
      * Sign in using the access token
      */
-    signInUsingTokenLink(token: string): Observable<any> {
-        const deviceID =
-            localStorage.getItem(AuthConfig.DEVICE_ID) || AuthUtils.guid();
-        return this._httpClient
-            .post(environment.appAPI + environment.appPath + '/auth/sign-in-token', {
-                "accessToken": token,
-            })
-            .pipe(
-                catchError((eror) => {
-                    return of(false);
-                }),
-                switchMap(async (response: any) => {
-                    let userInfo: User;
-                    const data = response.userInfo;
-                    userInfo = { userId: data.userId, userName: data.userName, userIdhrms: data.userIdhrms, ORGID: data.orgid, ORG_TYPEID: null, ORGLEVEL: null, ORGDESC: data.orgdesc, roles: [], fgrant: [], descript: data.descript, avatar: null };
-                    this._userService.user = userInfo;
-                    this.accessToken = response.token;
-                    this.refreshToken = "";
-                    this._authenticated = true;
-                    localStorage.setItem(AuthConfig.DEVICE_ID, deviceID);
-                    return of(true);
-                })
-            );
-    }
     signInUsingToken(token: string): Observable<any> {
-        // Renew token
-        //this.removeAccessTokenHub();
-        //const deviceID =localStorage.getItem(AuthConfig.DEVICE_ID) || AuthUtils.guid();
-        if (!AuthUtils.isTokenExpired(this.accessToken)) {
-            this._authenticated = true;
-            return of(true);
-        } else {
-            if (this.refreshToken != "" != null && this.refreshToken != "") {
-                return of(true);
-            } else {
-                return of(false);
-            }
-        }
+        return this._httpClient.post(environment.appAPI + environment.appPath + '/' + 'auth/sign-in-token', {
+            accessToken: token,
+        }).pipe(
+            catchError(() =>
 
-
-        /*return this._httpClient
-            .get(environment.appAPI + environment.evnidPath + '/api/user/me')
-            .pipe(
-                catchError((eror) => {
-                    return of(false);
-                }),
-                switchMap(async (response: any) => {
-                    let userInfo: User;
-                    const data = response.data;
-                    userInfo = { userId: "", userName: data.hoten, userIdhrms: data.idnv, ORGID: data.iddonvi, ORG_TYPEID: data.ORG_TYPEID, ORGLEVEL: data.ORGLEVEL, ORGDESC: data.tendonvi, roles: [], fgrant: [], descript: data.chucdanh, avatar: null };
-                    this._userService.user = userInfo;
-                    localStorage.setItem(AuthConfig.DEVICE_ID, deviceID);
+                // Return false
+                of(false)
+            ),
+            switchMap((response: any) => {
+                if (response.status) {
+                    this.accessToken = response.token;
+                    this._authenticated = true;
+                    this._userService.user = response.userInfo;
                     return of(true);
-                })
-            );*/
+                } else {
+                    localStorage.removeItem('accessToken');
+                    this._authenticated = false;
+                    return of(false);
+                }
+            })
+        );
     }
 
     /**
@@ -282,26 +150,29 @@ export class AuthService {
      */
     signOut(): Observable<any> {
         if (this._authenticated) {
-            const deviceID = localStorage.getItem(AuthConfig.DEVICE_ID);
-            this._httpClient
-                .post(environment.appAPI + environment.evnidPath + '/api/user/logout', {
-                    deviceInfo: {
-                        appId: environment.appId,
-                        deviceId: deviceID,
-                    },
-                })
-                .subscribe((res) => {
+            return this._httpClient.post(environment.appAPI + environment.appPath + '/' + 'auth/signout', null).pipe(
+                catchError(() =>
 
-                });
-            localStorage.removeItem(AuthConfig.ACCESS_TOKEN_EX);
-            localStorage.removeItem(AuthConfig.ACCESS_TOKEN);
-            localStorage.removeItem(AuthConfig.REFRESH_TOKEN);
-            this._cookie.delete('accessToken', '/');
-            this._cookie.delete('refreshToken', '/');
-            this._cookie.delete('accessToken_hub', '/');
-            // Set the authenticated flag to false
-            this._authenticated = false;
-            return of(true);
+                    // Return false
+                    of(false)
+                ),
+                switchMap((response: any) => {
+                    if (response.status) {
+                        localStorage.removeItem('accessToken');
+
+                        // Set the authenticated flag to false
+                        this._authenticated = false;
+
+                        // Return the observable
+                        return of(true);
+
+                    } else {
+                        return of(false);
+                    }
+
+                })
+
+            );
         } else {
             return of(true);
         }
@@ -342,18 +213,11 @@ export class AuthService {
 
         // Check the access token expire date
         if (AuthUtils.isTokenExpired(this.accessToken)) {
-            if (this.refreshToken != "" != null && this.refreshToken != "") {
-                return this.signRefreshToken();
-            } else {
-                return of(false);
-            }
-            //return of(false);
-        } else {
-            return this.signInUsingToken(this.accessToken);
+            return of(false);
         }
 
         // If the access token exists and it didn't expire, sign in using it
-
+        return this.signInUsingToken(this.accessToken);
     }
 }
 

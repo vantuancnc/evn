@@ -92,7 +92,7 @@ export class NavigationService {
                                         link: obj.LINK,
                                         icon: obj.ICON,
                                         externalLink: obj.FUNCTION_EXTERNAL,
-                                        target: obj.FUNCTION_EXTERNAL_TARGET,
+                                        target: obj.FUNCTION_EXTERNAL_TARGET,                                        
                                     });
                                 });
                                 dataDefaultNavigation.data.forEach((obj) => {
@@ -118,23 +118,11 @@ export class NavigationService {
                                 copydefaultNavigation = this.countGroupNavigation(copydefaultNavigation);
                                 copydefaultNavigation = this.removeNavigationByUser(copydefaultNavigation);
                                 navigation.compactNavigation.forEach((compactNavItem) => {
-                                    if (compactNavItem.type != 'basic') {
-                                        copydefaultNavigation.forEach((defaultNavItem) => {
-                                            if (defaultNavItem.id === compactNavItem.id) {
-                                                compactNavItem.children = cloneDeep(defaultNavItem.children);
-                                            }
-                                        });
-                                    } else {
-                                        let bCheck = false;
-                                        copydefaultNavigation.forEach((defaultNavItem) => {
-                                            if (defaultNavItem.id === compactNavItem.id) {
-                                                bCheck = true;
-                                            }
-                                        });
-                                        if (bCheck) {
-                                            compactNavItem.disabled = false;
-                                        } else { compactNavItem.disabled = true; }
-                                    }
+                                    copydefaultNavigation.forEach((defaultNavItem) => {
+                                        if (defaultNavItem.id === compactNavItem.id) {
+                                            compactNavItem.children = cloneDeep(defaultNavItem.children);
+                                        }
+                                    });
                                 });
                                 navigation.compactNavigation = navigation.compactNavigation.filter(obj => {
                                     if (obj.type != 'basic') {
@@ -143,7 +131,7 @@ export class NavigationService {
                                         } else {
                                             return true;
                                         }
-                                    } else { return obj.disabled ? false : true }
+                                    } else { return true }
                                 });
 
                             }

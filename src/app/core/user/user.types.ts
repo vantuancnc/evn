@@ -5,8 +5,6 @@ export interface User {
     userName: string;
     descript: string;
     ORGID: string;
-    ORG_TYPEID: string;
-    ORGLEVEL: string;
     ORGDESC: string;
     roles: [];
     fgrant: UserFunctionGrant[];
@@ -14,7 +12,7 @@ export interface User {
 export interface UserFunctionGrant {
     functionId: string;
     functionName: string;
-    grantPublic: boolean;
+    grantPublic:boolean;
     grantInsert: boolean;
     grantUpdate: boolean;
     grantDel: boolean;

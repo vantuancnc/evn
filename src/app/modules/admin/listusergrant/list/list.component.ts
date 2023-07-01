@@ -86,14 +86,6 @@ export class ListUserGrantListComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     this.selectObjectMarker();
   }
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    //filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    //this.lstApiInput.filter = filterValue;
-    if (this.group != null) {
-      this._listUserService.getObjectsByFolderForSearch(this.group.ORGID, "1", filterValue).subscribe();
-    }
-  }
   selectObjectMarker() {
     this.el.nativeElement.querySelector('.selectObject')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }

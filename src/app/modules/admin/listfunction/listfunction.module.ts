@@ -30,7 +30,6 @@ import { ListFunctionComponent } from './listfunction.component';
 import { ListFunctionDetailsComponent } from './detail/details.component';
 import { ListFunctionEmptyDetailsComponent } from './empty-details/empty-details.component';
 import { MatTreeModule } from "@angular/material/tree";
-import { ListFunctionDetailsAuthorityDialogComponent } from './detail/detailsauthority.component';
 
 
 
@@ -55,6 +54,6 @@ import { ListFunctionDetailsAuthorityDialogComponent } from './detail/detailsaut
     ListFunctionListComponent,
     ListFunctionComponent,
     ListFunctionDetailsComponent,
-    ListFunctionEmptyDetailsComponent, ListFunctionDetailsAuthorityDialogComponent]
+    ListFunctionEmptyDetailsComponent]
 })
 export class ListFunctionModule { }

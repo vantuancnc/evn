@@ -9,7 +9,6 @@
             <img mat-icon-button class="w-8 h-8 rounded-full ng-star-inserted"
                 style="width: 32px !important; height: 32px !important" *ngIf="showAvatar && user.avatar"
                 [src]="user.avatar" />
-            <mat-icon style="width: 32px !important; height: 32px !important" [svgIcon]="'heroicons_outline:user-circle'" *ngIf="showAvatar && !user.avatar"></mat-icon>
         </span>
         <div class="u-name ml-4">
             <div>{{ user.userName }}</div>
@@ -18,7 +17,7 @@
     </div>
 
     <mat-menu [xPosition]="'before'" #userActions="matMenu">
-        <button mat-menu-item *ngIf="false">
+        <button mat-menu-item>
             <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
             <span>Cài đặt</span>
         </button>

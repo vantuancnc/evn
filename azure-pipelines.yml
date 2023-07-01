@@ -16,6 +16,8 @@ pool:
 
 variables:
 - group: k8s-ci-variable
+#- name: TAG
+#  value: '$(Build.SourceVersion)'
 
 steps:
 #- task: npmAuthenticate@0
@@ -35,3 +37,20 @@ steps:
     repository: $(ENV)/$(IMAGE)
     containerRegistry: HarbourRegistryConnection1
     tags: $(TAG)
+
+#- script: 'docker build -t $(REGISTRY)/$(ENV)/$(IMAGE):$(TAG) .'
+#  displayName: 'Build Image'
+
+#- script: 'docker push $(REGISTRY)/$(ENV)/$(IMAGE):$(TAG)'
+#  displayName: 'Push Image'
+
+#- script: 'docker image rm $(REGISTRY)/$(ENV)/$(IMAGE):$(TAG)'
+#  displayName: 'Remove Image'
+
+- script: |
+   docker run --env-file $(K8S_CI_ENV) $(REGISTRY)/$(ENV)/k8s-ci:latest yarn start patch $(Build.SourceVersion) $(ENV)/$(WORKLOAD_FILE)
+   git clone --single-branch --branch $(WORKLOAD_BRANCH) $(WORKLOAD_REPO) $(Build.BuildNumber)
+   kubectl apply -f "$(Build.BuildNumber)/$(ENV)/$(WORKLOAD_FILE)"
+   rm -rf $(Build.BuildNumber)
+  displayName: 'Apply to K8S Cluster'
+

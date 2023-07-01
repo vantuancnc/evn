@@ -77,7 +77,7 @@ export class UserService {
                                     lstGrant.push({
                                         functionId: obj.FUNCTIONID,
                                         functionName: obj.FUNCTIONNAME,
-                                        grantPublic: obj.ISPUPLIC,
+                                        grantPublic:obj.ISPUPLIC,
                                         grantDel: obj.R_DELETE,
                                         grantInsert: obj.R_INSERT,
                                         grantUpdate: obj.R_EDIT,
@@ -88,8 +88,8 @@ export class UserService {
                             });
                         }
                         userResult = {
-                            userId: user.data.USERID, userName: user.data.USERNAME, userIdhrms: user.data.USERID, avatar: user.data.MA_NHAN_VIEN ? environment.appAPI + environment.hrmsIMGPath + '/' + user.data.ORGID + '/' + user.data.MA_NHAN_VIEN + '.png' : null,
-                            descript: user.data.DESCRIPT, ORGID: user.data.ORGID, ORG_TYPEID: user.data.ORG_TYPEID, ORGLEVEL: user.data.ORGLEVEL, ORGDESC: user.data.ORGDESC, fgrant: lstGrant, roles: grantRole.data
+                            userId: user.data.USERID, userName: user.data.USERNAME, userIdhrms: user.data.USERID, avatar: environment.appAPI + environment.hrmsIMGPath + '/' + user.data.ORGID + '/' + user.data.MA_NHAN_VIEN + '.png',
+                            descript: user.data.DESCRIPT, ORGID: user.data.ORGID, ORGDESC: user.data.ORGDESC, fgrant: lstGrant, roles: grantRole.data
                         };
                     }
 

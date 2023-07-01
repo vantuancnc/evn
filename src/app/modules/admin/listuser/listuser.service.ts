@@ -3,7 +3,7 @@ import { BehaviorSubject, forkJoin, map, Observable, of, switchMap, take, tap, t
 import { ServiceService } from 'app/shared/service/service.service';
 import ShortUniqueId from 'short-unique-id';
 import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailService } from 'app/shared/commons/basedetail.service';
+import { BaseDetailService } from 'app/shared/commons/BaseDetail.service';
 import { BaseService } from 'app/shared/commons/base.service';
 
 @Injectable({
@@ -405,30 +405,6 @@ export class ListUserService extends BaseService implements BaseDetailService {
             })
         );
     }
-    getObjectsByFolderBySearch(groupid: string, page: string = '1', textSearch: string): Observable<any> {
-        // Execute the Apis loading with true
-
-
-        return this._serviceService.execServiceLogin("API-41-1", [{ "name": "ORGID", "value": groupid }, { "name": "TEXT_SEARCH", "value": textSearch }]).pipe(
-            tap((response: any) => {
-                this._objects.next(response.data);
-                this._object.next(null);
-                //this._pagination.next(response.pagination);
-
-            }),
-            switchMap((response: any) => {
-
-                if (!response.status) {
-                    return throwError({
-                        message: 'Requested page is not available!',
-                        pagination: response.pagination
-                    });
-                }
-
-                return of(response);
-            })
-        );
-    }
 
     /**
      * Get Api by id
@@ -496,10 +472,8 @@ export class ListUserService extends BaseService implements BaseDetailService {
 
                         }))
                     }));
-                } else {
-                    this._object.next(obj);
                 }
-                //this._object.next(obj);
+                this._object.next(obj);
                 return of(obj);
             })
         );

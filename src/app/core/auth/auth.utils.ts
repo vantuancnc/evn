@@ -29,7 +29,7 @@ export class AuthUtils {
         }
 
         // Get the expiration date
-        const date = this.getTokenExpirationDate(token);
+        const date = this._getTokenExpirationDate(token);
 
         offsetSeconds = offsetSeconds || 0;
 
@@ -190,7 +190,7 @@ export class AuthUtils {
      * @param token
      * @private
      */
-    public static getTokenExpirationDate(token: string): Date | null {
+    private static _getTokenExpirationDate(token: string): Date | null {
         // Get the decoded token
         const decodedToken = this._decodeToken(token);
 
@@ -205,6 +205,4 @@ export class AuthUtils {
 
         return date;
     }
-
-
 }
