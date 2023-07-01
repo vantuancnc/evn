@@ -8,7 +8,7 @@ import { User } from 'app/core/user/user.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { State } from 'app/shared/commons/conmon.types';
 import { FunctionService } from 'app/core/function/function.service';
-import { ApiDinhHuongService } from '../listdinhhuong.service';
+import { ListdinhhuongService } from '../listdinhhuong.service';
 import { ApiDinhHuongComponent } from '../listdinhhuong.component';
 import { ServiceService } from 'app/shared/service/service.service';
 
@@ -34,21 +34,28 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
      */
     constructor(
         public _nguonDuLieuComponent: ApiDinhHuongComponent,
-        private _nguonDuLieuService: ApiDinhHuongService,
+        private _nguonDuLieuService: ListdinhhuongService,
         private _messageService: MessageService,
         private _userService: UserService,
         public _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _functionService: FunctionService,
         private _serviceApi: ServiceService,
+        private _listdinhhuongService: ListdinhhuongService,
         private el: ElementRef
     ) {
     }
 
-    ngOnInit(): void {
-        this.geListYears()
-        this.getListStatus()
-        this.getListDinhHuong()
+    ngOnInit() {
+        this.getYearSubscription = this._listdinhhuongService.getValueYear().subscribe((values: any) => {
+            if (values)
+                this.listYears = values;
+        })
+        this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
+            if (values)
+                this.listStatus = values;
+        })
+        this.getListDinhHuong();
     }
 
 
@@ -60,17 +67,6 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
         this.actionClick = 'THEMMOI';
     }
 
-    geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listYears = data.data || [];
-        })
-    }
-
-    getListStatus() {
-        this.getStatusSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listStatus = data.data || [];
-        })
-    }
 
     getListDinhHuong() {
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
@@ -80,9 +76,9 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe();
-        this.getStatusSubscription.unsubscribe();
         this.getDinhHuongSubcription.unsubscribe()
+        this.getYearSubscription.unsubscribe()
+        this.getStatusSubscription.unsubscribe()
     }
 
 

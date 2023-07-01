@@ -4,7 +4,6 @@ import { ApiDinhHuongDetailsComponent } from './detail/details.component';
 import { ApiDinhHuongEmptyDetailsComponent } from './empty-details/empty-details.component';
 import { ApiDinhHuongListComponent } from './list/list.component';
 import { ApiDinhHuongComponent } from './listdinhhuong.component';
-import { ApiInputDetailResolver, ApiInputListResolver } from './listdinhhuong.resolvers';
 
 
 export const ApiInputRunGuardsAndResolvers: (from: ActivatedRouteSnapshot, to: ActivatedRouteSnapshot) => boolean = (from: ActivatedRouteSnapshot, to: ActivatedRouteSnapshot) => {
@@ -71,9 +70,7 @@ export const ApiDinhHuongRoutes: Route[] = [
         component: ApiDinhHuongListComponent,
         matcher: ApiInputRouteMatcher,
         runGuardsAndResolvers: ApiInputRunGuardsAndResolvers,
-        resolve: {
-          apis: ApiInputListResolver
-        },
+
         children: [
           {
             path: '',
@@ -84,9 +81,7 @@ export const ApiDinhHuongRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: ApiDinhHuongDetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
+
           }
         ]
       }

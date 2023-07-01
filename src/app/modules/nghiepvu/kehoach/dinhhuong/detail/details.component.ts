@@ -9,7 +9,7 @@ import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
-import { ApiDinhHuongService } from '../listdinhhuong.service';
+import { ListdinhhuongService } from '../listdinhhuong.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
