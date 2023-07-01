@@ -1,0 +1,127 @@
+<div class="relative eco_conntent">
+    <!--màn hình danh sách-->
+    <ng-container *ngIf="!actionClick">
+        <div class="flex items-center justify-between">
+            <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1>
+        </div>
+        <div class="header-list-dinh-huong">
+            <div class="year-left">
+                <label for="">Năm</label>
+                <ng-select
+                    [items]="listYears"
+                    bindLabel="name"
+                    bindValue="id"
+                    placeholder="Chọn năm"
+                    [multiple]="true"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+            <div class="statust-right">
+                <label for="">Trạng thái</label>
+                <ng-select
+                    [items]="listStatus"
+                    bindLabel="name"
+                    bindValue="id"
+                    placeholder="Chọn trạng thái"
+                    [(ngModel)]="selectedStatust"
+                >
+                </ng-select>
+            </div>
+            <button class="add_button mg-left mr-5" (click)="addNew()">
+                <i class="fa fa-file"></i> Tổng hợp đơn vị
+            </button>
+            <button class="add_button" (click)="addNew()">
+                <i class="fa fa-file"></i> Tổng hợp EVN
+            </button>
+        </div>
+        <table class="table table_custom">
+            <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Đơn vị gửi</th>
+                    <th class="text-center">Tên bản đăng ký</th>
+                    <th class="text-center">Người tổng hợp</th>
+                    <th class="text-center">Năm</th>
+                    <th  class="text-center">Ngày tổng hợp</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th>Ý kiến xét duyệt</th>
+                    <th class="text-center action-table"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td class="font-bold text-xl">Công ty Điện lực Sài Gòn</td>
+                    <td class="font-bold text-xl">Bản đăng ký định hướng 2023</td>
+                    <td class="text-center">Trần Văn A</td>
+                    <td class="text-center">2023</td>
+                    <td class="text-center">20/01/2023</td>
+                    <td class="text-center">Chờ phê duyệt</td>
+                    <td></td>
+                    <td class="text-center action-table">
+                        <div class="flex justify-evenly">
+                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
+                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
+                            <i class="fa fa-check-square-o" ></i>
+                            <input type="checkbox" class="checkbox_table">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td class="font-bold text-xl">Công ty Điện lực Sài Gòn</td>
+                    <td class="font-bold text-xl">Bản đăng ký định hướng 2023</td>
+                    <td class="text-center">Trần Văn A</td>
+                    <td class="text-center">2023</td>
+                    <td class="text-center">20/01/2023</td>
+                    <td class="text-center">Chờ phê duyệt</td>
+                    <td></td>
+                    <td class="text-center action-table">
+                        <div class="flex justify-evenly">
+                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
+                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
+                            <i class="fa fa-check-square-o" ></i>
+                            <input type="checkbox" class="checkbox_table">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td class="font-bold text-xl">Công ty Điện lực Sài Gòn</td>
+                    <td class="font-bold text-xl">Bản đăng ký định hướng 2023</td>
+                    <td class="text-center">Trần Văn A</td>
+                    <td class="text-center">2023</td>
+                    <td class="text-center">20/01/2023</td>
+                    <td class="text-center">Chờ phê duyệt</td>
+                    <td></td>
+                    <td class="text-center action-table">
+                        <div class="flex justify-evenly">
+                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
+                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
+                            <i class="fa fa-check-square-o" ></i>
+                            <input type="checkbox" class="checkbox_table">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+    <!-- No template -->
+    <!-- <ng-template #noObjects>
+    <div
+      class="z-100 absolute inset-0 flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+      <mat-icon class="icon-size-24" [svgIcon]="'heroicons_outline:cloud-upload'"></mat-icon>
+      <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Chọn tham số đầu vào để xem</div>
+    </div>
+  </ng-template> -->
+
+    <!-- details -->
+    <ng-container *ngIf="actionClick">
+        <div
+            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+        >
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
+</div>
