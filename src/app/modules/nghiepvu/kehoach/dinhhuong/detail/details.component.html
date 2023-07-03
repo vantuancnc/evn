@@ -1,6 +1,5 @@
-<div
-    class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail"
->
+<div [formGroup]="form" (ngSubmit)="onSubmit()" novalidate
+    class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
         <h1 class="title-component">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
         <button class="add_button">
@@ -10,11 +9,8 @@
     <div class="header-detail">
         <div class="row-one flex items-center">
             <label for="">Tên<span>(*)</span></label>
-            <input
-                type="text"
-                placeholder="Tên bản đăng ký định hướng"
-                class="form-control input-form"
-            />
+            <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
+                class="form-control input-form" />
             <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button>
@@ -30,13 +26,8 @@
         </div>
         <div class="row-tow flex items-center">
             <label for="">Kế hoạch năm</label>
-            <ng-select
-                [items]="listYears"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Chọn năm"
-                [(ngModel)]="selectedYear"
-            >
+            <ng-select [items]="listYears" bindLabel="name" bindValue="id" placeholder="Chọn năm"
+                formControlName="year">
             </ng-select>
         </div>
         <div class="row-three flex items-center">
@@ -55,5 +46,5 @@
             </p>
         </div>
     </div>
-    <table-plans></table-plans>
+    <table-plans [form]="form"></table-plans>
 </div>

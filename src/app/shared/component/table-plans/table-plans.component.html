@@ -1,4 +1,4 @@
-<div class="body-detail">
+<div class="body-detail" [formGroup]="form">
     <table class="table table_custom">
         <thead>
             <tr>
@@ -15,104 +15,71 @@
                     Thời gian dự kiến thực hiện (Từ tháng/năm đến tháng/năm)
                 </th>
                 <th>Ý kiến người phê duyệt</th>
-                <th
-                    class="text-center action-table actiom-table-detail"
-                ></th>
+                <th class="text-center action-table actiom-table-detail"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="font-semibold text-3xl">
-                <td class="">1</td>
-                <td class="">Nhiệm vụ KHCN</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr class="italic font-semibold">
-                <td class="">1.1</td>
-                <td>Nhiệm vụ KHCN cấp EVN</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="text-center action-table actiom-table-detail">
-                    <div class="flex justify-evenly">
-                        <i class="fa fa-plus" title="Thêm mới"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr class="">
-                <td class="">1</td>
-                <td>Nhiệm vụ 1</td>
-                <td>EVN</td>
-                <td>Chưa có</td>
-                <td>Ban TCNS - EVN</td>
-                <td></td>
-                <td>Xây dựng đề xuất, thuyết minh và dự toán</td>
-                <td></td>
-                <td></td>
-                <td class="text-center action-table actiom-table-detail">
-                    <div class="flex justify-evenly">
-                        <i class="fa fa-times" title="Xóa bỏ"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr class="">
-                <td class="">2</td>
-                <td>Nhiệm vụ 2</td>
-                <td>EVN</td>
-                <td>Chưa có</td>
-                <td>Ban TCNS - EVN</td>
-                <td></td>
-                <td>Xây dựng đề xuất, thuyết minh và dự toán</td>
-                <td></td>
-                <td></td>
-                <td class="text-center action-table actiom-table-detail">
-                    <div class="flex justify-evenly">
-                        <i class="fa fa-times" title="Xóa bỏ"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr class="">
-                <td class="">3</td>
-                <td>Nhiệm vụ 3</td>
-                <td>EVN</td>
-                <td>Chưa có</td>
-                <td>Ban TCNS - EVN</td>
-                <td></td>
-                <td>Xây dựng đề xuất, thuyết minh và dự toán</td>
-                <td></td>
-                <td></td>
-                <td class="text-center action-table actiom-table-detail">
-                    <div class="flex justify-evenly">
-                        <i class="fa fa-times" title="Xóa bỏ"></i>
-                    </div>
-                </td>
-            </tr>
-            <tr class="">
-                <td class="">4</td>
-                <td>Nhiệm vụ 4</td>
-                <td>EVN</td>
-                <td>Chưa có</td>
-                <td>Ban TCNS - EVN</td>
-                <td></td>
-                <td>Xây dựng đề xuất, thuyết minh và dự toán</td>
-                <td></td>
-                <td></td>
-                <td class="text-center action-table actiom-table-detail">
-                    <div class="flex justify-evenly">
-                        <i class="fa fa-times" title="Xóa bỏ"></i>
-                    </div>
-                </td>
-            </tr>
+        <tbody formArrayName="listNhiemVu">
+            <ng-container *ngFor="let item of form.get('listNhiemVu')['controls']; let i = index;">
+                <ng-container [formGroupName]="i">
+                    <tr class="font-semibold text-3xl">
+                        <td class="">{{i+1}}</td>
+                        <td class="">{{item.get('content').value}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <ng-container formArrayName="listNhiemVu_cap2">
+                        <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
+                            <ng-container [formGroupName]="j">
+                                <tr class="italic font-semibold">
+                                    <td class="">{{i+1}}.{{j+1}}</td>
+                                    <td class="">{{items.get('content').value}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-center action-table actiom-table-detail">
+                                        <div class="flex justify-evenly">
+                                            <i class="fa fa-plus" (click)="addCap2(items)" title="Thêm mới1"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <ng-container formArrayName="listNhiemVu_cap3">
+                                    <ng-container
+                                        *ngFor="let itemc of items.get('listNhiemVu_cap3')['controls']; let c = index;">
+                                        <ng-container [formGroupName]="c">
+                                            <tr class="">
+                                                <td class="">{{c+1}}</td>
+                                                <td>{{itemc.get('content').value}}</td>
+                                                <td>{{itemc.get('source').value}}</td>
+                                                <td>{{itemc.get('estimates').value}}</td>
+                                                <td>{{itemc.get('unit').value}}</td>
+                                                <td>{{itemc.get('missionLeader').value}}</td>
+                                                <td>{{itemc.get('activeContent').value}}</td>
+                                                <td>{{itemc.get('thoiGianDuKien').value}}</td>
+                                                <td>{{itemc.get('opinion').value}}</td>
+                                                <td class="text-center action-table actiom-table-detail">
+                                                    <div class="flex justify-evenly">
+                                                        <i class="fa fa-times" title="Xóa bỏ"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
         </tbody>
     </table>
 </div>
