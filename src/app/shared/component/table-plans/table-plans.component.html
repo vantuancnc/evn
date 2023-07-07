@@ -22,7 +22,7 @@
             <ng-container *ngFor="let item of form.get('listNhiemVu')['controls']; let i = index;">
                 <ng-container [formGroupName]="i">
                     <tr class="font-semibold text-3xl">
-                        <td class="">{{i+1}}</td>
+                        <td class="text-center">{{i+1}}</td>
                         <td class="">{{item.get('content').value}}</td>
                         <td></td>
                         <td></td>
@@ -37,7 +37,7 @@
                         <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
                             <ng-container [formGroupName]="j">
                                 <tr class="italic font-semibold">
-                                    <td class="">{{i+1}}.{{j+1}}</td>
+                                    <td class="text-center">{{i+1}}.{{j+1}}</td>
                                     <td class="">{{items.get('content').value}}</td>
                                     <td></td>
                                     <td></td>
@@ -57,8 +57,9 @@
                                         *ngFor="let itemc of items.get('listNhiemVu_cap3')['controls']; let c = index;">
                                         <ng-container [formGroupName]="c">
                                             <tr class="">
-                                                <td class="">{{c+1}}</td>
-                                                <td>{{itemc.get('content').value}}</td>
+                                                <td class="text-center">{{c+1}}</td>
+                                                <td><input type="text" class="form-control" formControlName="content" />
+                                                </td>
                                                 <td>{{itemc.get('source').value}}</td>
                                                 <td>{{itemc.get('estimates').value}}</td>
                                                 <td>{{itemc.get('unit').value}}</td>
@@ -68,7 +69,8 @@
                                                 <td>{{itemc.get('opinion').value}}</td>
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly">
-                                                        <i class="fa fa-times" title="Xóa bỏ"></i>
+                                                        <i (click)="removeItem(items,c)" class="fa fa-times"
+                                                            title="Xóa bỏ"></i>
                                                     </div>
                                                 </td>
                                             </tr>

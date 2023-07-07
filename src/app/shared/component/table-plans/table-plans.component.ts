@@ -8,13 +8,12 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 })
 export class TablePlansComponent {
     @Input() form: FormGroup;
+    itemsAdd: FormArray;
     constructor(private _formBuilder: FormBuilder,) {
     }
 
     ngOnInit() {
         this.addFormtoParent();
-        console.log(this.form);
-
     }
 
 
@@ -39,19 +38,24 @@ export class TablePlansComponent {
 
     newItemNhiemvu(): FormGroup {
         return this._formBuilder.group({
-            content: 'Nhiệm vụ cấp 2-1',
-            source: '',
-            estimates: '',
-            unit: '',
-            missionLeader: '',
-            activeContent: '',
+            content: 'Tên nhiệm vụ',
+            source: 'nguồn',
+            estimates: 'Thời gian',
+            unit: 'đơn vị',
+            missionLeader: 'EVN',
+            activeContent: 'oke',
             thoiGianDuKien: null,
             opinion: ''
         })
     }
     addCap2(items) {
-        let arr = items.get('listNhiemVu_cap3') as FormArray;
-        console.log(arr);
+        this.itemsAdd = items.get('listNhiemVu_cap3') as FormArray;
+        this.itemsAdd.push(this.newItemNhiemvu())
+    }
 
+    removeItem(items, i) {
+        // remove address from the list
+        const control = items.get('listNhiemVu_cap3');
+        control.removeAt(i);
     }
 }
