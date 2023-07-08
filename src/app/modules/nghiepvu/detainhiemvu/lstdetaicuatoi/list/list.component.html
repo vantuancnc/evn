@@ -2,26 +2,45 @@
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
-            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI
-            </h1>
+            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI </h1>
+            <button class="add_button" (click)="addNew()"><i class="fa fa-plus"></i>
+                Tạo bản ghi mới</button>
         </div>
         <div class="header-list-dinh-huong">
-            <div class="year-left">
-                <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="name" bindValue="id" placeholder="Chọn năm"
-                    [(ngModel)]="selectedYear">
-                </ng-select>
+            <div class="serach-box">
+                <input type="text" class="form-control"
+                    placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký">
+                <button>
+                    <i class="fa fa-search"></i>
+                    Tìm kiếm
+                </button>
             </div>
         </div>
         <table class="table table_custom">
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên bản đăng ký</th>
-                    <th class="text-center">Người gửi</th>
-                    <th class="text-center">Ngày gửi</th>
-                    <th class="text-center">Năm</th>
-                    <th class="text-center">Trạng thái</th>
+                    <th>Tên đề tài/ nhiệm vụ KHCN </th>
+                    <th class="text-center">Cấp quản lý
+                    </th>
+                    <th class="text-center">Chủ nhiệm đề tài
+                    </th>
+                    <th class="text-center">Đơn vị chủ trì
+                    </th>
+                    <th class="text-center">Thời gian thực hiện
+                    </th>
+                    <th class="text-center">Trạng thái
+                    </th>
+                    <th class="text-center">Năm đăng ký
+                    </th>
+                    <th class="text-center">Cập nhập HSTH
+                    </th>
+                    <th class="text-center">TBáo cáo tiến độ thực hiện
+                    </th>
+                    <th class="text-center">Cập nhập HSNT
+                    </th>
+                    <th class="text-center">Cập nhập HSQT
+                    </th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -29,63 +48,21 @@
                 <tr>
                     <td class="stt_table">1</td>
                     <td>Bản đăng ký định hướng 2023</td>
+                    <td>Cấp EVN </td>
                     <td class="text-center">Trần Văn A</td>
+                    <td>Ban kế toán</td>
                     <td class="text-center">01/06/2023 9:10:30</td>
+                    <td>Đang thực hiện</td>
                     <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
+                    <td class="text-center"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
                             <i class="fa fa-info-circle" title="Xem chi tiết"></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" (click)="addNew()" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="addNew()" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" (click)="addNew()" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="addNew()" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" (click)="addNew()" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="addNew()" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
                     </td>
