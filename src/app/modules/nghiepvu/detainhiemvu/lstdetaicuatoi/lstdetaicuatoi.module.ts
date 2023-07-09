@@ -31,6 +31,8 @@ import { LstdetaicuatoiDetailsComponent } from './detail/details.component';
 import { ApiGiaoEmptyDetailsComponent } from './empty-details/empty-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
 
 
 
@@ -51,6 +53,7 @@ import { SharedModule } from 'app/shared/shared.module';
         NgSelectModule,
         MatTableModule,
         FormsModule,
+        MatDialogModule,
         MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
         MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
         CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
@@ -60,6 +63,7 @@ import { SharedModule } from 'app/shared/shared.module';
         LstdetaicuatoiComponent,
         LstdetaicuatoiDetailsComponent,
         ApiGiaoEmptyDetailsComponent,
+        PopupCbkhComponent
     ]
 })
 export class DetaicuatoiModule { }

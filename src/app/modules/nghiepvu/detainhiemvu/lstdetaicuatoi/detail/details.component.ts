@@ -13,6 +13,9 @@ import { lstdetaicuatoiService } from '../lstdetaicuatoi.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+
 
 @Component({
     selector: 'component-details',
@@ -30,15 +33,18 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
+        public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
+        public dialog: MatDialog
     ) {
 
     }
 
 
     ngOnInit(): void {
-        this.geListYears()
+        this.geListYears();
+        this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
 
 
@@ -46,6 +52,22 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
             this.listYears = data.data || [];
         })
+    }
+
+    openAlertDialog() {
+        this.dialog.open(PopupCbkhComponent, {
+            data: {
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done'
+                }
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            }
+        });
     }
 
 }

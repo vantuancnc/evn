@@ -1,8 +1,428 @@
-<div class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
-    <div class="flex items-center justify-between">
-        <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ </h1>
+<div
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ</h1>
         <div class="title-section">
             <i class="fa fa-minus-circle"></i> Thông tin đề tài:
         </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/2">
+            <label for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
+            <input
+                type="text"
+                placeholder="Nhập tên đề tài"
+                class="form-control"
+                name=""
+                id=""
+            />
+        </div>
+        <div class="basis-1/2">
+            <label for="">Căn cứ thực hiện (từ bản định hướng)</label>
+            <div class="select-cbkh flex items-center form-control">
+                <input class="inputselect" type="text" name="" id="" />
+                <i (click)="openAlertDialog()" class="fa fa-search"></i>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/4">
+            <label for="">Cấp quản lý<span>(*)</span></label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn năm"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Văn bản chỉ đạo số</label>
+            <input
+                class="form-control"
+                placeholder="Nhập văn bản chỉ đạo số..."
+                type="text"
+                name=""
+                id=""
+            />
+        </div>
+        <div class="basis-1/4">
+            <label for="">Lĩnh vực nghiên cứu</label>
+        </div>
+        <div class="basis-1/4">
+            <div class="list_check">
+                <div class="item_list_check">
+                    <input type="checkbox" name="" id="" />
+                    <span>Thủy điện</span>
+                </div>
+                <div class="item_list_check">
+                    <input type="checkbox" name="" id="" />
+                    <span>Công nghệ thông tin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/4">
+            <label for="">Đơn vị chủ trì<span>(*)</span></label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn đơn vị chủ trì"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4"></div>
+        <div class="basis-1/4"></div>
+        <div class="basis-1/4"></div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/4 flex justify-between items-center">
+            <label for="">Thời gian thực hiện từ<span>(*)</span></label>
+            <label style="margin-right: 10px">Từ</label>
+        </div>
+        <div class="basis-3/4 flex date-customt">
+            <input class="form-control" type="date" name="" id="" />
+            <label class="dem-pading">đến</label>
+            <input class="form-control" type="date" name="" id="" />
+        </div>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/4">
+            <label for="">Chủ nhiệm đề tài<span>(*)</span></label>
+            <div class="select-cbkh flex items-center form-control">
+                <input class="inputselect" type="text" name="" id="" />
+                <i (click)="openAlertDialog()" class="fa fa-search"></i>
+            </div>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Giới tính</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn giới tính"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-2/12">
+            <label for="">Học hàm</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn học hàm"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Học vị</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn học vị"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Đơn vị công tác</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn đơn vị"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/4">
+            <label for="">Đồng chủ nhiệm đề tài<span>(*)</span></label>
+            <div class="select-cbkh flex items-center form-control">
+                <input class="inputselect" type="text" name="" id="" />
+                <i (click)="openAlertDialog()" class="fa fa-search"></i>
+            </div>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Giới tính</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn giới tính"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-2/12">
+            <label for="">Học hàm</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn học hàm"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Học vị</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn học vị"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Đơn vị công tác</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn đơn vị"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/4">
+            <label for="">Thư ký đề tài</label>
+            <div class="select-cbkh flex items-center form-control">
+                <input class="inputselect" type="text" name="" id="" />
+                <i (click)="openAlertDialog()" class="fa fa-search"></i>
+            </div>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Giới tính</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn giới tính"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-2/12">
+            <label for="">Học hàm</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn học hàm"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Học vị</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn học vị"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Đơn vị công tác</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn đơn vị"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Thành viên tham gia</label>
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Họ và tên</th>
+                        <th>Chức danh thực hiện đề tài</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Đơn vị công tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Lê Văn A</td>
+                        <td>EVN</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="title-section kinhphi">
+        <i class="fa fa-minus-circle"></i> Kinh phí:
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/5">
+            <label for="">Nguồn kinh phí<span>(*)</span></label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Nguồn kinh phí"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <label for="">Tổng kinh phí</label>
+            <input
+                class="form-control"
+                placeholder="VNĐ"
+                type="text"
+                name=""
+                id=""
+            />
+        </div>
+        <div class="basis-1/5">
+            <label for="">Phương thức khoán chi</label>
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn phương thức"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <label for="">Khinh phí khoán</label>
+            <input
+                class="form-control"
+                placeholder="VNĐ"
+                type="text"
+                name=""
+                id=""
+            />
+        </div>
+        <div class="basis-1/5">
+            <label for="">Khinh phí không khoán</label>
+            <input
+                class="form-control"
+                placeholder="VNĐ"
+                type="text"
+                name=""
+                id=""
+            />
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Tính cấp thiết của đề tài, nhiệm vụ KHCN</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Mục tiêu</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Nhiệm vụ và phạm vi nghiên cứu, thực hiện</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Kết quả dự kiến</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Kiến nghị, đề xuất</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+
+    <div class="title-section">
+        <i class="fa fa-minus-circle"></i> Hồ sơ thuyết minh
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>File đính kèm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>  Văn bản đăng ký chủ trì thực hiện nhiệm vụ KHCN
+                        </td>
+                        <td>
+                            <button
+                                class="add_button"
+                            >
+                                <i class="fa fa-link"></i> Upload file
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="action-all-f">
+        <button class="add_button">
+        <i class="fa fa-save"></i> Lưu
+    </button>
+    <button class="add_button">
+        <i class="fa fa-save"></i> Lưu và gửi
+    </button>
     </div>
 </div>
