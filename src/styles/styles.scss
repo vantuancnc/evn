@@ -131,3 +131,12 @@ label span {
 .kinhphi{
     margin: 10px 0;
 }
+.detail_tab1 .mat-tab-label {
+    border: 1px solid #ccc;
+    margin-left: 0px !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.detail_tab1  .mat-tab-label-active .mat-tab-label-content{
+    color: #000;
+}

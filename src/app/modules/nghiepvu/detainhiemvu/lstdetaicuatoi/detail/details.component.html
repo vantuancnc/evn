@@ -1,4 +1,5 @@
 <div
+    style="display: none !important"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
@@ -403,12 +404,9 @@
                 <tbody>
                     <tr>
                         <td class="stt_table">1</td>
-                        <td>  Văn bản đăng ký chủ trì thực hiện nhiệm vụ KHCN
-                        </td>
+                        <td>Văn bản đăng ký chủ trì thực hiện nhiệm vụ KHCN</td>
                         <td>
-                            <button
-                                class="add_button"
-                            >
+                            <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button>
                         </td>
@@ -418,11 +416,171 @@
         </div>
     </div>
     <div class="action-all-f">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
         <button class="add_button">
-        <i class="fa fa-save"></i> Lưu
-    </button>
-    <button class="add_button">
-        <i class="fa fa-save"></i> Lưu và gửi
-    </button>
+            <i class="fa fa-save"></i> Lưu và gửi
+        </button>
     </div>
+</div>
+<!--chi tiết-->
+<div
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">Chi tiết thông tin đề tài, nhiệm vụ</h1>
+    </div>
+
+    <mat-tab-group class="detail_tab1">
+        <mat-tab label="Thông tin đề tài">
+            <table class="table table_custom" style="margin-top: 0">
+                <tbody>
+                    <tr>
+                        <td>Tên đề tài</td>
+                        <td style="font-weight: 600;color: #2a3493;">Ứng dụng chuyển đổi số trong Hóa đơn điện tử</td>
+                    </tr>
+                    <tr>
+                        <td>Cấp quản lý</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Lĩnh vực nghiên cứu </td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Đơn vị chủ trì </td>
+                        <td>ỨCấp EVN </td>
+                    </tr>
+                    <tr>
+                        <td>Thời gian thực hiện </td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Chủ nhiệm đề tài</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Đơn vị công tác</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Đồng chủ nhiệm đề tài</td>
+                        <td>Thư ký đề tài</td>
+                    </tr>
+                    <tr>
+                        <td>Tình trạng đề tài</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Kinh phí thực hiện</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Nguồn kinh phí</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Mục tiêu</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Tính cấp thiết của nhiệm vụ KHCN</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Nhiệm vụ và phạm vi nghiên cứu, thực hiện</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Kết quả dự kiến</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Kiến nghị, đề xuất</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Số lần gia hạn</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Thành viên tham gia">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Họ và tên</th>
+                        <th>Chức vụ</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Công việc tham gia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Tiến độ thực hiện"> 
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">Tháng/năm</th>
+                        <th>Nội dung báo cáo công việc</th>
+                        <th>Kế hoạch thực hiện tiếp theo</th>
+                        <th>Đề xuất/ Kiến nghị</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1/2022</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Hội đồng xét duyệt/ tuyển chọn">
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/12">
+                    <label for="">Tên đề tài/ nhiệm vụ:</label>
+                </div>
+                <div class="basis-2/5">
+                   <span>Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch trong quản lý VTTB</span>
+                </div>
+                <div class="basis-1/12">
+                    <label for="">Cấp độ ĐT/NV:</label>
+                </div>
+                <div class="basis-1/5">
+                   <span>Cấp EVN</span>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/12">
+                    <label for="">Chủ nhiệm:</label>
+                </div>
+                <div class="basis-2/5">
+                   <span>Nguyễn Văn A</span>
+                </div>
+                <div class="basis-1/12">
+                    <label for="">Đơn vị công tác:</label>
+                </div>
+                <div class="basis-1/5">
+                   <span>Ban KHCNMT</span>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Hội đồng xét duyệt/ tuyển chọn">
+            Hội đồng nghiệm thu</mat-tab
+        >
+    </mat-tab-group>
 </div>

@@ -1,6 +1,6 @@
 <div class="relative eco_conntent">
     <!--màn hình danh sách-->
-    <ng-container *ngIf="actionClick">
+    <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI </h1>
             <button class="add_button" (click)="addNew()"><i class="fa fa-plus"></i>
@@ -80,7 +80,7 @@
   </ng-template> -->
 
     <!-- details -->
-    <ng-container *ngIf="!actionClick">
+    <ng-container *ngIf="actionClick">
         <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
             <router-outlet></router-outlet>
         </div>
