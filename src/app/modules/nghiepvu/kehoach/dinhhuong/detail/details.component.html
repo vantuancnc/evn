@@ -1,6 +1,6 @@
-<div
-    class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail"
->
+<!--(ngSubmit)="onSubmit()"-->
+<div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
+    class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
         <h1 class="title-component">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
         <button class="add_button">
@@ -9,34 +9,34 @@
     </div>
     <div class="header-detail">
         <div class="row-one flex items-center">
-            <label for="">Tên<span>(*)</span></label>
-            <input
-                type="text"
-                placeholder="Tên bản đăng ký định hướng"
-                class="form-control input-form"
-            />
-            <button class="add_button mg-left">
+            <div>
+                <input type="hidden" formControlName="maKeHoach" [value]="idParam" />
+                <label for="">Tên<span>(*)</span></label>
+                <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
+                    class="form-control input-form" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Trường bắt buộc nhập</div>
+                  </div>
+            </div>
+            <input type="file" class="file-input" value="Import kế hoạch từ Excel"
+            (change)="importFile($event)" #fileUpload>
+            <!-- <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
-            </button>
-            <button class="add_button">
+            </button> -->
+            <button class="add_button" (click)="downloadExcel()">
                 <i class="fa fa-cloud-download"></i> Export mẫu ra file Excel
             </button>
-            <button class="add_button">
+            <button class="add_button" (click)="onSubmit('SOAN')">
                 <i class="fa fa-save"></i> Lưu kế hoạch
             </button>
-            <button class="add_button">
+            <button class="add_button" (click)="onSubmit('CHO_PHE_DUYET')">
                 <i class="fa fa-send-o"></i> Lưu & Gửi
             </button>
         </div>
         <div class="row-tow flex items-center">
             <label for="">Kế hoạch năm</label>
-            <ng-select
-                [items]="listYears"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Chọn năm"
-                [(ngModel)]="selectedYear"
-            >
+            <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
+                formControlName="year">
             </ng-select>
         </div>
         <div class="row-three flex items-center">
@@ -55,5 +55,5 @@
             </p>
         </div>
     </div>
-    <table-plans></table-plans>
+    <table-plans [form]="form" [class.khongthaotac]="checkChiTiet=='chitiet'"></table-plans>
 </div>

@@ -106,7 +106,7 @@ export const appRoutes: Route[] = [
                     },
                     {
                         path: 'detainhiemvu', children: [
-                            { path: 'lstdetaicuatoi', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
+                            { path: 'lstdetaicuatoi', loadChildren: () => import('app/modules/nghiepvu/detainhiemvu/lstdetaicuatoi/lstdetaicuatoi.module').then(m => m.DetaicuatoiModule) },
                             { path: 'xetduyet', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
                             { path: 'dangthuchien', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
                             { path: 'nghiemthu', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },

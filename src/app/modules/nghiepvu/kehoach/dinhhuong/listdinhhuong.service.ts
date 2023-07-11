@@ -24,7 +24,7 @@ export class ListdinhhuongService {
 
   // danh sach trang thai
   setValueStatus(value: any) {
-    this.myBehaviorYear.next(value);
+    this.myBehaviorStatus.next(value);
   }
 
   getValueStatus() {
@@ -39,7 +39,7 @@ export class ListdinhhuongService {
   }
 
   getListStatus() {
-    this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+    this._serviceApi.execServiceLogin("77764830-776F-4B85-9D89-C2DA941AA471", null).subscribe((data) => {
       let value = data.data || [];
       this.setValueStatus(value)
     })

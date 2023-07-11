@@ -9,13 +9,13 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
+                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" (change)="timKiem()"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
             <div class="statust-right">
                 <label for="">Trạng thái</label>
-                <ng-select [items]="listStatus" bindLabel="NAME" bindValue="ID" placeholder="Chọn trạng thái"
+                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" bindValue="MA_TRANG_THAI" (change)="timKiem()" placeholder="Chọn trạng thái"
                     [(ngModel)]="selectedStatus">
                 </ng-select>
             </div>
@@ -29,181 +29,34 @@
                     <th class="text-center">Ngày gửi</th>
                     <th class="text-center">Năm</th>
                     <th class="text-center">Trạng thái</th>
-                    <th>Người ý kiến phê duyệt</th>
+                    <th>Ý kiến người phê duyệt</th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
+                <tr *ngFor="let item of listDinhHuong; let i = index">
+                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td>{{item.TEN_KE_HOACH}}</td>
                     <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
+                    <td class="text-center">{{item.NGAY_SUA}}</td>
+                    <td class="text-center">{{item.NAM}}</td>
+                    <td class="text-center">{{item.TEN_TRANG_THAI}}</td>
+                    <td>{{item.Y_KIEN_NGUOI_PHE_DUYET}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
+                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
+                            <i class="fa fa-pencil" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'sua'}" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td class="stt_table">2</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">3</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">4</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">5</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">2</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">3</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">4</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">5</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">Chưa gửi</td>
-                    <td>Cần bổ sung thêm thông tin</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" 
+                    [routerLink]="['/about']"
+                    [queryParams]="{part: 'navbar',search: 'about', year: 2021 }">About</a>
+                  </li> -->
+                
             </tbody>
         </table>
     </ng-container>

@@ -17,7 +17,7 @@ table.table.table_custom {
     th {
         border: 1px solid;
         padding: 10px;
-        background-color: #f2f3fb;
+        background-color: #D7D2D2;
     }
     td {
         border: 1px solid;
@@ -72,7 +72,9 @@ table.table.table_custom {
         cursor: pointer;
         border-color: #ccc;
     }
-    i.fa-info-circle,  i.fa-retweet{
+
+    i.fa-info-circle,
+    i.fa-retweet {
         &:hover {
             border-color: #2A3493;
         }

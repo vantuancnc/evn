@@ -10,7 +10,10 @@
         margin-left: 10px;
     }
 }
-
+.khongthaotac{
+    pointer-events: none;
+    opacity: 0.8;
+}
 input.input-form{
     width: 410px;
     margin-left: 10px;
@@ -30,6 +33,12 @@ label{
 }
 .mg-left{
     margin-left: auto;
+}
+.invalid-feedback{
+    color: red;
+}
+component-list.ng-star-inserted {
+    overflow: scroll;
 }
 .row-for p{
     font-style: italic;
