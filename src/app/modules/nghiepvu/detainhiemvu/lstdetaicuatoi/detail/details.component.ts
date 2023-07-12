@@ -48,4 +48,19 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         })
     }
 
+    openAlertDialog() {
+        this.dialog.open(PopupCbkhComponent, {
+            data: {
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done'
+                }
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            }
+        });
+    }
 }
