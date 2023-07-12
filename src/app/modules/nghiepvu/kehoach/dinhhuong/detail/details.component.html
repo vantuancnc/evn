@@ -18,8 +18,12 @@
                     <div *ngIf="f.name.errors.required">Trường bắt buộc nhập</div>
                   </div>
             </div>
-            <input type="file" class="file-input" value="Import kế hoạch từ Excel"
-            (change)="importFile($event)" #fileUpload>
+            <label class="custom-file-upload add_button">
+                <input type="file"  (change)="importFile($event)" #fileUpload/>
+                <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
+            </label>
+            <!-- <input type="file" class="file-input" value="Import kế hoạch từ Excel"
+            (change)="importFile($event)" #fileUpload> -->
             <!-- <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button> -->
