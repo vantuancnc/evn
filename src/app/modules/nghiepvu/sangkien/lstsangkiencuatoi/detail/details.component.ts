@@ -9,7 +9,7 @@ import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
-import { lstdetaicuatoiService } from '../lstdetaicuatoi.service';
+import { lstdetaicuatoiService } from '../lstsangkiencuatoi.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
@@ -24,7 +24,7 @@ import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class LstdetaicuatoiDetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit {
 
     public selectedYear: number;
     public getYearSubscription: Subscription;

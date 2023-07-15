@@ -9,7 +9,7 @@ import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
-import { lstdetaicuatoiService } from '../lstdetaicuatoi.service';
+import { DangThucHienService } from '../dangthuchien.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
@@ -24,12 +24,12 @@ import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class LstdetaicuatoiDetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit {
 
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
-    public actionType:string = null
+    public actionType =  null
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -44,8 +44,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
           if(params?.type){
             this.actionType = params?.type
           }else{
-            this.actionType = null
+            this.actionType =null
           }
+          console.log( this.actionType);
+          
         }
       );
     }
@@ -53,9 +55,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.geListYears();
-        this._messageService.showSuccessMessage("Thông báo", "Thành công");
-        console.log(this.actionType);
-        
+        this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
 
 
@@ -80,5 +80,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             }
         });
     }
+
 
 }

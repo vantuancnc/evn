@@ -6,22 +6,23 @@ import { User } from 'app/core/user/user.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { State } from 'app/shared/commons/conmon.types';
 import { FunctionService } from 'app/core/function/function.service';
-import { lstdetaicuatoiService } from '../lstdetaicuatoi.service';
-import { LstdetaicuatoiComponent } from '../lstdetaicuatoi.component';
+import { NghiemThuService } from '../hoanthanh.service';
+import { HoanThanhComponent } from '../hoanthanh.component';
 import { ServiceService } from 'app/shared/service/service.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
+import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-confirmcomponent';
 
 @Component({
     selector: 'component-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
+export class ListItemComponent implements OnInit, OnDestroy {
 
     public selectedYear: number;
-    public actionClick: string = null;
+    public actionClick: string = null; 
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
     public listYears = [];
@@ -51,12 +52,10 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         this._activatedRoute.queryParams
         .subscribe(params => {
           if(params?.type){
-            this.actionClick = params?.type
+            this.actionClick = params?.type;
           }else{
             this.actionClick = null
           }
-          console.log(this.actionClick);
-          
         }
       );
     }
@@ -116,17 +115,40 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
             }
         });
     }
-    
-   detail(item){
-    this._router.navigate(
-        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
-        { queryParams: { type: 'CHITIET' } }
-      );
-   }
-   editer(item){
-    this._router.navigate(
-        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
-        { queryParams: { type: 'CHITIET' } }
-      );
-   }
+
+
+  
+    editer(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/nghiemthu'],
+            { queryParams: { type: 'CHINHSUA' } }
+          );
+    }
+
+    detail(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'], 
+            { queryParams: { type: 'CHITIET' } }
+          );
+    }
+
+    updateActionHDNT(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/nghiemthu'],
+            { queryParams: { type: 'updateActionHDNT' } }
+          );
+    }
+
+    updateActionKQNT(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/nghiemthu'],
+            { queryParams: { type: 'updateActionKQNT' } }
+          );
+    }
+    updateActionHSQT(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/nghiemthu'],
+            { queryParams: { type: 'updateActionHSQT' } }
+          );
+    }
 }
