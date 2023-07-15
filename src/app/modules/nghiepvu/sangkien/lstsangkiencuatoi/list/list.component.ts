@@ -75,7 +75,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     addNew(): void {
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
             { queryParams: { type: 'THEMMOI' } }
           );
     }
