@@ -17,7 +17,8 @@ table.table.table_custom {
     th {
         border: 1px solid #000;
         padding: 10px;
-        background-color: #f2f3fb;
+        background-color: #D7D2D2;
+    
     }
 
     td {
@@ -139,7 +140,9 @@ label span {
 .detail_tab1  .mat-tab-label-active .mat-tab-label-content{
     color: #000;
 }
-
+mat-paginator .mat-paginator-container{
+    width: 100%; display: flex;     justify-content: flex-end !important;
+}
 button.add_button-export {
     background: #02a7f0;
     color: #fff;
@@ -148,21 +151,3 @@ button.add_button-export {
     border-radius: 5px;
     margin-left: 10px;
 }
-
-button.add_button-export:hover {
-    background-color: #2196f3;
-}
-
-.add_button-import {
-    background: #1e293b;
-    color: #fff;
-    height: 30px;
-    padding: 6px 10px;
-    border-radius: 5px;
-    margin-left: 10px;
-}
-
-.add_button-import:hover {
-    background-color: #1e293b;
-}
-
