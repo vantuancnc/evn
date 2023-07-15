@@ -9,6 +9,9 @@ import { FunctionService } from 'app/core/function/function.service';
 import { lstdetaicuatoiService } from '../lstdetaicuatoi.service';
 import { LstdetaicuatoiComponent } from '../lstdetaicuatoi.component';
 import { ServiceService } from 'app/shared/service/service.service';
+import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
 
 @Component({
     selector: 'component-list',
@@ -23,6 +26,11 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public ListFleDemo = [
+        {id:1,name:'ten_file',kichthuoc:'20mb'},
+        {id:2,name:'ten_file1',kichthuoc:'20mb'},
+        {id:3,name:'ten_file2',kichthuoc:'20mb'}
+    ]
 
 
     /**
@@ -37,6 +45,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         private _functionService: FunctionService,
         private el: ElementRef,
         private _serviceApi: ServiceService,
+        public dialog: MatDialog
     ) {
     }
 
@@ -65,5 +74,31 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         this.getGiaoSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
             this.listGiao = data.data || [];
         })
+    }
+    //phân trang
+    length = 500;
+    pageSize = 10;
+    pageIndex = 0;
+    pageSizeOptions = [5, 10, 25];
+    showFirstLastButtons = true;
+  
+    handlePageEvent(event: PageEvent) {
+      this.length = event.length;
+      this.pageSize = event.pageSize;
+      this.pageIndex = event.pageIndex;
+    }
+
+   // mo popup file
+    openAlertDialog() {
+        this.dialog.open(PopupFileComponent, {
+            data: {
+                listFile:this.ListFleDemo
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            }
+        });
     }
 }

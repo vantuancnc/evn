@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TablePlansComponent } from './component/table-plans/table-plans.component';
+import { PopupFileComponent } from './component/popup-file/popup-filecomponent';
 
 @NgModule({
     imports: [
@@ -11,13 +12,15 @@ import { TablePlansComponent } from './component/table-plans/table-plans.compone
     ],
 
     declarations: [
-        TablePlansComponent
+        TablePlansComponent,
+        PopupFileComponent
     ],
     exports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        TablePlansComponent
+        TablePlansComponent,
+        PopupFileComponent
     ]
 })
 export class SharedModule

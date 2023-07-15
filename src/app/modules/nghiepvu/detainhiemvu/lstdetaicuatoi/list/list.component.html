@@ -2,14 +2,18 @@
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
-            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI </h1>
-            <button class="add_button" (click)="addNew()"><i class="fa fa-plus"></i>
-                Tạo bản ghi mới</button>
+            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI</h1>
+            <button class="add_button" (click)="addNew()">
+                <i class="fa fa-plus"></i> Tạo bản ghi mới
+            </button>
         </div>
         <div class="header-list-dinh-huong">
             <div class="serach-box">
-                <input type="text" class="form-control"
-                    placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+                />
                 <button>
                     <i class="fa fa-search"></i>
                     Tìm kiếm
@@ -20,27 +24,17 @@
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên đề tài/ nhiệm vụ KHCN </th>
-                    <th class="text-center">Cấp quản lý
-                    </th>
-                    <th class="text-center">Chủ nhiệm đề tài
-                    </th>
-                    <th class="text-center">Đơn vị chủ trì
-                    </th>
-                    <th class="text-center">Thời gian thực hiện
-                    </th>
-                    <th class="text-center">Trạng thái
-                    </th>
-                    <th class="text-center">Năm đăng ký
-                    </th>
-                    <th class="text-center">Cập nhập HSTH
-                    </th>
-                    <th class="text-center">TBáo cáo tiến độ thực hiện
-                    </th>
-                    <th class="text-center">Cập nhập HSNT
-                    </th>
-                    <th class="text-center">Cập nhập HSQT
-                    </th>
+                    <th>Tên đề tài/ nhiệm vụ KHCN</th>
+                    <th class="text-center">Cấp quản lý</th>
+                    <th class="text-center">Chủ nhiệm đề tài</th>
+                    <th class="text-center">Đơn vị chủ trì</th>
+                    <th class="text-center">Thời gian thực hiện</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Năm đăng ký</th>
+                    <th class="text-center">Cập nhập HSTH</th>
+                    <th class="text-center">TBáo cáo tiến độ thực hiện</th>
+                    <th class="text-center">Cập nhập HSNT</th>
+                    <th class="text-center">Cập nhập HSQT</th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -48,7 +42,7 @@
                 <tr>
                     <td class="stt_table">1</td>
                     <td>Bản đăng ký định hướng 2023</td>
-                    <td>Cấp EVN </td>
+                    <td>Cấp EVN</td>
                     <td class="text-center">Trần Văn A</td>
                     <td>Ban kế toán</td>
                     <td class="text-center">01/06/2023 9:10:30</td>
@@ -60,7 +54,10 @@
                     <td></td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
+                            <i
+                                class="fa fa-info-circle"
+                                title="Xem chi tiết"
+                            ></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
@@ -69,6 +66,18 @@
                 </tr>
             </tbody>
         </table>
+        <!-- phan trang -->
+        <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="length"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex"
+            aria-label="Select page"
+        >
+        </mat-paginator>
+        <button (click)="openAlertDialog()" >Mop pup up fille</button>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>
@@ -81,7 +90,9 @@
 
     <!-- details -->
     <ng-container *ngIf="actionClick">
-        <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
+        <div
+            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+        >
             <router-outlet></router-outlet>
         </div>
     </ng-container>
