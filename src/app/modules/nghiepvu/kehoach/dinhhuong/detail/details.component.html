@@ -57,7 +57,7 @@
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label>
                 <ul style="margin-left: 20px;">
-                    <li><a>Xem File</a></li>
+                    <li><a href="javascript:void(0)" class="cursor-point" (click)="openAlertDialog()">Xem File</a></li>
                 </ul>
             <button class="add_button" style="margin-left: 99px;">
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
@@ -85,5 +85,5 @@
             </p>
         </div>
     </div>
-    <table-plans [form]="form" [class.khongthaotac]="checkChiTiet=='chitiet'"></table-plans>
+    <table-plans [form]="form" [dataImport]="dataImport" [class.khongthaotac]="checkChiTiet=='chitiet'"></table-plans>
 </div>

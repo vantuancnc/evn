@@ -7,94 +7,74 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="name" bindValue="id" placeholder="Chọn năm" [multiple]="true"
+                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" [multiple]="true"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
             <div class="statust-right">
                 <label for="">Trạng thái</label>
-                <ng-select [items]="listStatus" bindLabel="name" bindValue="id" placeholder="Chọn trạng thái"
+                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" bindValue="MA_TRANG_THAI" placeholder="Chọn trạng thái"
                     [(ngModel)]="selectedStatus">
                 </ng-select>
             </div>
             <button class="add_button mg-left mr-5" (click)="addNew()">
-                <i class="fa fa-file"></i> Tổng hợp đơn vị
+                <!-- <i class="fa fa-file"></i> Tổng hợp đơn vị -->
+                Tổng hợp đơn vị
             </button>
             <button class="add_button" (click)="addNew()">
-                <i class="fa fa-file"></i> Tổng hợp EVN
+                <!-- <i class="fa fa-file"></i> -->
+                 Tổng hợp EVN
             </button>
         </div>
         <table class="table table_custom">
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Đơn vị gửi</th>
-                    <th class="text-center">Tên bản đăng ký</th>
-                    <th class="text-center">Người tổng hợp</th>
+                    <th>Tên bản đăng ký</th>
+                    <th class="text-center">Người gửi</th>
+                    <th class="text-center">Ngày gửi</th>
                     <th class="text-center">Năm</th>
-                    <th class="text-center">Ngày tổng hợp</th>
                     <th class="text-center">Trạng thái</th>
                     <th>Ý kiến xét duyệt</th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td class="font-bold text-xl">Công ty Điện lực Sài Gòn</td>
-                    <td class="font-bold text-xl">Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">20/01/2023</td>
-                    <td class="text-center">Chờ phê duyệt</td>
-                    <td></td>
+                <tr *ngFor="let item of listDinhHuong; let i = index">
+                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td>{{item.TEN_KE_HOACH}}</td>
+                    <td class="text-center">{{item.USERNAME}}</td>
+                    <td class="text-center">{{item.NGAY_GUI}}</td>
+                    <td class="text-center">{{item.NAM}}</td>
+                    <td class="text-center">{{item.TEN_TRANG_THAI}}</td>
+                    <td>{{item.Y_KIEN_NGUOI_PHE_DUYET}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o"></i>
-                            <input type="checkbox" class="checkbox_table">
+                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
+                            <i class="fa fa-clock-o" title="Xem lịch sử"></i>
+                            <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
+             
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td class="font-bold text-xl">Công ty Điện lực Sài Gòn</td>
-                    <td class="font-bold text-xl">Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">20/01/2023</td>
-                    <td class="text-center">Chờ phê duyệt</td>
-                    <td></td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o"></i>
-                            <input type="checkbox" class="checkbox_table">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td class="font-bold text-xl">Công ty Điện lực Sài Gòn</td>
-                    <td class="font-bold text-xl">Bản đăng ký định hướng 2023</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">2023</td>
-                    <td class="text-center">20/01/2023</td>
-                    <td class="text-center">Chờ phê duyệt</td>
-                    <td></td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o"></i>
-                            <input type="checkbox" class="checkbox_table">
-                        </div>
-                    </td>
-                </tr>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" 
+                    [routerLink]="['/about']"
+                    [queryParams]="{part: 'navbar',search: 'about', year: 2021 }">About</a>
+                  </li> -->
+                
             </tbody>
         </table>
+        <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="length"
+        [pageSize]="pageSize"
+        [showFirstLastButtons]="showFirstLastButtons"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="pageIndex"
+        aria-label="Select page"
+    >
+    </mat-paginator>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

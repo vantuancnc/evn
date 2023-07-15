@@ -57,6 +57,13 @@ export class PopupFileComponent implements OnInit {
         
     }
 
+    downLoadFile(item){
+        var token = localStorage.getItem("accessToken");
+        this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{"name":"DUONG_DAN","value":item.DUONG_DAN},{"name":"TOKEN_LINK","value":"Bearer "+token}]).subscribe((data) => {
+            console.log("downloadFile:"+JSON.stringify(data));
+        })
+    }
+
 
 
 }

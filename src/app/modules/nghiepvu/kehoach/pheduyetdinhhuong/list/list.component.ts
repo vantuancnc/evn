@@ -9,6 +9,8 @@ import { FunctionService } from 'app/core/function/function.service';
 import { ApiPheDuyetDinhHuongService } from '../pheduyetdinhhuong.service';
 import { ApiPheDuyetDinhHuongComponent } from '../pheduyetdinhhuong.component';
 import { ServiceService } from 'app/shared/service/service.service';
+import { PageEvent } from '@angular/material/paginator';
+import { ListdinhhuongService } from '../../dinhhuong/listdinhhuong.service';
 
 @Component({
     selector: 'component-list',
@@ -27,25 +29,51 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     public listStatus = [];
     public listPheDuyet = [];
     public checked;
+    public getDinhHuongSubcription: Subscription;
+    public listDinhHuong = [];
 
     /**
      * Constructor
      */
     constructor(
+        public _nguonDuLieuComponent: ApiPheDuyetDinhHuongComponent,
+        private _nguonDuLieuService: ListdinhhuongService,
         private _messageService: MessageService,
         private _userService: UserService,
         public _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _functionService: FunctionService,
-        private el: ElementRef,
         private _serviceApi: ServiceService,
+        private _listdinhhuongService: ListdinhhuongService,
+        private el: ElementRef
     ) {
     }
 
-    ngOnInit(): void {
-        this.geListYears()
-        this.getListStatus()
-        this.getListPheduyet()
+    ngOnInit() {
+
+        this.actionClick = null;
+        this._listdinhhuongService.getValueYear().subscribe((values: any) => {
+            if (values){
+                this.listYears = values;
+            }
+               
+        })
+        // this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
+        //     if (values)
+        //         this.listStatus = values;
+        // })
+        this.listStatus =[{"MA_TRANG_THAI":"","TEN_TRANG_THAI":"Tất cả"},
+            {"MA_TRANG_THAI":"Y_CAU_HIEU_CHINH","TEN_TRANG_THAI":"Yêu cầu hiệu chỉnh"},
+        {"MA_TRANG_THAI":"CHO_PHE_DUYET","TEN_TRANG_THAI":"Chờ phê duyệt"},
+        {"MA_TRANG_THAI":"DA_PHE_DUYET","TEN_TRANG_THAI":"Đã duyệt"}]
+        this.selectedYear=(new Date()).getFullYear();
+        this.selectedStatus='';
+        this.timKiem();
+    }
+
+
+    onApiSelected(object: any): void {
+
     }
 
     addNew(): void {
@@ -53,30 +81,42 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     }
 
 
-    geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listYears = data.data || [];
-        })
-    }
+    // getListDinhHuong() {
+    //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
+    //        console.log(data);
+    //         this.listDinhHuong = data.data || [];
+    //     })
+    // }
 
-    getListStatus() {
-        this.getStatusSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listStatus = data.data || [];
-        })
-    }
-
-    getListPheduyet() {
-        this.getPheDuyetSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listPheDuyet = data.data || [];
-        })
+    timKiem(){
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"MA_TRANG_THAI_LIST","value":"CHO_PHE_DUYET,Y_CAU_HIEU_CHINH,DA_PHE_DUYET"},{"name":"NAM_LIST","value":""},{"name":"NAM","value":this.selectedYear},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+            this.listDinhHuong = data.data || [];
+             if(data.data != null && data.data.length >0){
+                this.length = data.data[0].TotalPage;
+             }
+             
+         })
     }
 
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe();
-        this.getStatusSubscription.unsubscribe();
-        this.getPheDuyetSubcription.unsubscribe()
+        this.getDinhHuongSubcription.unsubscribe()
+        this.getYearSubscription.unsubscribe()
+        this.getStatusSubscription.unsubscribe()
     }
 
+     //phân trang
+     length = 0;
+     pageSize = 20;
+     pageIndex = 0;
+     pageSizeOptions = [10, 20, 50,100];
+     showFirstLastButtons = true;
+   
+     handlePageEvent(event: PageEvent) {
+       this.length = event.length;
+       this.pageSize = event.pageSize;
+       this.pageIndex = event.pageIndex;
+       this.timKiem();
+     }
 
 }

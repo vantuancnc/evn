@@ -83,8 +83,8 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
     // }
 
     timKiem(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM","value":this.selectedYear},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
-             this.listDinhHuong = data.data || [];
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"MA_TRANG_THAI_LIST","value":"SOAN,CHO_PHE_DUYET,Y_CAU_HIEU_CHINH,DA_PHE_DUYET"},{"name":"NAM_LIST","value":""},{"name":"NAM","value":this.selectedYear},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+            this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].TotalPage;
              }

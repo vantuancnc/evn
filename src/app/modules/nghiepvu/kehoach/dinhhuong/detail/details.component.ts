@@ -13,7 +13,8 @@ import { ListdinhhuongService } from '../listdinhhuong.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
 
 @Component({
     selector: 'component-details',
@@ -32,17 +33,22 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public listYears = [];
     public listStatus = [];
     public form;
+    public dataImport = {
+        arr:[]
+    }
     public idParam : string = null;
     public checkChiTiet :string = null;
     public listDonvi = [];
     public listChiTietImport = [];
     submitted = false;
+    public listFile; 
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _router: Router,
         private _serviceApi: ServiceService,
         public _messageService: MessageService,
+        public dialog: MatDialog
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         console.log('this.idParam',this.idParam);
@@ -54,7 +60,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
            
         )
         this.initForm()
-
+    
         
     }
 
@@ -65,6 +71,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         this.geListYears()
         this.getListStatus()
         this.geListNhomDonVi();
+        this.selectedYear= (new Date()).getFullYear();
        // console.log(this.form.value);
 
     }
@@ -89,7 +96,8 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             this.form = this._formBuilder.group({
                 name: [null, [Validators.required]],
                 year: [(new Date()).getFullYear(), [Validators.required]],
-                maKeHoach:this.idParam
+                maKeHoach:this.idParam,
+                listChiTietImport:[],
             }
             )
         // }
@@ -104,7 +112,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 this.form.get("year").patchValue(data.data.NAM);
                 this.form.get("maKeHoach").patchValue(this.idParam);
     
-                    })
+            })
+            this._serviceApi.execServiceLogin("D9680D9D-5705-42FA-9321-E04521D53014", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
+                this.listFile = data.data  || [];
+            
+            })
+
+
         }
      
     }
@@ -116,10 +130,20 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
 
     geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            console.log("nam:"+ data);
-            this.listYears = data.data || [];
-        })
+        // this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+        //     console.log("nam:"+ data);
+        //     this.listYears = data.data || [];
+        // })
+        var obj = {"NAME":0,"ID":0};
+        var year = (new Date()).getFullYear();
+        var yearStart = year - 4;
+        var yearEnd = yearStart + 10;
+        for(let i=yearStart;i<=yearEnd;i++){
+            obj = {"NAME":i,"ID":i}
+            this.listYears.push(obj);
+        }
+        this.selectedYear=  (new Date()).getFullYear();
+        
     }
 
     getListStatus() {
@@ -128,7 +152,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         })
     }
     downloadExcel(){
-        this.getStatusSubscription = this._serviceApi.execServiceLogin("B186CEDA-876B-4511-96D1-E199926A6913", [{"name":"ORGID","value":"115"}]).subscribe((data) => {
+        this._serviceApi.execServiceLogin("B186CEDA-876B-4511-96D1-E199926A6913", [{"name":"ORGID","value":"115"}]).subscribe((data) => {
             this.downloadTempExcel(data.data,"MAU_DANG_KY_DINH_HUONG.xlsx");
         })
     }
@@ -140,8 +164,10 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         reader.onload = () => {
             let fileBase64 =reader.result.toString().split(',')[1];
             this._serviceApi.execServiceLogin("1E707636-93B5-43EA-97BC-2F850C14D1E3", [{"name":"ORGID","value":"115"},{"name":"FILE_UPLOAD","value":fileBase64}]).subscribe((data) => {
+                let arr = data.data || []
+                this._serviceApi.dataImport.next(arr);
                 this.listChiTietImport = data.data || [];
-                debugger;
+               // debugger;
             })
            // console.log(reader.result);
         };
@@ -170,10 +196,11 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
       }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe();
+       // this.getYearSubscription.unsubscribe();
         this.getStatusSubscription.unsubscribe();
     }
     onSubmit(status) {
+        debugger;
         this.submitted = true;
         if (this.form.invalid) {
           return;
@@ -194,6 +221,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                             if(this.listDonvi != undefined && this.listDonvi.length >0){
                                 for(let n=0;n<itemChiTiet.listNhiemVu_cap4.length;n++){
                                     let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
+                                    debugger;
                                     if(itemChiTiet4 != undefined && itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
               
                                         this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
@@ -316,17 +344,15 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 let re = JSON.stringify(test);
                 
                 this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"FILE_NAME","value":this.listupload[i].fileName},{"name":"FILE_UPLOAD","value":fileBase64},{"name":"TOKEN_LINK","value":"Bearer "+token}]).subscribe((data) => {
-                 debugger;
+
                  const result1 = new Date(data.data.createdAt).toLocaleDateString('en-GB');
                     console.log("fileINsert:"+JSON.stringify([{"name":"KIEU_FILE","value":data.data.mimeType},{"name":"KICH_THUOC","value":data.data.size},
                     {"name":"LOAI_FILE","value":""},{"name":"DUONG_DAN","value":data.data.path},{"name":"MA_FILE","value":data.data.rowId},
                     {"name":"SO_KY_HIEU","value":data.data.id},{"name":"NGAY_TAO","value":result1},{"name":"TEN_FILE","value":data.data.name},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"USERID","value":"STR"}]));
-                  
-                    debugger;
+
                     this._serviceApi.execServiceLogin("46E6958E-7361-42C7-8327-3FB321613A3F",[{"name":"KIEU_FILE","value":data.data.mimeType},{"name":"KICH_THUOC","value":data.data.size},
                     {"name":"LOAI_FILE","value":""},{"name":"DUONG_DAN","value":data.data.path},{"name":"MA_FILE","value":data.data.rowId},
                     {"name":"SO_KY_HIEU","value":data.data.id},{"name":"NGAY_TAO","value":result1},{"name":"TEN_FILE","value":data.data.name},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-                        debugger;
                         console.log("KEHOACHFILE:"+JSON.stringify(data));
                      });
                     // this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"KIEU_FILE","value":data.data.mimeType},
@@ -399,6 +425,19 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         // };
         //  // formData.append("file[]", this.myFiles[i]);
         // }
+    }
+    openAlertDialog() {
+        debugger;
+        this.dialog.open(PopupFileComponent, {
+            data: {
+                listFile:this.listFile
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            }
+        });
     }
 
 }

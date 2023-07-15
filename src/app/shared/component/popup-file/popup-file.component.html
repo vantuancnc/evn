@@ -2,22 +2,27 @@
     <i class="fa fa-search"></i>  Danh sách file
 </div>
 <div class="content-popup">
-    <table class="table table_custom">
+    <table class="table table_custom action-table">
         <thead>
             <tr>
                 <th class="stt_table">STT</th>
                 <th>Tên file</th>
                 <th class="text-center">Kích thước
                 </th>
-                <th style="width: 40px;"></th>
+                <th class="text-center">Số văn bản
+                </th>
+                <th style="width: 100px;"></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of listFilePopup; let i = index">
                 <td class="stt_table">{{i+1}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.kichthuoc}}</td>
-                <td class="text-center">  <i style="color: red; cursor: pointer;" (click)="deleteItemFile(item)" class="fa fa-trash" title="Xóa bỏ"></i></td>
+                <td>{{item.TEN_FILE}}</td>
+                <td>{{item.KICH_THUOC}}</td>
+                <td>{{item.SO_KY_HIEU}}</td>
+                <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item)" class="fa fa-trash" title="Xóa bỏ"></i>
+                    <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item)" title="Download file"></i>
+                </td>
             </tr>
 
         </tbody>

@@ -84,9 +84,9 @@ export const ApiPheDuyetDinhHuongRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: ApiPheDuyetDinhHuongDetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
+            // resolve: {
+            //   apiDetail: ApiInputDetailResolver
+            // }
           }
         ]
       }

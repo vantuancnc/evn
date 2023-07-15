@@ -10,7 +10,10 @@
         margin-left: 10px;
     }
 }
-
+.khongthaotac{
+    pointer-events: none;
+    opacity: 0.8;
+}
 input.input-form{
     width: 410px;
     margin-left: 10px;
@@ -30,6 +33,12 @@ label{
 }
 .mg-left{
     margin-left: auto;
+}
+.invalid-feedback{
+    color: red;
+}
+component-list.ng-star-inserted {
+    overflow: scroll;
 }
 .row-for p{
     font-style: italic;
@@ -56,4 +65,52 @@ label{
 
 .body-detail table{
     color: #000;
+}
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.wp-15{
+    width: 15%;
+}
+
+.wp-7{
+    width: 15%;
+}
+.mr-83{
+    margin-right:83px;
+}
+.cursor-point{
+    cursor: pointer;
+}
+table.table.table_custom th {
+    border: 0;
+    border-bottom: 1px solid #e2e8f0;
+   padding: 10px;
+   background-color: #fff;
+   border-bottom-width: 1px;
+   font-weight: 600;
+   color: #2a3493;
+  
+}
+
+table.table.table_custom td {
+   border: 0;
+   padding: 5px 10px;
+   border-bottom: 1px solid #e2e8f0;
+   border-bottom-width: 1px;
+   border-bottom-color: #e2e8f0;
+   color: #2a3493;
+}
+.dinhhuong-name{
+    width: 54%;
+}
+.dinhhuong-name.khongthaotac{
+    width: 86%;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, finalize } from 'rxjs';
+import { BehaviorSubject, catchError, finalize } from 'rxjs';
 import { environment } from 'environments/environment';
 import { MessageService } from '../message.services';
 import { Router } from '@angular/router';
@@ -44,4 +44,6 @@ export class ServiceService {
         this.loader.hide()
         return kq;
     }
+
+    public dataImport = new BehaviorSubject<any>(null);
 }
