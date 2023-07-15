@@ -1,5 +1,6 @@
+
 <div
-    style="display: none !important"
+    *ngIf="actionType == 'THEMMOI' "
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
@@ -423,7 +424,7 @@
     </div>
 </div>
 <!--chi tiết-->
-<div
+<div *ngIf="actionType == 'CHITIET'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">

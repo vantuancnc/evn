@@ -5,25 +5,24 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MessageService } from 'app/shared/message.services';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PopupConfirmComponent } from '../popup-confirm/popup-confirmcomponent';
+import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-confirmcomponent';
 
 
 
 
 @Component({
-    selector: 'component-popup-file',
-    templateUrl: './popup-file.component.html',
-    styleUrls: ['./popup-file.component.css'],
+    selector: 'component-popup-cbkh',
+    templateUrl: './popup-cbkh.component.html',
+    styleUrls: ['./popup-cbkh.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
 
-export class PopupFileComponent implements OnInit {
+export class PopupCbkhComponent implements OnInit {
 
 
     message: string = "Are you sure?"
     confirmButtonText = "Yes"
     cancelButtonText = "Cancel"
-    listFilePopup = []
 
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -33,10 +32,14 @@ export class PopupFileComponent implements OnInit {
         public _router: Router,
         private _serviceApi: ServiceService,
         public dialog: MatDialog,
-        private dialogRef: MatDialogRef<PopupFileComponent>
+        private dialogRef: MatDialogRef<PopupCbkhComponent>
     ) {
         if (data) {
-            this.listFilePopup = data.listFile
+            this.message = data.message || this.message;
+            if (data.buttonText) {
+                this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
+                this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
+            }
         }
     }
 
@@ -50,34 +53,8 @@ export class PopupFileComponent implements OnInit {
         this.dialogRef.close(true);
     }
 
-    deleteItemFile(items){
-        this.listFilePopup = this.listFilePopup.filter(item=>item.id != items.id)
-    }
-    Save(){
-        console.log(this.listFilePopup);
-        
-    }
 
-    
-    // mo popup file
-    openAlertConfirm (item) {
-       let dataPopup = this.dialog.open(PopupConfirmComponent, {
-            width: '400px',
-            data: {
-                item:item
-            },
-            panelClass: 'custom-PopupCbkh',
-            position: {
-                top: '200px',
-            }
-        });
-        dataPopup.afterClosed().subscribe((data) => {
-            if(data){
-                this.deleteItemFile(data.data)
-            }
-            
-          });
-    }
+
 
 
 }

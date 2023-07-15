@@ -143,3 +143,6 @@ label span {
 mat-paginator .mat-paginator-container{
     width: 100%; display: flex;     justify-content: flex-end !important;
 }
+.cdk-dialog-container {
+    padding: 0px !important;
+}
