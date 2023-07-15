@@ -14,7 +14,7 @@
                 <th>
                     Thời gian dự kiến thực hiện (Từ tháng/năm đến tháng/năm)
                 </th>
-                <th>Ý kiến người phê duyệt</th>
+                <!-- <th>Ý kiến người phê duyệt</th> -->
                 <th class="text-center action-table actiom-table-detail"></th>
             </tr>
         </thead>
@@ -31,9 +31,9 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+                        <!-- <td></td> -->
                     </tr>
-                    <ng-container formArrayName="listNhiemVu_cap2">
+                    <ng-container *ngIf="listDonvi.length==0" formArrayName="listNhiemVu_cap2">
                         <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
                             <ng-container [formGroupName]="j">
                                 <tr class="italic font-semibold">
@@ -45,7 +45,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td class="text-center action-table actiom-table-detail">
                                         <div class="flex justify-evenly">
                                             <i class="fa fa-plus" (click)="addCap2(items)" title="Thêm mới"></i>
@@ -71,7 +71,7 @@
                                                 <td><input type="text" class="form-control" formControlName="ChuNhiemNhiemVu" /></td>
                                                 <td><input type="text" class="form-control" formControlName="NoiDungHoatDong" /></td>
                                                 <td><input type="text" class="form-control" formControlName="ThoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
-                                                <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td>
+                                                <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly">
                                                         <i (click)="removeItem(items,c)" class="fa fa-times"
@@ -79,6 +79,77 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="listDonvi.length > 0" formArrayName="listNhiemVu_cap2">
+                        <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
+                            <ng-container [formGroupName]="j">
+                                <tr class="italic font-semibold">
+                                    <td class="text-center">{{i+1}}.{{j+1}}</td>
+                                    <td class="">{{items.get('NoiDungDangKy').value}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <!-- <td></td> -->
+                                    <td class="text-center action-table actiom-table-detail">
+                                    </td>
+                                </tr>
+                                <ng-container *ngIf="listDonvi.length > 0" formArrayName="listNhiemVu_cap3">
+                                    <ng-container *ngFor="let items2 of items.get('listNhiemVu_cap3')['controls']; let k = index;">
+                                        <ng-container [formGroupName]="k">
+                                            <tr class="italic font-semibold">
+                                                <td class="text-center">{{i+1}}.{{j+1}}.{{k+1}}</td>
+                                                <td class="">{{items2.get('NoiDungDangKy').value}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <!-- <td></td> -->
+                                                <td class="text-center action-table actiom-table-detail">
+                                                    <div class="flex justify-evenly">
+                                                        <i class="fa fa-plus" (click)="addCap3(items2)" title="Thêm mới"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <ng-container formArrayName="listNhiemVu_cap4">
+                                                <ng-container
+                                                    *ngFor="let itemc of items2.get('listNhiemVu_cap4')['controls']; let c = index;">
+                                                    <ng-container [formGroupName]="c">
+                                                        <tr class="">
+                                                            <td class="text-center">{{c+1}}</td>
+                                                            <td><input type="text" class="form-control" formControlName="NoiDungDangKy" />
+                                                            </td>
+                                                            <td>
+                                                                 <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
+                                                                  <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Chọn năm"
+                                                                formControlName="NguonKinhPhi">
+                                                            </ng-select>  
+                                                        </td>
+                                                            <td><input type="text" class="form-control" formControlName="DuDoan" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="DonViChuTri" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="ChuNhiemNhiemVu" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="NoiDungHoatDong" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="ThoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                            <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
+                                                            <td class="text-center action-table actiom-table-detail">
+                                                                <div class="flex justify-evenly">
+                                                                    <i (click)="removeItem(items,c)" class="fa fa-times"
+                                                                        title="Xóa bỏ"></i>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-container>
                                 </ng-container>

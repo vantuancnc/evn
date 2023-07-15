@@ -47,6 +47,8 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
+        this.actionClick = null;
         this.getYearSubscription = this._listdinhhuongService.getValueYear().subscribe((values: any) => {
             if (values){
                 this.listYears = values;
@@ -57,7 +59,9 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
             if (values)
                 this.listStatus = values;
         })
-       // this.getListDinhHuong();
+        this.selectedYear=(new Date()).getFullYear();
+        this.selectedStatus='';
+        this.getListDinhHuong();
     }
 
 
@@ -71,7 +75,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
 
 
     getListDinhHuong() {
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":""},{"name":"ORGID","value":"115"}]).subscribe((data) => {
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
            console.log(data);
             this.listDinhHuong = data.data || [];
         })

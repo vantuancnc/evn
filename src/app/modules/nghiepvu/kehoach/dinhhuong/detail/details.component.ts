@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import { Subscription, takeUntil, timeout } from 'rxjs';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, RequiredValidator, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
@@ -34,54 +34,74 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public form;
     public idParam : string = null;
     public checkChiTiet :string = null;
+    public listDonvi = [];
     submitted = false;
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _router: Router,
         private _serviceApi: ServiceService,
+        public _messageService: MessageService,
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         console.log('this.idParam',this.idParam);
         this._activatedRoute.queryParams.subscribe( params =>{
             this.checkChiTiet = params["type"];
+            this.updateDate();
           //  console.log('this.idParam2',JSON.stringify(params));
         }
            
         )
+        this.initForm()
+
         
     }
 
 
     ngOnInit() {
       
-        this.initForm()
+     
         this.geListYears()
         this.getListStatus()
-        console.log(this.form.value);
+        this.geListNhomDonVi();
+       // console.log(this.form.value);
 
+    }
+    geListNhomDonVi() {
+        this._serviceApi.execServiceLogin("030A9A96-90D5-4AD0-80E4-C596AED63EE7", null).subscribe((data) => {
+            this.listDonvi = data.data || [];
+        })
     }
 
     initForm() {
-        if(this.idParam != undefined && this.idParam !=''){
-            this.getYearSubscription = this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
-                this.form = this._formBuilder.group({
-                    name: [data.data.TEN_KE_HOACH, [Validators.required]],
-                    year: [data.data.NAM, [Validators.required]],
-                    maKeHoach:this.idParam
-                }
-                )
-            })
+        // if(this.idParam != undefined && this.idParam !=''){
+        //     this.getYearSubscription = this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
+        //         this.form = this._formBuilder.group({
+        //             name: [data.data.TEN_KE_HOACH, [Validators.required]],
+        //             year: [data.data.NAM, [Validators.required]],
+        //             maKeHoach:this.idParam
+        //         }
+        //         )
+        //     })
 
-        }else{
+        // }else{
             this.form = this._formBuilder.group({
                 name: [null, [Validators.required]],
-                year: [null, [Validators.required]],
+                year: [(new Date()).getFullYear(), [Validators.required]],
                 maKeHoach:this.idParam
             }
             )
-        }
+        // }
        
+    }
+
+    updateDate(){
+       this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
+            this.form.get("name").patchValue(data.data.TEN_KE_HOACH);
+            this.form.get("year").patchValue(data.data.NAM);
+            this.form.get("maKeHoach").patchValue(this.idParam);
+
+                })
     }
 
     get f(): { [key: string]: AbstractControl } {
@@ -104,6 +124,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
     downloadExcel(){
         this.getStatusSubscription = this._serviceApi.execServiceLogin("B186CEDA-876B-4511-96D1-E199926A6913", [{"name":"ORGID","value":"115"}]).subscribe((data) => {
+           debugger;
             this.downloadTempExcel(data.data.PATH_FILE,data.data.TEN_FILE);
         })
     }
@@ -115,6 +136,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         reader.onload = () => {
             console.log(reader.result);
         };
+    }
+
+    backHome(){
+        this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            //setTimeout(function(){
+                window.location.reload();
+              //}, 2000);
     }
 
      downloadTempExcel(userInp,fileName){
@@ -144,42 +172,211 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         console.log(this.form.value);
         let name = this.form.value.name;
         let nam = this.form.value.year;
-        this._serviceApi.execServiceLogin("95FB5EC8-307D-46B2-9E6C-3BE3CE5D0C4D", [{"name":"MA_TRANG_THAI","value":status},{"name":"NAM","value":nam},{"name":"TEN_KE_HOACH","value":name},{"name":"TONG_HOP","value":0},{"name":"ORGID","value":"115"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-            //console.log("kehoach:" + JSON.stringify(data));
-            let itemKeHoach = data.data;
-            for(let i=0;i < this.form.value.listNhiemVu.length;i++){
-                //console.log("kehoachchitiet1:" + JSON.stringify(this.form.value.listNhiemVu[i]));
-                for(let j=0;j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length;j++){
-                    //console.log("kehoachchitiet2:" + JSON.stringify(this.form.value.listNhiemVu[i].listNhiemVu_cap2[j]));
-                    let chitiet2 =this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
-                    for(let k=0;k < chitiet2.listNhiemVu_cap3.length;k++){
-                       // console.log("kehoachchitiet3:" + JSON.stringify(chitiet2.listNhiemVu_cap3[k]));
-                        let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
-                      //  console.log("kehoachchitiet4:" + JSON.stringify([{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungDangKy},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]));
-                        if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
-                            this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-                                //console.log("kehoachchitiet5:" + JSON.stringify(data));
-                                })
-                        }else{
-                            this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-                                //console.log("kehoachchitiet5:" + JSON.stringify(data));
-                                })
+        let itemKeHoach ="";
+        let checkMessage ="Thêm mới thành công!";
+        if(this.idParam != undefined && this.idParam !=''){
+            this._serviceApi.execServiceLogin("168278B7-D462-4C1E-A873-2586F14B631B", [{"name":"MA_TRANG_THAI","value":status},{"name":"NAM","value":nam},{"name":"TEN_KE_HOACH","value":name},{"name":"TONG_HOP","value":0},{"name":"MA_KE_HOACH","value":this.idParam},{"name":"ORGID","value":"115"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                itemKeHoach = data.data;
+                for(let i=0;i < this.form.value.listNhiemVu.length;i++){
+                    for(let j=0;j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length;j++){
+                        let chitiet2 =this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
+                        for(let k=0;k < chitiet2.listNhiemVu_cap3.length;k++){
+                            let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
+                            if(this.listDonvi != undefined && this.listDonvi.length >0){
+                                for(let n=0;n<itemChiTiet.listNhiemVu_cap4.length;n++){
+                                    let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
+                                    if(itemChiTiet4 != undefined && itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
+              
+                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                            console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                            })
+                                    }else{
+                                  
+                                        this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                            console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                            })
+                                    }
+                                }
+                            }else{
+                                if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
+              
+                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                        })
+                                }else{
+                              
+                                    this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                        })
+                                }
+                            }
+                          
+                         
                         }
-                     
                     }
                 }
+               
+             
+            })
+            checkMessage =="Cập nhật thành công!";
+            // this._messageService.showSuccessMessage("Thông báo", "Cập nhật thành công.");
+            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            // setTimeout(function(){
+            //     window.location.reload();
+            //   }, 2000);
+        }else{
+            this._serviceApi.execServiceLogin("95FB5EC8-307D-46B2-9E6C-3BE3CE5D0C4D", [{"name":"MA_TRANG_THAI","value":status},{"name":"NAM","value":nam},{"name":"TEN_KE_HOACH","value":name},{"name":"TONG_HOP","value":0},{"name":"ORGID","value":"115"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                let itemKeHoach = data.data;
+                for(let i=0;i < this.form.value.listNhiemVu.length;i++){
+                    for(let j=0;j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length;j++){
+                        let chitiet2 =this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
+                        for(let k=0;k < chitiet2.listNhiemVu_cap3.length;k++){
+                            let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
+                            if(this.listDonvi != undefined && this.listDonvi.length >0){
+                                for(let n=0;n<itemChiTiet.listNhiemVu_cap4.length;n++){
+                                    let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
+                          
+                                    if(itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
+              
+                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                            console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                            })
+                                    }else{
+                                        
+                                        this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                            console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                            })
+                                    }
+                                }
+                            }else{
+                                if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
+              
+                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                        })
+                                }else{
+                              
+                                    this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                        })
+                                }
+                            }
+                        //    if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
+              
+                        //         this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                        //             //console.log("kehoachchitiet5:" + JSON.stringify(data));
+                        //             })
+                        //     }else{
+                          
+                        //         this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                        //             //console.log("kehoachchitiet5:" + JSON.stringify(data));
+                        //             })
+                        //     }
+                         
+                        }
+                    }
+                }
+               // if(data.data =="Thanh cong"){
+                //Thêm mới kế hoạch chi tiêt
+    
+                    // this.getStatusSubscription = this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":"STR"},{"name":"NOI_DUNG","value":"STR"},{"name":"MA_KE_HOACH","value":"STR"},{"name":"MA_NGUON_KINH_PHI","value":"STR"},{"name":"THOI_GIAN_THUC_HIEN","value":"STR"},{"name":"MA_NHOM","value":"STR"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                    //     this.listStatus = data.data || [];
+                    // })
+              //  }else{
+    
+              //  }
+             
+            })
+            // this._messageService.showSuccessMessage("Thông báo", "Thêm mới thành công.");
+            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            // setTimeout(function(){
+            //     window.location.reload();
+            //   }, 2000);
+           
+            //this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong')
+            checkMessage ="Thêm mới thành công!";
+        }
+
+        if(this.listupload != undefined && this.listupload.length >0){
+
+            var token = localStorage.getItem("accessToken");
+            for(let i=0 ;i < this.listupload.length;i++){
+
+                let fileBase64 =this.listupload[i].base64.split(',')[1];
+        
+                let test = [{"name":"FILE_NAME","value":this.listupload[i].fileName},{"name":"FILE_UPLOAD","value":fileBase64},{"name":"TOKEN_LINK","value":"Bearer "+token}];
+                this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"FILE_NAME","value":this.listupload[i].fileName},{"name":"FILE_UPLOAD","value":fileBase64},{"name":"TOKEN_LINK","value":"Bearer "+token}]).subscribe((data) => {
+            
+                    console.log("file:"+JSON.stringify(data.data));
+                    this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"KIEU_FILE","value":data.data.mimeType},
+                    {"name":"KICH_THUOC","value":data.data.size},{"name":"USER_ID","value":"STR"},{"name":"LOAI_FILE","value":"STR"},{"name":"DUONG_DAN","value":data.data.path},
+                    {"name":"MA_FILE","value":"acd4d654-b373-439e-9edd-50eddc591af9"},{"name":"SO_KY_HIEU","value":""},{"name":"NGAY_TAO","value":data.data.createdAt},{"name":"TEN_FILE","value":data.data.name},
+                    {"name":"MA_KE_HOACH","value":itemKeHoach}]).subscribe((data) => {
+                        console.log("KEHOACHFILE:"+JSON.stringify(data.data));
+                    })
+
+                    })
             }
-           // if(data.data =="Thanh cong"){
-            //Thêm mới kế hoạch chi tiêt
+            this._messageService.showSuccessMessage("Thông báo", checkMessage);
+            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            // setTimeout(function(){
+            //     window.location.reload();
+            //   }, 3000);
+        }else{
+            this._messageService.showSuccessMessage("Thông báo", checkMessage);
+            //this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            // setTimeout(function(){
+            //     window.location.reload();
+            //   }, 3000);
+        }
 
-                // this.getStatusSubscription = this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":"STR"},{"name":"NOI_DUNG","value":"STR"},{"name":"MA_KE_HOACH","value":"STR"},{"name":"MA_NGUON_KINH_PHI","value":"STR"},{"name":"THOI_GIAN_THUC_HIEN","value":"STR"},{"name":"MA_NHOM","value":"STR"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-                //     this.listStatus = data.data || [];
-                // })
-          //  }else{
-
-          //  }
-        })
+        //   this._messageService.showSuccessMessage("Thông báo", checkMessage);
+        //     this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+        //     setTimeout(function(){
+        //         window.location.reload();
+        //       }, 10000);
+      
    
+    }
+    listupload = []
+    handleUpload(event) {
+        for (var i = 0; i < event.target.files.length; i++) { 
+            const reader = new FileReader();
+            let itemVal = event.target.files[i];
+            reader.readAsDataURL(event.target.files[i]);
+            reader.onload = () => {   
+               // debugger;            
+                this.listupload.push({
+                     fileName:itemVal.name,
+                     base64:reader.result,
+                     size: itemVal.size,
+                     sovanban:""
+                });
+                //console.log(reader.result);
+            };
+           // this.listupload.push(event.target.files[i]);
+        }
+
+        // const file = event.target.files[0];
+        // this.listupload.push(file.name)
+        // const reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = () => {
+        //     console.log(reader.result);
+        // };
+
+        // const formData = new FormData();
+ 
+        // for (var i = 0; i < this.listupload.length; i++) { 
+
+        //      const reader = new FileReader();
+        // reader.readAsDataURL(this.listupload[i]);
+        // reader.onload = () => {
+            
+        //     //console.log(reader.result);
+        // };
+        //  // formData.append("file[]", this.myFiles[i]);
+        // }
     }
 
 }

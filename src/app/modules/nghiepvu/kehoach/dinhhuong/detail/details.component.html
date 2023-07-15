@@ -2,56 +2,82 @@
 <div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
-        <h1 class="title-component">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
-        <button class="add_button">
-            <i class="fa fa-plus"></i> Xuất dữ liệu biểu mẫu đăng ký
-        </button>
+        <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
+      
     </div>
     <div class="header-detail">
         <div class="row-one flex items-center">
-            <div>
-                <input type="hidden" formControlName="maKeHoach" [value]="idParam" />
-                <label for="">Tên<span>(*)</span></label>
+            <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='chitiet'">
+                <label  class="wp-15" style="margin-right: 83px; width: 48%;"  for="">Tên<span>(*)</span></label>
                 <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
                     class="form-control input-form" />
-                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="submitted && f?.name?.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Trường bắt buộc nhập</div>
                   </div>
             </div>
-            <label class="custom-file-upload add_button">
-                <input type="file"  (change)="importFile($event)" #fileUpload/>
-                <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
-            </label>
+            
             <!-- <input type="file" class="file-input" value="Import kế hoạch từ Excel"
             (change)="importFile($event)" #fileUpload> -->
             <!-- <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button> -->
-            <button class="add_button" (click)="downloadExcel()">
-                <i class="fa fa-cloud-download"></i> Export mẫu ra file Excel
-            </button>
-            <button class="add_button" (click)="onSubmit('SOAN')">
-                <i class="fa fa-save"></i> Lưu kế hoạch
-            </button>
-            <button class="add_button" (click)="onSubmit('CHO_PHE_DUYET')">
-                <i class="fa fa-send-o"></i> Lưu & Gửi
-            </button>
+            <div class="pull-right">
+                <label class="custom-file-upload add_button-import" *ngIf="checkChiTiet !='chitiet'">
+                    <input type="file"  (change)="importFile($event)" #fileUpload/>
+                    <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
+                </label>
+                <button class="add_button-import"  *ngIf="checkChiTiet !='chitiet'" (click)="downloadExcel()">
+                    <i class="fa fa-cloud-download"></i> Export mẫu ra file Excel
+                </button>
+                <button class="add_button"  *ngIf="checkChiTiet !='chitiet'" (click)="onSubmit('SOAN')">
+                    <i class="fa fa-save"></i> Lưu kế hoạch
+                </button>
+                <button class="add_button"  *ngIf="checkChiTiet !='chitiet'" (click)="onSubmit('CHO_PHE_DUYET')">
+                    <i class="fa fa-send-o"></i> Lưu & Gửi
+                </button>
+                <button class="add_button-export">
+                    <i class="fa fa-plus"></i> Xuất dữ liệu biểu mẫu đăng ký
+                </button>
+            </div>
+           
         </div>
-        <div class="row-tow flex items-center">
-            <label for="">Kế hoạch năm</label>
+        <div class="row-tow flex items-center"  [class.khongthaotac]="checkChiTiet=='chitiet'">
+            <label  style="width: 7%;"  for="">Kế hoạch năm</label>
             <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
                 formControlName="year">
             </ng-select>
         </div>
-        <div class="row-three flex items-center">
-            <label for="">Văn bản đăng ký<span>(*)</span></label>
-            <button class="add_button">
+        <div class="row-three flex items-center" *ngIf="checkChiTiet !='chitiet'">
+            <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
+            <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
+            </button> -->
+            <label class="custom-file-upload add_button-import">
+                <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </label>
+                <ul style="margin-left: 20px;">
+                    <li><a>Xem File</a></li>
+                </ul>
+            <button class="add_button" style="margin-left: 99px;">
+                <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
-            <label for="" class="ml-50">Tìm kiếm từ DO</label>
-            <button class="add_button">
-                <i class="fa fa-search"></i> Tìm kiếm
-            </button>
+        </div>
+        <div class="row-three flex items-center" *ngIf="checkChiTiet =='chitiet'">
+            <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
+            <!-- <button class="add_button" (click)="handleUpload($event)">
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </button> -->
+            <!-- <label class="custom-file-upload add_button-import">
+                <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </label> -->
+                <ul style="margin-left: 20px;">
+                    <li><a>Xem File</a></li>
+                </ul>
+            <!-- <button class="add_button" style="margin-left: 99px;">
+                <i class="fa fa-search"></i> Tìm kiếm từ D-Office
+            </button> -->
         </div>
         <div class="row-for">
             <p>

@@ -12,22 +12,28 @@ import { String } from 'lodash';
 export class TablePlansComponent {
     public listNguonKinhPhi = [];
     public listNhiemVuMau = [];
+    public listDonvi = [];
     @Input() form: FormGroup;
     itemsAdd: FormArray;
     public listKeHoachChiTiet = [];
+    
     constructor(private _formBuilder: FormBuilder, private _serviceApi: ServiceService) {
-       
     }
 
     ngOnInit() {
+        
+        //this.geListNhomDonVi();
         this.getListKeHoachChiTiet();
-        this.addFormtoParent();
         this.geListNguonKinhPhi();
+        this.addFormtoParent();
+       
     }
 
 
     addFormtoParent() {
        this.form.addControl('listNhiemVu', this._formBuilder.array([]))
+       this._serviceApi.execServiceLogin("030A9A96-90D5-4AD0-80E4-C596AED63EE7", null).subscribe((data) => {
+        this.listDonvi = data.data || [];
         this._serviceApi.execServiceLogin("CE428DEE-1945-495E-8F48-03747076AE6F", [{"name":"ORGID","value":"115"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
             this.listNhiemVuMau =  data.data;
            let listNhiemVu11 = this.listNhiemVuMau.filter(c => c.MA_NHOM_CHA==null);
@@ -38,15 +44,19 @@ export class TablePlansComponent {
            arrTemp.push(this.newNhiemvu(listNhiemVu11[i]))
           //  listNhiemVu1.push(this.newNhiemvu(listNhiemVu11[i]));
             }
-           // this.form.addControl('listNhiemVu', this._formBuilder.array(listNhiemVu1))
+           // this.form.addControl('listNhiemV)u', this._formBuilder.array(listNhiemVu1))
         })
+    })
+       
     
     }
 
     getListKeHoachChiTiet(){
-        let maKeHoach =  this.form.get('maKeHoach').value;
+        let maKeHoach =  this.form.value.maKeHoach;
+       
         if(maKeHoach != undefined && maKeHoach !=''){
             this._serviceApi.execServiceLogin("113E9708-4131-4D52-B2A9-D0972B4F8266", [{"name":"MA_KE_HOACH","value":maKeHoach}]).subscribe((data) => {
+              
                 this.listKeHoachChiTiet = data.data;
             })
         }
@@ -65,21 +75,12 @@ export class TablePlansComponent {
         return this._formBuilder.group({
             manhom:item.MA_NHOM,
             NoiDungDangKy: item.TEN_NHOM,
-            // NguonKinhPhi: 'Nguồn kinh phí',
-            // DuDoan: 'Dự đoán',
-            // DonViChuTri: 'Đơn vị chủ trì',
-            // ChuNhiemNhiemVu: 'Chủ nhiệm nhiệm vụ',
-            // NoiDungHoatDong: 'Nội dung hoạt động',
-            // ThoiGianDuKien: "Thời gian dự kiến",
-            // YKienNguoiPheDuyet: "Ý kiến người phê duyệt",
-            // opinion: '',
-
             listNhiemVu_cap2: this._formBuilder.array(listNhiemVu2),
         })
     }
 
     newNhiemvu_cap2(item): FormGroup {
-        let listNhiemVu31 = this.listNhiemVuMau.filter(c => c.MA_NHOM_CHA==item.MA_NHOM);
+        let listNhiemVu31 = this.listDonvi;
         let listNhiemVu3 =[];
        
         if(listNhiemVu31 !=null && listNhiemVu31.length >0){
@@ -90,21 +91,13 @@ export class TablePlansComponent {
             return this._formBuilder.group({
                 manhom:item.MA_NHOM,
                 NoiDungDangKy: item.TEN_NHOM,
-                // NguonKinhPhi: 'Nguồn kinh phí',
-                // DuDoan: 'Dự đoán',
-                // DonViChuTri: 'Đơn vị chủ trì',
-                // ChuNhiemNhiemVu: 'Chủ nhiệm nhiệm vụ',
-                // NoiDungHoatDong: 'Nội dung hoạt động',
-                // ThoiGianDuKien: "Thời gian dự kiến",
-                // YKienNguoiPheDuyet: "Ý kiến người phê duyệt",
-                // opinion: '',
     
                 listNhiemVu_cap3: this._formBuilder.array(listNhiemVu3),
             })
         }else{
                 let itemArr = [];
                 if(this.listKeHoachChiTiet != null && this.listKeHoachChiTiet.length >0){
-                    debugger;
+                    
                    let itemDataArr = this.listKeHoachChiTiet.filter(c => c.MA_NHOM ==item.MA_NHOM);
                     if(itemDataArr.length >0){
                         for(let i=0;i<itemDataArr.length;i++){
@@ -131,12 +124,32 @@ export class TablePlansComponent {
     }
 
     newNhiemvu_cap3(item): FormGroup {
-        console.log("danh sach sua23:"+ JSON.stringify(item));
-            return this._formBuilder.group({
-                manhom:item.MA_NHOM,
-                NoiDungDangKy: item.TEN_NHOM,
-                listNhiemVu_cap4: this._formBuilder.array([]),
-            })
+            // return this._formBuilder.group({
+            //     manhom:item.ma_NHOM,
+            //     NoiDungDangKy: item.ten_NHOM,
+            //     listNhiemVu_cap4: this._formBuilder.array([]),
+            // })
+            let itemArr = [];
+            if(this.listKeHoachChiTiet != null && this.listKeHoachChiTiet.length >0){
+                
+               let itemDataArr = this.listKeHoachChiTiet.filter(c => c.MA_NHOM ==item.ma_NHOM);
+                if(itemDataArr.length >0){
+                    for(let i=0;i<itemDataArr.length;i++){
+                        itemArr.push(this.newItemNhiemvu(itemDataArr[i]));
+                    }      
+                }
+                return this._formBuilder.group({
+                    manhom:item.ma_NHOM,
+                    NoiDungDangKy: item.ten_NHOM,
+                    listNhiemVu_cap4: this._formBuilder.array(itemArr),
+                })
+            }else{
+                return this._formBuilder.group({
+                    manhom:item.ma_NHOM,
+                    NoiDungDangKy: item.ten_NHOM,
+                    listNhiemVu_cap4: this._formBuilder.array(itemArr),
+                })
+            }
         
        
     }
@@ -177,8 +190,13 @@ export class TablePlansComponent {
     }
     addCap2(items) {
         this.itemsAdd = items.get('listNhiemVu_cap3') as FormArray;
-        //let test =items.get('manhom').value;
-        //console.log("nhom:"+JSON.stringify(test));
+
+        this.itemsAdd.push(this.AddItemNhiemvu(items))
+    }
+
+    addCap3(items) {
+        this.itemsAdd = items.get('listNhiemVu_cap4') as FormArray;
+
         this.itemsAdd.push(this.AddItemNhiemvu(items))
     }
 
@@ -190,7 +208,6 @@ export class TablePlansComponent {
 
     geListNguonKinhPhi() {
         this._serviceApi.execServiceLogin("CCDB1CBC-F3D2-4893-85FE-F70C47990CF0", null).subscribe((data) => {
-            console.log("nguonkinhphi:"+ data);
             this.listNguonKinhPhi = data.data || [];
         })
     }

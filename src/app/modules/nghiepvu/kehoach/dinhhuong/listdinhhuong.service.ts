@@ -34,6 +34,7 @@ export class ListdinhhuongService {
   geListYears() {
     this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
       let value = data.data || [];
+     
       this.setValueYear(value)
     })
   }
@@ -41,6 +42,14 @@ export class ListdinhhuongService {
   getListStatus() {
     this._serviceApi.execServiceLogin("77764830-776F-4B85-9D89-C2DA941AA471", null).subscribe((data) => {
       let value = data.data || [];
+      let obj = {
+        "MA_TRANG_THAI":"",
+        "TEN_TRANG_THAI":"Tất cả",
+        "SAP_XEP":0,
+        "TRANG_THAI":1
+      }
+      
+    value.unshift(obj);
       this.setValueStatus(value)
     })
   }

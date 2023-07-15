@@ -139,3 +139,30 @@ label span {
 .detail_tab1  .mat-tab-label-active .mat-tab-label-content{
     color: #000;
 }
+
+button.add_button-export {
+    background: #02a7f0;
+    color: #fff;
+    height: 30px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+button.add_button-export:hover {
+    background-color: #2196f3;
+}
+
+.add_button-import {
+    background: #1e293b;
+    color: #fff;
+    height: 30px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.add_button-import:hover {
+    background-color: #1e293b;
+}
+

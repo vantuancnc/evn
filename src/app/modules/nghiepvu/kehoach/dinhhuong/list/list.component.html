@@ -1,5 +1,5 @@
 <div class="relative eco_conntent">
-    <!--màn hình danh sách-->
+    <!--màn hình danh sách [value]='(new Date()).getFullYear()' -->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1>
@@ -9,7 +9,7 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" (change)="timKiem()"
+                <ng-select [items]="listYears"  bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" (change)="timKiem()"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
@@ -37,15 +37,15 @@
                 <tr *ngFor="let item of listDinhHuong; let i = index">
                     <td class="stt_table">{{ i+ 1}}</td>
                     <td>{{item.TEN_KE_HOACH}}</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">{{item.NGAY_SUA}}</td>
+                    <td class="text-center">{{item.USERNAME}}</td>
+                    <td class="text-center">{{item.NGAY_GUI}}</td>
                     <td class="text-center">{{item.NAM}}</td>
                     <td class="text-center">{{item.TEN_TRANG_THAI}}</td>
                     <td>{{item.Y_KIEN_NGUOI_PHE_DUYET}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
                             <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
+                            <i class="fa fa-clock-o" title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'sua'}" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
