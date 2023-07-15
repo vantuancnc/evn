@@ -41,7 +41,7 @@
             />
             </div>
             <div class="basis-1/4">
-                <button class="add_button" (click)="addNew()">
+                <button class="add_button">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -66,9 +66,6 @@
                     <th class="text-center">Thời gian thực hiện</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center">Năm đăng ký</th>
-                    <th class="text-center">Rà soát HSĐK</th>
-                    <th class="text-center">Cập nhập hội đồng XD/TC</th>
-                    <th class="text-center">Cập nhập kết quả XD/TC</th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -82,18 +79,18 @@
                     <td class="text-center">01/06/2023 9:10:30</td>
                     <td>Đang thực hiện</td>
                     <td class="text-center">2023</td>
-                    <td></td>
-                    <td class="text-center" ><i (click)="updateActionHD($event)" class="fa fa-retweet"></i></td>
-                    <td class="text-center"><i  (click)="updateActionKQ($event)" class="fa fa-retweet"></i></td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
+                            <i (click)="updateActionRaSoat($event)" title="Rà soát HSĐK" class=" fa fa-check-square-o"></i>
+                            <i (click)="updateActionHD($event)" title="Cập nhập hội đồng XD/TC" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionKQ($event)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
                             <i (click)="editer($event)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-repeat"  title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" (click)="editer($event)"
-                            class="fa fa-info-circle" title="Chỉnh sửa"></i>
+                            class="fa fa-pencil" title="Chỉnh sửa"></i>
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
                         </div>
                     </td>

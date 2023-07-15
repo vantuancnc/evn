@@ -138,4 +138,11 @@ export class ListItemComponent implements OnInit, OnDestroy {
             { queryParams: { type: 'updateActionKQ' } }
           );
     }
+
+    updateActionRaSoat(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/xetduyet'],
+            { queryParams: { type: 'updateActionRaSoat' } }
+          );
+    }
 }

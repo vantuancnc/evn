@@ -75,6 +75,7 @@ table.table.table_custom {
         border-radius: 3px;
         cursor: pointer;
         border-color: #ccc;
+        margin-right: 5px;
     }
 
     i.fa-info-circle,
@@ -145,4 +146,11 @@ mat-paginator .mat-paginator-container{
 }
 .cdk-dialog-container {
     padding: 0px !important;
+}
+.title_labe{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.content-detail {
+    color: #000;
 }
