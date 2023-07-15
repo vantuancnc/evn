@@ -56,7 +56,6 @@ export class TablePlansComponent {
        
         if(maKeHoach != undefined && maKeHoach !=''){
             this._serviceApi.execServiceLogin("113E9708-4131-4D52-B2A9-D0972B4F8266", [{"name":"MA_KE_HOACH","value":maKeHoach}]).subscribe((data) => {
-              
                 this.listKeHoachChiTiet = data.data;
             })
         }
@@ -82,16 +81,15 @@ export class TablePlansComponent {
     newNhiemvu_cap2(item): FormGroup {
         let listNhiemVu31 = this.listDonvi;
         let listNhiemVu3 =[];
-       
         if(listNhiemVu31 !=null && listNhiemVu31.length >0){
             for(let i=0; i<listNhiemVu31.length; i++){
                 //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
-                listNhiemVu3.push(this.newNhiemvu_cap3(listNhiemVu31[i]));
+                listNhiemVu3.push(this.newNhiemvu_cap3(listNhiemVu31[i],item));
                 }
             return this._formBuilder.group({
                 manhom:item.MA_NHOM,
                 NoiDungDangKy: item.TEN_NHOM,
-    
+                maDonVi:null,
                 listNhiemVu_cap3: this._formBuilder.array(listNhiemVu3),
             })
         }else{
@@ -106,12 +104,14 @@ export class TablePlansComponent {
                     }
                     return this._formBuilder.group({
                         manhom:item.MA_NHOM,
+                        maDonVi:null,
                         NoiDungDangKy: item.TEN_NHOM,
                         listNhiemVu_cap3: this._formBuilder.array(itemArr),
                     })
                 }else{
                     return this._formBuilder.group({
                         manhom:item.MA_NHOM,
+                        maDonVi:null,
                         NoiDungDangKy: item.TEN_NHOM,
                         listNhiemVu_cap3: this._formBuilder.array(itemArr),
                     })
@@ -123,7 +123,7 @@ export class TablePlansComponent {
        
     }
 
-    newNhiemvu_cap3(item): FormGroup {
+    newNhiemvu_cap3(item,itemParent): FormGroup {
             // return this._formBuilder.group({
             //     manhom:item.ma_NHOM,
             //     NoiDungDangKy: item.ten_NHOM,
@@ -131,21 +131,22 @@ export class TablePlansComponent {
             // })
             let itemArr = [];
             if(this.listKeHoachChiTiet != null && this.listKeHoachChiTiet.length >0){
-                
-               let itemDataArr = this.listKeHoachChiTiet.filter(c => c.MA_NHOM ==item.ma_NHOM);
+               let itemDataArr = this.listKeHoachChiTiet.filter(c => c.MA_NHOM ==itemParent.MA_NHOM && c.MA_DON_VI==item.ma_NHOM);
                 if(itemDataArr.length >0){
                     for(let i=0;i<itemDataArr.length;i++){
                         itemArr.push(this.newItemNhiemvu(itemDataArr[i]));
                     }      
                 }
                 return this._formBuilder.group({
-                    manhom:item.ma_NHOM,
+                    manhom:itemParent.MA_NHOM,
+                    maDonVi:item.ma_NHOM,
                     NoiDungDangKy: item.ten_NHOM,
                     listNhiemVu_cap4: this._formBuilder.array(itemArr),
                 })
             }else{
                 return this._formBuilder.group({
-                    manhom:item.ma_NHOM,
+                    manhom:itemParent.MA_NHOM,
+                    maDonVi:item.ma_NHOM,
                     NoiDungDangKy: item.ten_NHOM,
                     listNhiemVu_cap4: this._formBuilder.array(itemArr),
                 })
@@ -156,14 +157,15 @@ export class TablePlansComponent {
 
     newItemNhiemvu(item): FormGroup {
         return this._formBuilder.group({
+            maDonVi: item.MA_DON_VI,
             maKeHoachChiTiet:  item.MA_KE_HOACH_CTIET,
             maKeHoach: item.MA_KE_HOACH,
             maNhom: item.MA_NHOM,
             NoiDungDangKy: item.NOI_DUNG_DANG_KY,
             NguonKinhPhi: item.MA_NGUON_KINH_PHI,
-            DuDoan: item.MA_NGUON_KINH_PHI,
-            DonViChuTri: item.DU_TOAN,
-            ChuNhiemNhiemVu: item.NGUOI_THUC_HIEN,
+            DuDoan: item.DU_TOAN,
+            DonViChuTri: item.DON_VI_CHU_TRI,
+            ChuNhiemNhiemVu: item.CHU_NHIEM_NHIEM_VU,
             NoiDungHoatDong: item.NOI_DUNG,
             ThoiGianDuKien: item.THOI_GIAN_THUC_HIEN,
             YKienNguoiPheDuyet: item.Y_KIEN_NGUOI_PHE_DUYET,
@@ -171,12 +173,12 @@ export class TablePlansComponent {
         })
     }
 
-    AddItemNhiemvu(items): FormGroup {
-       
+    AddItemNhiemvu(items): FormGroup {      
         return this._formBuilder.group({
+            maDonVi: items.value.maDonVi,
             maKeHoachChiTiet: '',
             maKeHoach: '',
-            maNhom: items.get('manhom').value,
+            maNhom: items.value.manhom,
             NoiDungDangKy: '',
             NguonKinhPhi: '',
             DuDoan: '',

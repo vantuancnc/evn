@@ -59,6 +59,16 @@
                 
             </tbody>
         </table>
+        <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="length"
+        [pageSize]="pageSize"
+        [showFirstLastButtons]="showFirstLastButtons"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="pageIndex"
+        aria-label="Select page"
+    >
+    </mat-paginator>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

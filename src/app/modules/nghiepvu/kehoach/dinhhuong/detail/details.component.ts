@@ -35,6 +35,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public idParam : string = null;
     public checkChiTiet :string = null;
     public listDonvi = [];
+    public listChiTietImport = [];
     submitted = false;
     constructor(
         private _formBuilder: FormBuilder,
@@ -96,12 +97,16 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
 
     updateDate(){
-       this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
-            this.form.get("name").patchValue(data.data.TEN_KE_HOACH);
-            this.form.get("year").patchValue(data.data.NAM);
-            this.form.get("maKeHoach").patchValue(this.idParam);
-
-                })
+        if(this.idParam != undefined && this.idParam !=null){
+            this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
+        
+                this.form.get("name").patchValue(data.data.TEN_KE_HOACH);
+                this.form.get("year").patchValue(data.data.NAM);
+                this.form.get("maKeHoach").patchValue(this.idParam);
+    
+                    })
+        }
+     
     }
 
     get f(): { [key: string]: AbstractControl } {
@@ -124,8 +129,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
     downloadExcel(){
         this.getStatusSubscription = this._serviceApi.execServiceLogin("B186CEDA-876B-4511-96D1-E199926A6913", [{"name":"ORGID","value":"115"}]).subscribe((data) => {
-           debugger;
-            this.downloadTempExcel(data.data.PATH_FILE,data.data.TEN_FILE);
+            this.downloadTempExcel(data.data,"MAU_DANG_KY_DINH_HUONG.xlsx");
         })
     }
 
@@ -134,7 +138,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-            console.log(reader.result);
+            let fileBase64 =reader.result.toString().split(',')[1];
+            this._serviceApi.execServiceLogin("1E707636-93B5-43EA-97BC-2F850C14D1E3", [{"name":"ORGID","value":"115"},{"name":"FILE_UPLOAD","value":fileBase64}]).subscribe((data) => {
+                this.listChiTietImport = data.data || [];
+                debugger;
+            })
+           // console.log(reader.result);
         };
     }
 
@@ -187,12 +196,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                                     let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
                                     if(itemChiTiet4 != undefined && itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
               
-                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                             console.log("kehoachchitiet5:" + JSON.stringify(data));
                                             })
                                     }else{
                                   
-                                        this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                             console.log("kehoachchitiet5:" + JSON.stringify(data));
                                             })
                                     }
@@ -200,12 +209,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                             }else{
                                 if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
               
-                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                         console.log("kehoachchitiet5:" + JSON.stringify(data));
                                         })
                                 }else{
                               
-                                    this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                    this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                         console.log("kehoachchitiet5:" + JSON.stringify(data));
                                         })
                                 }
@@ -238,12 +247,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                           
                                     if(itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
               
-                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                             console.log("kehoachchitiet5:" + JSON.stringify(data));
                                             })
                                     }else{
                                         
-                                        this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                        this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                             console.log("kehoachchitiet5:" + JSON.stringify(data));
                                             })
                                     }
@@ -251,12 +260,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                             }else{
                                 if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
               
-                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                         console.log("kehoachchitiet5:" + JSON.stringify(data));
                                         })
                                 }else{
                               
-                                    this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                    this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                         console.log("kehoachchitiet5:" + JSON.stringify(data));
                                         })
                                 }
@@ -303,17 +312,30 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             for(let i=0 ;i < this.listupload.length;i++){
 
                 let fileBase64 =this.listupload[i].base64.split(',')[1];
-        
                 let test = [{"name":"FILE_NAME","value":this.listupload[i].fileName},{"name":"FILE_UPLOAD","value":fileBase64},{"name":"TOKEN_LINK","value":"Bearer "+token}];
+                let re = JSON.stringify(test);
+                
                 this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"FILE_NAME","value":this.listupload[i].fileName},{"name":"FILE_UPLOAD","value":fileBase64},{"name":"TOKEN_LINK","value":"Bearer "+token}]).subscribe((data) => {
-            
-                    console.log("file:"+JSON.stringify(data.data));
-                    this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"KIEU_FILE","value":data.data.mimeType},
-                    {"name":"KICH_THUOC","value":data.data.size},{"name":"USER_ID","value":"STR"},{"name":"LOAI_FILE","value":"STR"},{"name":"DUONG_DAN","value":data.data.path},
-                    {"name":"MA_FILE","value":"acd4d654-b373-439e-9edd-50eddc591af9"},{"name":"SO_KY_HIEU","value":""},{"name":"NGAY_TAO","value":data.data.createdAt},{"name":"TEN_FILE","value":data.data.name},
-                    {"name":"MA_KE_HOACH","value":itemKeHoach}]).subscribe((data) => {
-                        console.log("KEHOACHFILE:"+JSON.stringify(data.data));
-                    })
+                 debugger;
+                 const result1 = new Date(data.data.createdAt).toLocaleDateString('en-GB');
+                    console.log("fileINsert:"+JSON.stringify([{"name":"KIEU_FILE","value":data.data.mimeType},{"name":"KICH_THUOC","value":data.data.size},
+                    {"name":"LOAI_FILE","value":""},{"name":"DUONG_DAN","value":data.data.path},{"name":"MA_FILE","value":data.data.rowId},
+                    {"name":"SO_KY_HIEU","value":data.data.id},{"name":"NGAY_TAO","value":result1},{"name":"TEN_FILE","value":data.data.name},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"USERID","value":"STR"}]));
+                  
+                    debugger;
+                    this._serviceApi.execServiceLogin("46E6958E-7361-42C7-8327-3FB321613A3F",[{"name":"KIEU_FILE","value":data.data.mimeType},{"name":"KICH_THUOC","value":data.data.size},
+                    {"name":"LOAI_FILE","value":""},{"name":"DUONG_DAN","value":data.data.path},{"name":"MA_FILE","value":data.data.rowId},
+                    {"name":"SO_KY_HIEU","value":data.data.id},{"name":"NGAY_TAO","value":result1},{"name":"TEN_FILE","value":data.data.name},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                        debugger;
+                        console.log("KEHOACHFILE:"+JSON.stringify(data));
+                     });
+                    // this._serviceApi.execServiceLogin("2120F73B-854B-408E-B5AD-257E7F184922", [{"name":"KIEU_FILE","value":data.data.mimeType},
+                    // {"name":"KICH_THUOC","value":data.data.size},{"name":"USERID","value":"STR"},{"name":"LOAI_FILE","value":""},{"name":"DUONG_DAN","value":data.data.path},
+                    // {"name":"MA_FILE","value":data.data.rowId},{"name":"SO_KY_HIEU","value":data.data.id},{"name":"NGAY_TAO","value":data.data.createdAt},{"name":"TEN_FILE","value":data.data.name},
+                    // {"name":"MA_KE_HOACH","value":itemKeHoach}]).subscribe((data) => {
+                        
+                    //     console.log("KEHOACHFILE:"+JSON.stringify(data.data));
+                    // })
 
                     })
             }

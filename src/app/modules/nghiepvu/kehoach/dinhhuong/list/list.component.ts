@@ -11,6 +11,7 @@ import { FunctionService } from 'app/core/function/function.service';
 import { ListdinhhuongService } from '../listdinhhuong.service';
 import { ApiDinhHuongComponent } from '../listdinhhuong.component';
 import { ServiceService } from 'app/shared/service/service.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'component-list',
@@ -61,7 +62,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
         })
         this.selectedYear=(new Date()).getFullYear();
         this.selectedStatus='';
-        this.getListDinhHuong();
+        this.timKiem();
     }
 
 
@@ -74,17 +75,20 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
     }
 
 
-    getListDinhHuong() {
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
-           console.log(data);
-            this.listDinhHuong = data.data || [];
-        })
-    }
+    // getListDinhHuong() {
+    //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
+    //        console.log(data);
+    //         this.listDinhHuong = data.data || [];
+    //     })
+    // }
 
     timKiem(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM","value":this.selectedYear},{"name":"ORGID","value":"115"}]).subscribe((data) => {
-            console.log(data);
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM","value":this.selectedYear},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
              this.listDinhHuong = data.data || [];
+             if(data.data != null && data.data.length >0){
+                this.length = data.data[0].TotalPage;
+             }
+             
          })
     }
 
@@ -94,6 +98,22 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
         this.getYearSubscription.unsubscribe()
         this.getStatusSubscription.unsubscribe()
     }
+
+     //phân trang
+     length = 0;
+     pageSize = 20;
+     pageIndex = 0;
+     pageSizeOptions = [10, 20, 50,100];
+     showFirstLastButtons = true;
+   
+     handlePageEvent(event: PageEvent) {
+       this.length = event.length;
+       this.pageSize = event.pageSize;
+       this.pageIndex = event.pageIndex;
+       debugger;
+       this.timKiem();
+
+     }
 
 
 }
