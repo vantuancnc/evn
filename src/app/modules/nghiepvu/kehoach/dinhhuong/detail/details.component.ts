@@ -32,6 +32,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public getStatusSubscription: Subscription;
     public listYears = [];
     public listStatus = [];
+    public showTable = true
     public form;
     public dataImport = {
         arr:[]
@@ -51,23 +52,16 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         public dialog: MatDialog
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
-        console.log('this.idParam',this.idParam);
         this._activatedRoute.queryParams.subscribe( params =>{
             this.checkChiTiet = params["type"];
             this.updateDate();
-          //  console.log('this.idParam2',JSON.stringify(params));
-        }
-           
+        } 
         )
         this.initForm()
-    
-        
     }
 
 
     ngOnInit() {
-      
-     
         this.geListYears()
         this.getListStatus()
         this.geListNhomDonVi();
@@ -130,10 +124,6 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
 
     geListYears() {
-        // this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-        //     console.log("nam:"+ data);
-        //     this.listYears = data.data || [];
-        // })
         var obj = {"NAME":0,"ID":0};
         var year = (new Date()).getFullYear();
         var yearStart = year - 4;
@@ -158,7 +148,18 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
 
     importFile(event) {
+      this.showTable = false
+        
         const file = event.target.files[0];
+        const formTem =  this.form.value;
+        this.form = this._formBuilder.group({
+            name: [formTem.name, [Validators.required]],
+            year: [formTem.year, [Validators.required]],
+            maKeHoach:this.idParam,
+            listChiTietImport:[],
+        }
+        )
+  
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -167,18 +168,15 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 let arr = data.data || []
                 this._serviceApi.dataImport.next(arr);
                 this.listChiTietImport = data.data || [];
+                      this.showTable = true
                // debugger;
             })
            // console.log(reader.result);
         };
     }
 
-    backHome(){
-        this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
-            //setTimeout(function(){
-                window.location.reload();
-              //}, 2000);
-    }
+
+
 
      downloadTempExcel(userInp,fileName){
         var mediaType="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
@@ -197,15 +195,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
     ngOnDestroy() {
        // this.getYearSubscription.unsubscribe();
-        this.getStatusSubscription.unsubscribe();
+        //this.getStatusSubscription.unsubscribe();
     }
     onSubmit(status) {
-        debugger;
         this.submitted = true;
         if (this.form.invalid) {
           return;
         }
-        console.log(this.form.value);
         let name = this.form.value.name;
         let nam = this.form.value.year;
         let itemKeHoach ="";
@@ -366,13 +362,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                     })
             }
             this._messageService.showSuccessMessage("Thông báo", checkMessage);
-            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
             // setTimeout(function(){
             //     window.location.reload();
             //   }, 3000);
         }else{
             this._messageService.showSuccessMessage("Thông báo", checkMessage);
-            //this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
             // setTimeout(function(){
             //     window.location.reload();
             //   }, 3000);

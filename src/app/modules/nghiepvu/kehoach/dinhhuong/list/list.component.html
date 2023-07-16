@@ -44,9 +44,9 @@
                     <td>{{item.Y_KIEN_NGUOI_PHE_DUYET}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
+                            <i class="fa fa-info-circle" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>
                             <i class="fa fa-clock-o" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'sua'}" title="Chỉnh sửa"></i>
+                            <i class="fa fa-pencil"  [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
                     </td>
