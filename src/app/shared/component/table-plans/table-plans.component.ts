@@ -40,8 +40,10 @@ export class TablePlansComponent {
     //  }
 
     addFormtoParent() {
-        this.form =new FormGroup([]);
+        //inFormArray.reset();
+        //this.form =new FormGroup([]);
         this.form.addControl('listNhiemVu', this._formBuilder.array([]))
+        
        this._serviceApi.execServiceLogin("030A9A96-90D5-4AD0-80E4-C596AED63EE7", null).subscribe((data) => {
         this.listDonvi = data.data || [];
         this._serviceApi.execServiceLogin("CE428DEE-1945-495E-8F48-03747076AE6F", [{"name":"ORGID","value":"115"},{"name":"USERID","value":"STR"}]).subscribe((data) => {
@@ -56,33 +58,29 @@ export class TablePlansComponent {
             }
            // this.form.addControl('listNhiemV)u', this._formBuilder.array(listNhiemVu1))
         })
-        
+        console.log(this.form);
     })     
     
     }
 
     getListKeHoachChiTiet(){
         let maKeHoach =  this.form.value.maKeHoach;
-       
         if(maKeHoach != undefined && maKeHoach !=''){
             this._serviceApi.execServiceLogin("113E9708-4131-4D52-B2A9-D0972B4F8266", [{"name":"MA_KE_HOACH","value":maKeHoach}]).subscribe((data) => {
                 this.listKeHoachChiTiet = data.data;
                 this.sub = this._serviceApi.dataImport.subscribe((data)=>{
                     if(data != null && data.length >0){
                         this.listImport = data;
-       
-                        this.addFormtoParent(); 
+                        //this.addFormtoParent(); 
                     }
-                    
                 })
             })
         }else{
             this.sub = this._serviceApi.dataImport.subscribe((data)=>{
                 if(data != null && data.length >0){
                     this.listImport = data;
-                    this.addFormtoParent(); 
+                    //this.addFormtoParent(); 
                 }
-                
             })
         }   
     }
@@ -95,7 +93,6 @@ export class TablePlansComponent {
             //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
             listNhiemVu2.push(this.newNhiemvu_cap2(listNhiemVu21[i]));
             }
-
         return this._formBuilder.group({
             manhom:item.MA_NHOM,
             NoiDungDangKy: item.TEN_NHOM,
@@ -118,40 +115,33 @@ export class TablePlansComponent {
                 listNhiemVu_cap3: this._formBuilder.array(listNhiemVu3),
             })
         }else{
-               
-            this.hhh(item);
-
-                
-          
+            let itemArr = [];
+            if(this.listKeHoachChiTiet != null && this.listKeHoachChiTiet.length >0){
+                        
+                let itemDataArr = this.listKeHoachChiTiet.filter(c => c.MA_NHOM ==item.MA_NHOM);
+                 if(itemDataArr.length >0){
+                     for(let i=0;i<itemDataArr.length;i++){
+                         itemArr.push(this.newItemNhiemvu(itemDataArr[i]));
+                     }      
+                 }
+                 return this._formBuilder.group({
+                     manhom:item.MA_NHOM,
+                     maDonVi:null,
+                     NoiDungDangKy: item.TEN_NHOM,
+                     listNhiemVu_cap3: this._formBuilder.array(itemArr),
+                 })
+             }else{
+                 return this._formBuilder.group({
+                     manhom:item.MA_NHOM,
+                     maDonVi:null,
+                     NoiDungDangKy: item.TEN_NHOM,
+                     listNhiemVu_cap3: this._formBuilder.array(itemArr),
+                 })
+             }
         }
        
     }
-    hhh(item){
-        let itemArr = [];
-        if(this.listKeHoachChiTiet != null && this.listKeHoachChiTiet.length >0){
-                    
-            let itemDataArr = this.listKeHoachChiTiet.filter(c => c.MA_NHOM ==item.MA_NHOM);
-             if(itemDataArr.length >0){
-                 for(let i=0;i<itemDataArr.length;i++){
-                     itemArr.push(this.newItemNhiemvu(itemDataArr[i]));
-                 }      
-             }
-             return this._formBuilder.group({
-                 manhom:item.MA_NHOM,
-                 maDonVi:null,
-                 NoiDungDangKy: item.TEN_NHOM,
-                 listNhiemVu_cap3: this._formBuilder.array(itemArr),
-             })
-         }else{
-             return this._formBuilder.group({
-                 manhom:item.MA_NHOM,
-                 maDonVi:null,
-                 NoiDungDangKy: item.TEN_NHOM,
-                 listNhiemVu_cap3: this._formBuilder.array(itemArr),
-             })
-         }
-    }
-
+ 
     newNhiemvu_cap3(item,itemParent): FormGroup {
             // return this._formBuilder.group({
             //     manhom:item.ma_NHOM,
@@ -246,29 +236,35 @@ export class TablePlansComponent {
     }
     addCap2(items) {
         this.itemsAdd = items.get('listNhiemVu_cap3') as FormArray;
-
         this.itemsAdd.push(this.AddItemNhiemvu(items));
     }
 
     addCap3(items) {
         this.itemsAdd = items.get('listNhiemVu_cap4') as FormArray;
-
         this.itemsAdd.push(this.AddItemNhiemvu(items));
     }
 
-    removeItem(items, i) {
+    removeItem(items, i,cap) {
         // remove address from the list
+        if(cap == 3){
         const control = items.get('listNhiemVu_cap3');
         control.removeAt(i);
+        }
+        if(cap == 4){
+            const control = items.get('listNhiemVu_cap4');
+            control.removeAt(i);
+            }
     }
+
+    
 
     geListNguonKinhPhi() {
         this._serviceApi.execServiceLogin("CCDB1CBC-F3D2-4893-85FE-F70C47990CF0", null).subscribe((data) => {
             this.listNguonKinhPhi = data.data || [];
         })
     }
+
     ngDestroy(){
         this.sub.unsubscribe();
-    
     }
 }

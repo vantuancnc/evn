@@ -45,11 +45,20 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
         private _listdinhhuongService: ListdinhhuongService,
         private el: ElementRef
     ) {
+
+        this._activatedRoute.queryParams
+        .subscribe(params => {
+          if(params?.type){
+            this.actionClick = params?.type
+          }else{
+            this.actionClick = null
+          }
+        }
+      );
+
     }
 
     ngOnInit() {
-
-        this.actionClick = null;
         this.getYearSubscription = this._listdinhhuongService.getValueYear().subscribe((values: any) => {
             if (values){
                 this.listYears = values;
@@ -71,8 +80,26 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
     }
 
     addNew(): void {
-        this.actionClick = 'THEMMOI';
+        this._router.navigate(
+            ['/nghiepvu/kehoach/dinhhuong'],
+            { queryParams: { type: 'THEMMOI' } }
+          );
     }
+
+    detail(item){
+        this._router.navigate(
+            ['/nghiepvu/kehoach/dinhhuong'],
+            { queryParams: { type: 'CHITIET' } }
+          );
+    }
+    
+    editer(item){
+        this._router.navigate(
+            ['/nghiepvu/kehoach/dinhhuong'],
+            { queryParams: { type: 'CHINHSUA' } }
+          );
+    }
+    
 
 
     // getListDinhHuong() {

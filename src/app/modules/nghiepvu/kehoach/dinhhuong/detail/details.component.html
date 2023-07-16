@@ -2,12 +2,12 @@
 <div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
-        <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
+        <h1 class="title-component">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
       
     </div>
     <div class="header-detail">
         <div class="row-one flex items-center">
-            <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='chitiet'">
+            <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
                 <label  class="wp-15" style="margin-right: 83px; width: 48%;"  for="">Tên<span>(*)</span></label>
                 <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
                     class="form-control input-form" />
@@ -22,32 +22,32 @@
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button> -->
             <div class="pull-right">
-                <label class="custom-file-upload add_button-import" *ngIf="checkChiTiet !='chitiet'">
+                <label class="custom-file-upload add_button-import" *ngIf="checkChiTiet !='CHITIET'">
                     <input type="file"  (change)="importFile($event)" #fileUpload/>
                     <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
                 </label>
-                <button class="add_button-import"  *ngIf="checkChiTiet !='chitiet'" (click)="downloadExcel()">
+                <button class="add_button-import"  *ngIf="checkChiTiet !='CHITIET'" (click)="downloadExcel()">
                     <i class="fa fa-cloud-download"></i> Export mẫu ra file Excel
                 </button>
-                <button class="add_button"  *ngIf="checkChiTiet !='chitiet'" (click)="onSubmit('SOAN')">
+                <button class="add_button"  *ngIf="checkChiTiet !='CHITIET'" (click)="onSubmit('SOAN')">
                     <i class="fa fa-save"></i> Lưu kế hoạch
                 </button>
-                <button class="add_button"  *ngIf="checkChiTiet !='chitiet'" (click)="onSubmit('CHO_PHE_DUYET')">
+                <button class="add_button"  *ngIf="checkChiTiet !='CHITIET'" (click)="onSubmit('CHO_PHE_DUYET')">
                     <i class="fa fa-send-o"></i> Lưu & Gửi
                 </button>
-                <button class="add_button-export">
-                    <i class="fa fa-plus"></i> Xuất dữ liệu biểu mẫu đăng ký
+                <button class="add_button-export" (click)="exportMau()">
+                    <i class="fa fa-plus" ></i> Xuất dữ liệu biểu mẫu đăng ký
                 </button>
             </div>
            
         </div>
-        <div class="row-tow flex items-center"  [class.khongthaotac]="checkChiTiet=='chitiet'">
+        <div class="row-tow flex items-center"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
             <label  style="width: 7%;"  for="">Kế hoạch năm</label>
             <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
                 formControlName="year">
             </ng-select>
         </div>
-        <div class="row-three flex items-center" *ngIf="checkChiTiet !='chitiet'">
+        <div class="row-three flex items-center" *ngIf="checkChiTiet !='CHITIET'">
             <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
             <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
@@ -63,7 +63,7 @@
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
         </div>
-        <div class="row-three flex items-center" *ngIf="checkChiTiet =='chitiet'">
+        <div class="row-three flex items-center" *ngIf="checkChiTiet =='CHITIET'">
             <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
             <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
@@ -85,5 +85,6 @@
             </p>
         </div>
     </div>
-    <table-plans [form]="form" [dataImport]="dataImport" [class.khongthaotac]="checkChiTiet=='chitiet'"></table-plans>
+    <table-plans [form]="form" [dataImport]="dataImport"  *ngIf="showTable" [class.khongthaotac]="checkChiTiet=='CHITIET'"></table-plans>
+    <!-- <table-plans-kehoach [form]="form" ></table-plans-kehoach> -->
 </div>

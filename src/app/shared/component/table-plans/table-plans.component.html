@@ -62,7 +62,7 @@
                                                 </td>
                                                 <td>
                                                      <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
-                                                      <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Chọn năm"
+                                                      <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
                                                     formControlName="NguonKinhPhi">
                                                 </ng-select>  
                                             </td>
@@ -74,7 +74,7 @@
                                                 <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly">
-                                                        <i (click)="removeItem(items,c)" class="fa fa-times"
+                                                        <i (click)="removeItem(items,c,3)" class="fa fa-times"
                                                             title="Xóa bỏ"></i>
                                                     </div>
                                                 </td>
@@ -130,7 +130,7 @@
                                                             </td>
                                                             <td>
                                                                  <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
-                                                                  <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Chọn năm"
+                                                                  <ng-select [items]="listNguonKinhPhi"  bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
                                                                 formControlName="NguonKinhPhi">
                                                             </ng-select>  
                                                         </td>
@@ -142,7 +142,7 @@
                                                             <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                             <td class="text-center action-table actiom-table-detail">
                                                                 <div class="flex justify-evenly">
-                                                                    <i (click)="removeItem(items,c)" class="fa fa-times"
+                                                                    <i (click)="removeItem(items2,c,4)" class="fa fa-times"
                                                                         title="Xóa bỏ"></i>
                                                                 </div>
                                                             </td>
