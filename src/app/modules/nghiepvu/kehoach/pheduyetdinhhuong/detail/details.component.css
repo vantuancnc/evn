@@ -109,8 +109,18 @@ table.table.table_custom td {
    color: #2a3493;
 }
 .dinhhuong-name{
-    width: 54%;
+    width: 86%;
 }
 .dinhhuong-name.khongthaotac{
     width: 86%;
+}
+textarea {
+    border: 1px solid;
+    width: 60%;
+}
+.w-100{
+    width: 100% !important;
+}
+.tonghop{
+    margin-top: 0;
 }

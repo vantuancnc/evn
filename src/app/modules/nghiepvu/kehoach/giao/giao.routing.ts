@@ -84,9 +84,9 @@ export const ApiGiaoRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: ApiGiaoDetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
+            // resolve: {
+            //   apiDetail: ApiInputDetailResolver
+            // }
           }
         ]
       }

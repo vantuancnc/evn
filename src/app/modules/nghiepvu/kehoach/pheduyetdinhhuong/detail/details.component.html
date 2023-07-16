@@ -1,16 +1,34 @@
 <div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
-        <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
+        <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> 
+            <span *ngIf="checkChiTiet !='duyet'" style="margin-left: 10px;">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</span>
+        </h1>
       
     </div>
     <div class="header-detail">
         <div class="row-one flex items-center">
-            <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='chitiet'">
-                <label  class="wp-15" style="margin-right: 83px; width: 48%;"  for="">Ý kiến phê duyệt</label>
-                <input type="text" style="height: 70px;" formControlName="name" multiple
-                    class="form-control input-form" />
+            <div class="view-all w-100">
+            <div class="dinhhuong-name"  *ngIf="checkChiTiet =='duyet'">
+               <div style="width: 7%; float: left;display: flex;"> <label style="display: flex;height: 52px;align-items: center;"  for="">Ý kiến phê duyệt</label></div>
+                <textarea formControlName="name" name="name" mdInput placeholder="" rows="3" style="float: left;"></textarea>
+                <!-- <input type="text" style="height: 70px;" formControlName="name" multiple
+                    class="form-control input-form" /> -->
             </div>
+            <div class="dinhhuong-name" *ngIf="checkChiTiet =='TH_DonVi' || checkChiTiet =='TH_EVN'">
+                <div style="width: 2%; float: left;display: flex;"> <label style="display: flex;height:30px;align-items: center;"  for="">Tên</label></div>
+                <div style="float: left;">
+                <input type="text" formControlName="name" placeholder="Nhập tên bảng tổng hợp đăng ký"
+                     class="form-control input-form" />
+                    </div> 
+                     <div class="statust-right" style="float: left;margin-left: 20px;">
+                        <label for="">Kỳ tổng hợp</label>
+                        <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
+                            [(ngModel)]="selectedYear">
+                        </ng-select>
+                    </div>
+             </div>
+             
             <!-- <div class="flex">
                
             </div> -->
@@ -21,7 +39,7 @@
             <!-- <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button> -->
-            <div class="pull-right">
+            <div class="pull-right" style="margin-right: 60px;" [class.tonghop]="checkChiTiet=='TH_DonVi' || checkChiTiet =='TH_EVN'">
                 <!-- <label class="custom-file-upload add_button-import" *ngIf="checkChiTiet !='chitiet'">
                     <input type="file"  (change)="importFile($event)" #fileUpload/>
                     <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
@@ -32,6 +50,15 @@
                 <button class="add_button"  *ngIf="checkChiTiet !='chitiet'" (click)="onSubmit('SOAN')">
                     <i class="fa fa-save"></i> Lưu kế hoạch
                 </button>-->
+                <button class="add_button"  (click)="onSubmit('CGIAO')" *ngIf="checkChiTiet =='TH_DonVi' || checkChiTiet =='TH_EVN'">
+                    <i class="fa fa-save" ></i> Lưu
+                </button>
+                <button class="add_button-import"  (click)="onSubmit('DGIAO')" *ngIf="checkChiTiet =='TH_EVN'">
+                    <i class="fa fa-user"></i> Giao thực hiện
+                </button>
+                <button class="add_button-export" *ngIf="checkChiTiet =='TH_DonVi' || checkChiTiet =='TH_EVN'">
+                    <i class="fa fa-plus"></i> Xuất dữ liệu biểu mẫu đăng ký
+                </button>
                 <button class="add_button"  *ngIf="checkChiTiet =='duyet'" (click)="onSubmit('Y_CAU_HIEU_CHINH')">
                     <i class="fa fa-pencil"></i> Yêu cầu chỉnh sửa
                 </button> 
@@ -39,11 +66,12 @@
                     <i class="fa fa-check-square-o"  (click)="onSubmit('DA_PHE_DUYET')"></i> Duyệt
                 </button>
             </div>
+        </div>
            
         </div>
-        <div class="row-tow flex items-center"  [class.khongthaotac]="checkChiTiet=='chitiet'">
-            <input  type="checkbox" formControlName="name"
-            class="input-form mr-1" />
+        <div class="row-tow" *ngIf="checkChiTiet =='duyet'">
+            <input  type="checkbox" formControlName="lock"
+            class="mr-1" />
             <label for=""> Gửi email thông báo tới cán bộ đăng ký</label>
             
             <!-- <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
@@ -55,16 +83,16 @@
             <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
             </button> -->
-            <label class="custom-file-upload add_button-import">
+            <!-- <label class="custom-file-upload add_button-import">
                 <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
                 <i class="fa fa-cloud-upload"></i> Upload file
-            </label>
+            </label> -->
                 <ul style="margin-left: 20px;">
                     <li><a href="javascript:void(0)" class="cursor-point" (click)="openAlertDialog()">Xem File</a></li>
                 </ul>
-            <button class="add_button" style="margin-left: 99px;">
+            <!-- <button class="add_button" style="margin-left: 99px;">
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
-            </button>
+            </button> -->
         </div>
         <div class="row-three flex items-center" *ngIf="checkChiTiet =='chitiet'">
             <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
@@ -88,5 +116,5 @@
             </p>
         </div>
     </div>
-    <table-plans [form]="form" [class.khongthaotac]="checkChiTiet=='chitiet' || checkChiTiet=='duyet' "></table-plans>
+    <table-plans [form]="form" [class.khongthaotac]="checkChiTiet=='chitiet' || checkChiTiet=='duyet' || checkChiTiet=='TH_DonVi' || checkChiTiet=='TH_EVN' "></table-plans>
 </div>

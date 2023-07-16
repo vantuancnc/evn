@@ -75,6 +75,7 @@ table.table.table_custom {
         border-radius: 3px;
         cursor: pointer;
         border-color: #ccc;
+        margin-right: 5px;
     }
 
     i.fa-info-circle,
@@ -142,6 +143,16 @@ label span {
 }
 mat-paginator .mat-paginator-container{
     width: 100%; display: flex;     justify-content: flex-end !important;
+}
+.cdk-dialog-container {
+    padding: 0px !important;
+}
+.title_labe{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.content-detail {
+    color: #000;
 }
 button.add_button-export {
     background: #02a7f0;

@@ -5,6 +5,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MessageService } from 'app/shared/message.services';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PopupConfirmComponent } from '../popup-confirm/popup-confirmcomponent';
 
 
 
@@ -63,7 +64,24 @@ export class PopupFileComponent implements OnInit {
             console.log("downloadFile:"+JSON.stringify(data));
         })
     }
-
-
+// mo popup file
+openAlertConfirm (item) {
+    let dataPopup = this.dialog.open(PopupConfirmComponent, {
+         width: '400px',
+         data: {
+             item:item
+         },
+         panelClass: 'custom-PopupCbkh',
+         position: {
+             top: '200px',
+         }
+     });
+     dataPopup.afterClosed().subscribe((data) => {
+         if(data){
+             this.deleteItemFile(data.data)
+         }
+         
+       });
+ }
 
 }

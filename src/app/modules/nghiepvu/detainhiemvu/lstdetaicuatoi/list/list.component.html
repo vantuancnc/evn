@@ -54,12 +54,12 @@
                     <td></td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i
+                            <i (click)="detail($event)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-retweet" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" title="Chỉnh sửa"></i>
+                            <i class="fa fa-pencil" (click)="editer($event)" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
                     </td>

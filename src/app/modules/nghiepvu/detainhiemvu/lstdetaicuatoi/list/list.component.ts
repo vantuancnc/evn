@@ -47,6 +47,18 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
+
+        this._activatedRoute.queryParams
+        .subscribe(params => {
+          if(params?.type){
+            this.actionClick = params?.type
+          }else{
+            this.actionClick = null
+          }
+          console.log(this.actionClick);
+          
+        }
+      );
     }
 
     ngOnInit(): void {
@@ -62,7 +74,10 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
 
 
     addNew(): void {
-        this.actionClick = 'THEMMOI';
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+            { queryParams: { type: 'THEMMOI' } }
+          );
     }
 
     ngOnDestroy() {
@@ -101,4 +116,17 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
             }
         });
     }
+    
+   detail(item){
+    this._router.navigate(
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+        { queryParams: { type: 'CHITIET' } }
+      );
+   }
+   editer(item){
+    this._router.navigate(
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+        { queryParams: { type: 'CHITIET' } }
+      );
+   }
 }

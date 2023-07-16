@@ -29,6 +29,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
+    public actionType:string = null
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -38,13 +39,23 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
-
+        this._activatedRoute.queryParams
+        .subscribe(params => {
+          if(params?.type){
+            this.actionType = params?.type
+          }else{
+            this.actionType = null
+          }
+        }
+      );
     }
 
 
     ngOnInit(): void {
         this.geListYears();
-        this._messageService.showSuccessMessage("Thông báo", "Thành công")
+        this._messageService.showSuccessMessage("Thông báo", "Thành công");
+        console.log(this.actionType);
+        
     }
 
 

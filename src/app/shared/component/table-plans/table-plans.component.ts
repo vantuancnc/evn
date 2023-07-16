@@ -106,7 +106,6 @@ export class TablePlansComponent {
     newNhiemvu_cap2(item): FormGroup {
         let listNhiemVu31 = this.listDonvi;
         let listNhiemVu3 =[];
-        debugger;
         if(listNhiemVu31 !=null && listNhiemVu31.length >0){
             for(let i=0; i<listNhiemVu31.length; i++){
                 //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0

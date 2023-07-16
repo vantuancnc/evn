@@ -107,15 +107,15 @@ export const appRoutes: Route[] = [
                     {
                         path: 'detainhiemvu', children: [
                             { path: 'lstdetaicuatoi', loadChildren: () => import('app/modules/nghiepvu/detainhiemvu/lstdetaicuatoi/lstdetaicuatoi.module').then(m => m.DetaicuatoiModule) },
-                            { path: 'xetduyet', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
-                            { path: 'dangthuchien', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
-                            { path: 'nghiemthu', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
-                            { path: 'hoanthanh', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
+                            { path: 'xetduyet', loadChildren: () => import('app/modules/nghiepvu/detainhiemvu/xetduyet/xetduyet.module').then(m => m.XetDuyetModule) },
+                            { path: 'dangthuchien', loadChildren: () => import('app/modules/nghiepvu/detainhiemvu/dangthuchien/dangthuchien.module').then(m => m.DanthuchienModule) },
+                            { path: 'nghiemthu', loadChildren: () => import('app/modules/nghiepvu/detainhiemvu/nghiemthu/nghiemthu.module').then(m => m.NghiemThuModule) },
+                            { path: 'hoanthanh', loadChildren: () => import('app/modules/nghiepvu/detainhiemvu/hoanthanh/hoanthanh.module').then(m => m.HoanThanhModule) },
                         ],
                     },
                     {
                         path: 'sangkien', children: [
-                            { path: 'lstsangkiencuatoi', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
+                            { path: 'lstsangkiencuatoi', loadChildren: () => import('app/modules/nghiepvu/sangkien/lstsangkiencuatoi/lstsangkiencuatoi.module').then(m => m.LstsangkiencuatoiModule) },
                             { path: 'xetduyet', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
                             { path: 'dangthuchien', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
                             { path: 'thulao', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },

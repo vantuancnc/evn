@@ -19,7 +19,7 @@ import { ListdinhhuongService } from '../../dinhhuong/listdinhhuong.service';
 })
 export class ApiPheduyetdinhhuongListComponent implements OnInit {
 
-    public selectedYear: number;
+    public selectedYear: [number];
     public selectedStatus: string;
     public actionClick: string = null;
     public getYearSubscription: Subscription;
@@ -31,7 +31,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     public checked;
     public getDinhHuongSubcription: Subscription;
     public listDinhHuong = [];
-
+    public selectedGrid:String;
     /**
      * Constructor
      */
@@ -55,6 +55,8 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         this._listdinhhuongService.getValueYear().subscribe((values: any) => {
             if (values){
                 this.listYears = values;
+                this.listYears.push({"NAME":2024,"ID":2024});
+                this.listYears.push({"NAME":2025,"ID":2025})
             }
                
         })
@@ -66,7 +68,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
             {"MA_TRANG_THAI":"Y_CAU_HIEU_CHINH","TEN_TRANG_THAI":"Yêu cầu hiệu chỉnh"},
         {"MA_TRANG_THAI":"CHO_PHE_DUYET","TEN_TRANG_THAI":"Chờ phê duyệt"},
         {"MA_TRANG_THAI":"DA_PHE_DUYET","TEN_TRANG_THAI":"Đã duyệt"}]
-        this.selectedYear=(new Date()).getFullYear();
+        this.selectedYear =[((new Date()).getFullYear())];
         this.selectedStatus='';
         this.timKiem();
     }
@@ -80,6 +82,12 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         this.actionClick = 'THEMMOI';
     }
 
+    tonghop(status){
+        this.addNew();
+        this.selectedGrid="355B4604-D23D-4A64-8E24-B96085F0B0E4";
+        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong/'+this.selectedGrid+"?type="+status);
+    }
+
 
     // getListDinhHuong() {
     //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
@@ -89,7 +97,13 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     // }
 
     timKiem(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"MA_TRANG_THAI_LIST","value":"CHO_PHE_DUYET,Y_CAU_HIEU_CHINH,DA_PHE_DUYET"},{"name":"NAM_LIST","value":""},{"name":"NAM","value":this.selectedYear},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+        let nam ="";
+         if(this.selectedYear != null && this.selectedYear.length >0 ){
+            nam = this.selectedYear.join(',');
+         }
+        
+         this.selectedYear 
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"MA_TRANG_THAI_LIST","value":"CHO_PHE_DUYET,Y_CAU_HIEU_CHINH,DA_PHE_DUYET"},{"name":"NAM_LIST","value":nam},{"name":"NAM","value":""},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].TotalPage;
@@ -101,7 +115,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
 
     ngOnDestroy() {
         this.getDinhHuongSubcription.unsubscribe()
-        this.getYearSubscription.unsubscribe()
+        //this.getYearSubscription.unsubscribe()
         this.getStatusSubscription.unsubscribe()
     }
 

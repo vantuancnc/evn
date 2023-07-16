@@ -200,7 +200,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         this.getStatusSubscription.unsubscribe();
     }
     onSubmit(status) {
-        debugger;
+
         this.submitted = true;
         if (this.form.invalid) {
           return;
@@ -221,31 +221,31 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                             if(this.listDonvi != undefined && this.listDonvi.length >0){
                                 for(let n=0;n<itemChiTiet.listNhiemVu_cap4.length;n++){
                                     let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
-                                    debugger;
-                                    if(itemChiTiet4 != undefined && itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
+                                    
+                                    // if(itemChiTiet4 != undefined && itemChiTiet4.maKeHoachChiTiet !=undefined && itemChiTiet4.maKeHoachChiTiet !=''){
               
-                                        this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-                                            console.log("kehoachchitiet5:" + JSON.stringify(data));
-                                            })
-                                    }else{
+                                    //     this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet4.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                    //         console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                    //         })
+                                    // }else{
                                   
                                         this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet4.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet4.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet4.maDonVi},{"name":"NOI_DUNG","value":itemChiTiet4.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet4.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet4.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet4.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet4.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet4.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                             console.log("kehoachchitiet5:" + JSON.stringify(data));
                                             })
-                                    }
+                                    // }
                                 }
                             }else{
-                                if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
+                                // if(itemChiTiet.maKeHoachChiTiet !=undefined && itemChiTiet.maKeHoachChiTiet !=''){
               
-                                    this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-                                        console.log("kehoachchitiet5:" + JSON.stringify(data));
-                                        })
-                                }else{
+                                //     this._serviceApi.execServiceLogin("212386FC-FC91-43D7-9FAD-DC0BF3406829", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"MA_KE_HOACH_CTIET","value":itemChiTiet.maKeHoachChiTiet},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                                //         console.log("kehoachchitiet5:" + JSON.stringify(data));
+                                //         })
+                                // }else{
                               
                                     this._serviceApi.execServiceLogin("8FC11318-019D-4132-989D-F47AF7386F53", [{"name":"DON_VI_CHU_TRI","value":itemChiTiet.DonViChuTri},{"name":"DU_TOAN","value":itemChiTiet.DuDoan},{"name":"MA_DON_VI","value":itemChiTiet.maDonVi},{"name":"NOI_DUNG","value":itemChiTiet.NoiDungHoatDong},{"name":"MA_KE_HOACH","value":itemKeHoach},{"name":"CHU_NHIEM_NHIEM_VU","value":itemChiTiet.ChuNhiemNhiemVu},{"name":"NOI_DUNG_DANG_KY","value":itemChiTiet.NoiDungDangKy},{"name":"MA_NGUON_KINH_PHI","value":itemChiTiet.NguonKinhPhi},{"name":"THOI_GIAN_THUC_HIEN","value":itemChiTiet.ThoiGianDuKien},{"name":"MA_NHOM","value":itemChiTiet.maNhom},{"name":"USERID","value":"STR"}]).subscribe((data) => {
                                         console.log("kehoachchitiet5:" + JSON.stringify(data));
                                         })
-                                }
+                               // }
                             }
                           
                          
@@ -427,7 +427,6 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         // }
     }
     openAlertDialog() {
-        debugger;
         this.dialog.open(PopupFileComponent, {
             data: {
                 listFile:this.listFile

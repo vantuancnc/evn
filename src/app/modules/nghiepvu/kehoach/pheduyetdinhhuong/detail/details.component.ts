@@ -39,6 +39,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     public listDonvi = [];
     public listChiTietImport = [];
     submitted = false;
+    record ={ lock: false };
     public listFile; 
     constructor(
         private _formBuilder: FormBuilder,
@@ -92,8 +93,8 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
         // }else{
             this.form = this._formBuilder.group({
-                ykiennguoipheduyet: [null, [Validators.required]],
-                email:"",
+                name: [null, [Validators.required]],
+                lock: [this.record.lock],
                 maKeHoach:this.idParam
             }
             )
@@ -105,9 +106,9 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         if(this.idParam != undefined && this.idParam !=null){
             this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
         
-                this.form.get("ykiennguoipheduyet").patchValue(data.data.Y_KIEN_NGUOI_PHE_DUYET);
-                this.form.get("email").patchValue(true);
-                this.form.get("maKeHoach").patchValue(this.idParam);
+               // this.form.get("name").patchValue(data.data.Y_KIEN_NGUOI_PHE_DUYET);
+               // this.form.get("email").patchValue(true);
+               // this.form.get("maKeHoach").patchValue(this.idParam);
     
             })
             this._serviceApi.execServiceLogin("D9680D9D-5705-42FA-9321-E04521D53014", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
@@ -123,8 +124,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
       }
-
-
+  
 
     geListYears() {
         // this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
@@ -170,9 +170,9 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
     backHome(){
         this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
-            //setTimeout(function(){
+            setTimeout(function(){
                 window.location.reload();
-              //}, 2000);
+              }, 300);
     }
 
      downloadTempExcel(userInp,fileName){
@@ -195,13 +195,25 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         this.getStatusSubscription.unsubscribe();
     }
     onSubmit(status) {
+        debugger;
         this.submitted = true;
         if (this.form.invalid) {
           return;
         }
         console.log(this.form.value);
-        let name = this.form.value.name;
-        let nam = this.form.value.year;
+        let email = 0;
+        if(status=="DA_PHE_DUYET" || status=="Y_CAU_HIEU_CHINH"){
+            email = this.form.value.lock?1:0;
+        }
+        
+        debugger;
+        this._serviceApi.execServiceLogin("6E5C53E6-AB86-4865-97D2-83E048B47B56", [{"name":"MA_TRANG_THAI","value":status},{"name":"IS_EMAIL","value":email},{"name":"NAM","value":this.selectedYear},{"name":"GHI_CHU","value":this.form.value.name},{"name":"MA_KE_HOACH","value":this.idParam},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+            this.listChiTietImport = data.data || [];
+            this._messageService.showSuccessMessage("Thông báo", (status=="DA_PHE_DUYET"?"Duyệt":status=="LUU"?"Lưu":status=="DGIAO"?"Đã giao":"Yêu cầu hiệu chỉnh")+" thành công.");
+        })
+
+        // let name = this.form.value.name;
+        // let nam = this.form.value.year;
         // let itemKeHoach ="";
         // let checkMessage ="Thêm mới thành công!";
         // if(this.idParam != undefined && this.idParam !=''){
@@ -420,7 +432,6 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         // }
     }
     openAlertDialog() {
-        debugger;
         this.dialog.open(PopupFileComponent, {
             data: {
                 listFile:this.listFile

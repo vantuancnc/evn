@@ -7,21 +7,21 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" [multiple]="true"
+                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" (change)="timKiem()" placeholder="Chọn năm" [multiple]="true"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
             <div class="statust-right">
                 <label for="">Trạng thái</label>
-                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" bindValue="MA_TRANG_THAI" placeholder="Chọn trạng thái"
+                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" (change)="timKiem()" bindValue="MA_TRANG_THAI" placeholder="Chọn trạng thái"
                     [(ngModel)]="selectedStatus">
                 </ng-select>
             </div>
-            <button class="add_button mg-left mr-5" (click)="addNew()">
+            <button class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
                 <!-- <i class="fa fa-file"></i> Tổng hợp đơn vị -->
                 Tổng hợp đơn vị
             </button>
-            <button class="add_button" (click)="addNew()">
+            <button class="add_button" (click)="tonghop('TH_EVN')">
                 <!-- <i class="fa fa-file"></i> -->
                  Tổng hợp EVN
             </button>
@@ -36,6 +36,7 @@
                     <th class="text-center">Năm</th>
                     <th class="text-center">Trạng thái</th>
                     <th>Ý kiến xét duyệt</th>
+                    <th class="text-center action-table"></th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -55,6 +56,9 @@
                             <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
              
                         </div>
+                    </td>
+                    <td class="text-center action-table">
+                        <input type="radio" name="tonghop" formControlName="tonghop">
                     </td>
                 </tr>
                 <!-- <li class="nav-item">
