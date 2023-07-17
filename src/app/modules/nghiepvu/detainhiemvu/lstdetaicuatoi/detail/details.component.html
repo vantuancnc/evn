@@ -2,6 +2,8 @@
 <div
 *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' "
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+
+    [formGroup]="form" novalidate
 >
     <div class="">
         <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ</h1>
@@ -16,13 +18,19 @@
                 type="text"
                 placeholder="Nhập tên đề tài"
                 class="form-control"
+<<<<<<< HEAD
                 formControlName="name"
+=======
+                name=""
+                id=""
+                formControlName="TENDETAI"
+>>>>>>> 3c3901eb777bf9297af4617ed5043cdb1b2600f5
             />
         </div>
         <div class="basis-1/2">
             <label for="">Căn cứ thực hiện (từ bản định hướng)</label>
             <div class="select-cbkh flex items-center form-control">
-                <input class="inputselect" type="text" name="" id="" />
+                <input class="inputselect" type="text" name="" id=""  formControlName="CANCUTHUCHIEN" />
                 <i (click)="openAlertDialog()" class="fa fa-search"></i>
             </div>
         </div>
@@ -35,8 +43,12 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn năm"
+<<<<<<< HEAD
                 [(ngModel)]="selectedYear"
                 formControlName="capQuanLy"
+=======
+                formControlName="CAPQUANLY" 
+>>>>>>> 3c3901eb777bf9297af4617ed5043cdb1b2600f5
             >
             </ng-select>
         </div>
@@ -47,6 +59,7 @@
                 placeholder="Nhập văn bản chỉ đạo số..."
                 type="text"
                 name=""
+                formControlName="VANBANCHIDAOSO" 
                 id=""
                 formControlName="vanbanchidaoso"
             />
@@ -75,7 +88,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị chủ trì"
-                [(ngModel)]="selectedYear"
+                formControlName="DONVICHUTRI" 
             >
             </ng-select>
         </div>
@@ -89,9 +102,9 @@
             <label style="margin-right: 10px">Từ</label>
         </div>
         <div class="basis-3/4 flex date-customt">
-            <input class="form-control" type="date" name="" id="" />
+            <input class="form-control" type="date" name="" id="" formControlName="THOIGIANTHUCHIENTU"  />
             <label class="dem-pading">đến</label>
-            <input class="form-control" type="date" name="" id="" />
+            <input class="form-control" type="date" name="" id="" formControlName="THOIGIANTHUCHIENDEN" />
         </div>
     </div>
 
@@ -99,7 +112,7 @@
         <div class="basis-1/4">
             <label for="">Chủ nhiệm đề tài<span>(*)</span></label>
             <div class="select-cbkh flex items-center form-control">
-                <input class="inputselect" type="text" name="" id="" />
+                <input class="inputselect" type="text" name="" id=""  formControlName="CHUNHIEMDETAI"  />
                 <i (click)="openAlertDialog()" class="fa fa-search"></i>
             </div>
         </div>
@@ -110,7 +123,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn giới tính"
-                [(ngModel)]="selectedYear"
+                formControlName="GIOTINH" 
             >
             </ng-select>
         </div>
@@ -121,7 +134,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn học hàm"
-                [(ngModel)]="selectedYear"
+                formControlName="HOCHAM" 
             >
             </ng-select>
         </div>
@@ -132,7 +145,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn học vị"
-                [(ngModel)]="selectedYear"
+                formControlName="HOCVI" 
             >
             </ng-select>
         </div>
@@ -143,7 +156,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị"
-                [(ngModel)]="selectedYear"
+                formControlName="DONVICONGTAC" 
             >
             </ng-select>
         </div>
@@ -152,7 +165,7 @@
         <div class="basis-1/4">
             <label for="">Đồng chủ nhiệm đề tài<span>(*)</span></label>
             <div class="select-cbkh flex items-center form-control">
-                <input class="inputselect" type="text" name="" id="" />
+                <input class="inputselect" type="text" name="" id="" formControlName="DONGCHUNHIEMDETAI" />
                 <i (click)="openAlertDialog()" class="fa fa-search"></i>
             </div>
         </div>
@@ -163,7 +176,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn giới tính"
-                [(ngModel)]="selectedYear"
+                formControlName="GIOTINH_DONGCHUNHIEM" 
             >
             </ng-select>
         </div>
@@ -174,7 +187,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn học hàm"
-                [(ngModel)]="selectedYear"
+                formControlName="HOCHAM_DONGCHUNHIEM" 
             >
             </ng-select>
         </div>
@@ -185,7 +198,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn học vị"
-                [(ngModel)]="selectedYear"
+                formControlName="HOCVI_DONGCHUNHIEM" 
             >
             </ng-select>
         </div>
@@ -196,7 +209,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị"
-                [(ngModel)]="selectedYear"
+                formControlName="DONVICONGTAC_DONGCHUNHIEM" 
             >
             </ng-select>
         </div>
@@ -205,7 +218,7 @@
         <div class="basis-1/4">
             <label for="">Thư ký đề tài</label>
             <div class="select-cbkh flex items-center form-control">
-                <input class="inputselect" type="text" name="" id="" />
+                <input class="inputselect" type="text" name="" id="" formControlName="THUKYDETAI"  />
                 <i (click)="openAlertDialog()" class="fa fa-search"></i>
             </div>
         </div>
@@ -216,7 +229,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn giới tính"
-                [(ngModel)]="selectedYear"
+                formControlName="GIOTINH_THUKY" 
             >
             </ng-select>
         </div>
@@ -227,7 +240,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn học hàm"
-                [(ngModel)]="selectedYear"
+                formControlName="HOCHAM_THUKY" 
             >
             </ng-select>
         </div>
@@ -238,7 +251,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn học vị"
-                [(ngModel)]="selectedYear"
+                formControlName="HOCVI_THUKY" 
             >
             </ng-select>
         </div>
@@ -249,7 +262,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị"
-                [(ngModel)]="selectedYear"
+                formControlName="DONVICONGTAC_THUKY" 
             >
             </ng-select>
         </div>
@@ -269,13 +282,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="stt_table">1</td>
-                        <td>Lê Văn A</td>
-                        <td>EVN</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr *ngFor="let thanhvien of $any(form.get('DANHSACH_THANHVIEN')).controls;let i = index" [formGroup]="thanhvien">
+                        <td class="stt_table">{{i+1}}</td>
+                        <td>{{thanhvien.get('TEN').value}}</td>
+                        <td>{{thanhvien.get('CHUCDANH').value}}</td>
+                        <td>{{thanhvien.get('SODIENTHOAI').value}}</td>
+                        <td>{{thanhvien.get('EMAIL').value}}</td>
+                        <td>{{thanhvien.get('DONVICONGTAC').value}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -292,7 +305,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Nguồn kinh phí"
-                [(ngModel)]="selectedYear"
+                formControlName="NGUONKINHPHI" 
             >
             </ng-select>
         </div>
@@ -301,6 +314,7 @@
             <input
                 class="form-control"
                 placeholder="VNĐ"
+                formControlName="TONGKINHPHI" 
                 type="text"
                 name=""
                 id=""
@@ -313,7 +327,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn phương thức"
-                [(ngModel)]="selectedYear"
+                formControlName="PHHUONGTHUCKHOANCHI" 
             >
             </ng-select>
         </div>
@@ -324,6 +338,7 @@
                 placeholder="VNĐ"
                 type="text"
                 name=""
+                formControlName="KINHPHIKHOAN" 
                 id=""
             />
         </div>
@@ -334,6 +349,7 @@
                 placeholder="VNĐ"
                 type="text"
                 name=""
+                formControlName="KHINHPHIKHONGKHOAN" 
                 id=""
             />
         </div>
@@ -344,6 +360,7 @@
             <textarea
                 name=""
                 id=""
+                formControlName="TINHCAPTHIETCUA_DETAI_NHIEMVU" 
                 class="form-control p-3 min-h-30"
             ></textarea>
         </div>
@@ -352,6 +369,7 @@
         <div class="basis-full">
             <label for="">Mục tiêu</label>
             <textarea
+            formControlName="MUCTIEU" 
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
@@ -363,6 +381,7 @@
             <label for="">Nhiệm vụ và phạm vi nghiên cứu, thực hiện</label>
             <textarea
                 name=""
+                formControlName="NHIEMVUVAPHAMVINGHIENCUU" 
                 id=""
                 class="form-control p-3 min-h-30"
             ></textarea>
@@ -372,6 +391,7 @@
         <div class="basis-full">
             <label for="">Kết quả dự kiến</label>
             <textarea
+            formControlName="KETQUADUKIEN" 
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
@@ -382,6 +402,7 @@
         <div class="basis-full">
             <label for="">Kiến nghị, đề xuất</label>
             <textarea
+            formControlName="KIENNGHIDEXUAT" 
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
@@ -407,8 +428,59 @@
                     <tr>
                         <td class="stt_table">1</td>
                         <td>Văn bản đăng ký chủ trì thực hiện nhiệm vụ KHCN</td>
-                        <td>
+                        <td class="text-center">
                             <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="stt_table">2</td>
+                        <td>  Lý lịch khoa học của cá nhân đăng ký chủ nhiệm</td>
+                        <td class="text-center">
+                            <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="stt_table">3</td>
+                        <td>Lý lịch khoa học của chuyên gia nước ngoài kèm
+
+                            theo giấy xác nhận về mức lương chuyên gia (trường
+                          
+                            hợp thuê chuyên gia nước ngoài)
+                          
+                          </td>
+                        <td class="text-center">
+                            <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="stt_table">4</td>
+                        <td> Phiếu đề xuất đặt hàng nhiệm vụ KHCN</td>
+                        <td class="text-center">
+                            <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="stt_table">5</td>
+                        <td> Thuyết minh (bao gồm cả dự toán kinh phí) Nhiệm vụ KHCN</td>
+                        <td class="text-center">
+                            <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="stt_table">6</td>
+                        <td>Tài liệu khác</td>
+                        <td class="text-center">
+                            <button class="add_button ">
                                 <i class="fa fa-link"></i> Upload file
                             </button>
                         </td>
@@ -418,7 +490,7 @@
         </div>
     </div>
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit()"><i class="fa fa-save"></i> Lưu</button>
         <button class="add_button">
             <i class="fa fa-save"></i> Lưu và gửi
         </button>
