@@ -16,8 +16,7 @@
                 type="text"
                 placeholder="Nhập tên đề tài"
                 class="form-control"
-                name=""
-                id=""
+                formControlName="name"
             />
         </div>
         <div class="basis-1/2">
@@ -37,6 +36,7 @@
                 bindValue="ID"
                 placeholder="Chọn năm"
                 [(ngModel)]="selectedYear"
+                formControlName="capQuanLy"
             >
             </ng-select>
         </div>
@@ -48,6 +48,7 @@
                 type="text"
                 name=""
                 id=""
+                formControlName="vanbanchidaoso"
             />
         </div>
         <div class="basis-1/4">

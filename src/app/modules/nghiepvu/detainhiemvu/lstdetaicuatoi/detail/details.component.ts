@@ -30,6 +30,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public getYearSubscription: Subscription;
     public listYears = [];
     public actionType:string = null
+    public form;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -56,6 +57,16 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._messageService.showSuccessMessage("Thông báo", "Thành công");
         console.log(this.actionType);
         
+    }
+
+    initForm() {
+            this.form = this._formBuilder.group({
+                name: [null, [Validators.required]],
+                capQuanLy: [null, [Validators.required]],
+                vanbanchidaoso:[null, [Validators.required]]
+            }
+            )
+       
     }
 
 

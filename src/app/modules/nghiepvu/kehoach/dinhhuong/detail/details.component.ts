@@ -355,6 +355,9 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         if(this.listupload != undefined && this.listupload.length >0){
 
             var token = localStorage.getItem("accessToken");
+            this._serviceApi.execServiceLogin("FA9FCC63-87A2-49A5-92B2-F5BE3B6D005F", [{"name":"MA_KE_HOACH","value":itemKeHoach}]).subscribe((data) => {
+            
+            });
             for(let i=0 ;i < this.listupload.length;i++){
 
                 let fileBase64 =this.listupload[i].base64.split(',')[1];

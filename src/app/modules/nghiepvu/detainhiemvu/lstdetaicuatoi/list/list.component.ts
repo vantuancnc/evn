@@ -86,7 +86,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     }
 
     getListDinhHuong() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+        this.getGiaoSubcription = this._serviceApi.execServiceLogin("9A021360-5910-49C4-9327-B7BE7B7EFF39", null).subscribe((data) => {
             this.listGiao = data.data || [];
         })
     }
