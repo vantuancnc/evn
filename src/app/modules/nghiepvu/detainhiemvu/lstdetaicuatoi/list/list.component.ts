@@ -126,7 +126,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
    editer(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
-        { queryParams: { type: 'CHITIET' } }
+        { queryParams: { type: 'CHINHSUA' } }
       );
    }
 }
