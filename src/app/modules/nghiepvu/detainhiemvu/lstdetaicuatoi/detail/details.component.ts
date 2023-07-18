@@ -156,6 +156,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     onSubmit(){
      console.log(this.form.value);
+     
 
     }
 }

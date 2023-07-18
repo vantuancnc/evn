@@ -115,7 +115,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.getDinhHuongSubcription.unsubscribe()
-        this.getYearSubscription.unsubscribe()
+      //  this.getYearSubscription.unsubscribe()
         this.getStatusSubscription.unsubscribe()
     }
 

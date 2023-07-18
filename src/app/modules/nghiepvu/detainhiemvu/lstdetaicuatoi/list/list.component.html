@@ -13,8 +13,10 @@
                     type="text"
                     class="form-control"
                     placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+                    [(ngModel)]="name" 
+                    (change)="onChange()"
                 />
-                <button>
+                <button (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>

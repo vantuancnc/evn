@@ -31,6 +31,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
         {id:3,name:'ten_file2',kichthuoc:'20mb'}
     ]
+    public name:String =null;
 
 
     /**
@@ -63,7 +64,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.geListYears();
-        this.getListDinhHuong()
+        this.timKiem()
     }
 
     geListYears() {
@@ -85,23 +86,30 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         this.getGiaoSubcription.unsubscribe();
     }
 
-    getListDinhHuong() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("9A021360-5910-49C4-9327-B7BE7B7EFF39", null).subscribe((data) => {
+    timKiem() {
+        this.getGiaoSubcription = this._serviceApi.execServiceLogin("9A021360-5910-49C4-9327-B7BE7B7EFF39", [{"name":"TEN_DETAI","value":this.name},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listGiao = data.data || [];
         })
     }
-    //phân trang
-    length = 500;
-    pageSize = 10;
-    pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
-    showFirstLastButtons = true;
-  
-    handlePageEvent(event: PageEvent) {
-      this.length = event.length;
-      this.pageSize = event.pageSize;
-      this.pageIndex = event.pageIndex;
+
+    onChange(){
+      return this.name;
     }
+    //phân trang
+    length = 0;
+     pageSize = 20;
+     pageIndex = 0;
+     pageSizeOptions = [10, 20, 50,100];
+     showFirstLastButtons = true;
+   
+     handlePageEvent(event: PageEvent) {
+       this.length = event.length;
+       this.pageSize = event.pageSize;
+       this.pageIndex = event.pageIndex;
+       debugger;
+       this.timKiem();
+
+     }
 
    // mo popup file
     openAlertDialog() {

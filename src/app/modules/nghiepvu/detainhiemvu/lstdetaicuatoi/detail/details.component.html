@@ -1,6 +1,6 @@
 
 <div
-*ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' "
+    *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' "
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 
     [formGroup]="form" novalidate
@@ -18,13 +18,9 @@
                 type="text"
                 placeholder="Nhập tên đề tài"
                 class="form-control"
-<<<<<<< HEAD
-                formControlName="name"
-=======
                 name=""
                 id=""
                 formControlName="TENDETAI"
->>>>>>> 3c3901eb777bf9297af4617ed5043cdb1b2600f5
             />
         </div>
         <div class="basis-1/2">
@@ -43,12 +39,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn năm"
-<<<<<<< HEAD
-                [(ngModel)]="selectedYear"
-                formControlName="capQuanLy"
-=======
                 formControlName="CAPQUANLY" 
->>>>>>> 3c3901eb777bf9297af4617ed5043cdb1b2600f5
             >
             </ng-select>
         </div>
@@ -61,7 +52,6 @@
                 name=""
                 formControlName="VANBANCHIDAOSO" 
                 id=""
-                formControlName="vanbanchidaoso"
             />
         </div>
         <div class="basis-1/4">
@@ -497,7 +487,7 @@
     </div>
 </div>
 <!--chi tiết-->
-<div
+<div *ngIf="actionType == 'CHITIET'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
