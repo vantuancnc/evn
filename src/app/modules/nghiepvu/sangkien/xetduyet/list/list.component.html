@@ -2,27 +2,72 @@
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
-            <h1 class="title-component">XÉT DUYỆT/ TUYỂN CHỌN ĐỀ TÀI, NHIỆM VỤ </h1>
+            <h1 class="title-component">RÀ SOÁT/XÉT DUYỆT/CÔNG NHẬN SÁNG KIẾN</h1>
            
         </div>
         <div class="flex flex-row row gap-4 items-center mb-3	">
-            <div class="basic-1/4">
-                <label for="">Cấp quản lý</label>
+            <div class="w-50">
+                <label for="">Cấp độ sáng kiến</label>
             </div>
-            <div class="basis-1/2">
+            <div class="w-50">
                 <ng-select
-                    style="width: 200px;"
+                    style="width: 100%"
                     [items]="listYears"
                     bindLabel="NAME"
                     bindValue="ID"
-                    placeholder="Chọn năm"
+                    placeholder="Lựa chọn"
                     [(ngModel)]="selectedYear"
                 >
                 </ng-select>
             </div>
-            <div class="basis-1/4">
+            <div class="w-50">
+                <label for="">Trạng thái</label>
+            </div>
+            <div class="w-50">
+                <ng-select
+                    style="width: 100%;"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Lựa chọn"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="flex flex-row row gap-4 items-center mb-3	">
+            <div class="w-50">
+                <label for="">Đơn vị thực hiện</label>
+            </div>
+            <div class="w-50">
+                <ng-select
+                    style="width: 100%"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Lựa chọn"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+            <div class="w-50">
+                <label for="">Năm đăng ký</label>
+            </div>
+            <div class="w-50">
+                <ng-select
+                    style="width: 100%;"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Lựa chọn"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+            <div class="grow flex justify-end">
                 <button class="add_button" (click)="addNew()">
-                    <i class="fa fa-plus"></i> Tạo bản ghi mới
+                    <i class="fa fa-plus"></i> Thêm mới
                 </button>
             </div>
         </div>
@@ -37,11 +82,11 @@
                 style="width: 80%"
                 type="text"
                 class="form-control"
-                placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+                placeholder="Nhập từ khóa tìm kiếm: tác giả, tên giải pháp,..."
             />
             </div>
-            <div class="basis-1/4">
-                <button class="add_button">
+            <div class="grow flex justify-end">
+                <button class="add_button bg-sky-500">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -59,13 +104,12 @@
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên đề tài/ nhiệm vụ KHCN</th>
-                    <th class="text-center">Cấp quản lý</th>
-                    <th class="text-center">Chủ nhiệm đề tài</th>
-                    <th class="text-center">Đơn vị chủ trì</th>
-                    <th class="text-center">Thời gian thực hiện</th>
+                    <th>Tên giải pháp</th>
+                    <th class="text-center">Cấp độ sáng kiến</th>
+                    <th class="text-center">Đơn vị thực hiện</th>
+                    <th class="text-center">Năm</th>
+                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>
                     <th class="text-center">Trạng thái</th>
-                    <th class="text-center">Năm đăng ký</th>
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -81,10 +125,11 @@
                     <td class="text-center">2023</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i (click)="updateActionRaSoat($event)" title="Rà soát HSĐK" class=" fa fa-check-square-o"></i>
-                            <i (click)="updateActionHD($event)" title="Cập nhập hội đồng XD/TC" class="fa fa-retweet"></i>
-                            <i  (click)="updateActionKQ($event)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
-                            <i (click)="editer($event)"
+                            <i (click)="updateActionRaSoat($event)" title="Rà soát" class=" fa fa-check-square-o"></i>
+                            <i (click)="updateActionHDXDCN($event)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionKQXDCN($event)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
+                            <i   (click)="updateActionKQ($event)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
+                            <i (click)="detail($event)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>

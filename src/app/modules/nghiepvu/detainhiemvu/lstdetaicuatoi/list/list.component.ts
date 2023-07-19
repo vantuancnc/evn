@@ -25,6 +25,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
     public listYears = [];
+    public txtSeach;
     public listGiao = [];
     public ListFleDemo = [
         {id:1,name:'ten_file',kichthuoc:'20mb'},
@@ -103,30 +104,21 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
       this.pageIndex = event.pageIndex;
     }
 
-   // mo popup file
-    openAlertDialog() {
-        this.dialog.open(PopupFileComponent, {
-            data: {
-                listFile:this.ListFleDemo
-            },
-            width: '800px',
-            panelClass: 'custom-PopupCbkh',
-            position: {
-                top: '100px',
-            }
-        });
-    }
-    
    detail(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
         { queryParams: { type: 'CHITIET' } }
       );
    }
+
    editer(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
         { queryParams: { type: 'CHINHSUA' } }
       );
    }
+   TimKiem(){
+
+   }
+   
 }
