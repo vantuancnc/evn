@@ -67,4 +67,4 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         PopupCbkhComponent
     ]
 })
-export class NghiemThuModule { }
+export class ThuLaoModule { }

@@ -187,11 +187,11 @@
     </div>
 
     <div class="action-all-f">
-        <button class="add_button bg-black	"><i class="fa fa-save"></i> Lưu</button>
-        <button class="add_button bg-black	">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button	">
             <i class="fa fa-save"></i> Lưu và gửi
         </button>
-        <button class="add_button bg-amber-600	">
+        <button class="add_button bg-sky-500	">
             <i class="fa fa-cloud-download"></i> Tải mẫu đơn
         </button>
     </div>
@@ -210,77 +210,73 @@
             <table class="table table_custom" style="margin-top: 0">
                 <tbody>
                     <tr>
-                        <td>Tên đề tài</td>
+                        <td>Tên giải pháp                        </td>
                         <td style="font-weight: 600; color: #2a3493">
                             Ứng dụng chuyển đổi số trong Hóa đơn điện tử
                         </td>
                     </tr>
                     <tr>
-                        <td>Cấp quản lý</td>
+                        <td>Cấp độ sáng kiến</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Lĩnh vực nghiên cứu</td>
+                        <td>Lĩnh vực áp dụng sáng kiến</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Đơn vị chủ trì</td>
+                        <td>Đơn vị chủ đầu tư</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Thời gian thực hiện</td>
+                        <td>Ưu nhược điểm của giải pháp kỹ thuật</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Chủ nhiệm đề tài</td>
+                        <td>Năm</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Đơn vị công tác</td>
+                        <td>Nội dung giải pháp</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Đồng chủ nhiệm đề tài</td>
+                        <td>Ngày áp dụng chính thức</td>
                         <td>Thư ký đề tài</td>
                     </tr>
                     <tr>
-                        <td>Tình trạng đề tài</td>
+                        <td>Quá trình áp dụng giải pháp trên thực tiễn hoặc áp dụng thử</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Kinh phí thực hiện</td>
+                        <td>Hiệu quả thực tế thu được khi áp dụng giải pháp</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Nguồn kinh phí</td>
+                        <td>Tóm tắt: Bản chất của giải pháp/sáng kiến</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Mục tiêu</td>
+                        <td>Danh sách những người tham gia tổ chức áp dụng sáng kiến lần đầu (nếu có)</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Tính cấp thiết của nhiệm vụ KHCN</td>
+                        <td>Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                     <tr>
-                        <td>Nhiệm vụ và phạm vi nghiên cứu, thực hiện</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Kết quả dự kiến</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Kiến nghị, đề xuất</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Số lần gia hạn</td>
+                        <td>Tác giả là thủ trưởng đơn vị</td>
                         <td>ỨCấp EVN</td>
                     </tr>
                 </tbody>
             </table>
+            <div class="flex items-center mt-3">
+                <input type="text" placeholder="Đơn đăng ký" class="form-control w-100 mr-2" name="" id="">
+                <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+            </div>
+            <div class="flex items-center mt-3">
+                <input type="text" placeholder="Hồ sơ tài liệu đính kèm" class="form-control w-100 mr-2" name="" id="">
+                <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+            </div>
         </mat-tab>
         <mat-tab label="Thông tin tác giả">
             <table class="table table_custom" style="margin-top: 0">
@@ -288,10 +284,10 @@
                     <tr>
                         <th class="stt_table">STT</th>
                         <th>Họ và tên</th>
-                        <th>Chức vụ</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Công việc tham gia</th>
+                        <th>Vai trò</th>
+                        <th>Nơi công tác</th>
+                        <th>Trình độ chuyên môn</th>
+                        <th>Nội dung tham gia</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -308,64 +304,25 @@
         </mat-tab>
         <mat-tab label="Phê duyệt/công nhận">
             <div class="flex flex-row row gap-4">
-                <div class="basis-1/12">
-                    <label for="">Tên đề tài/ nhiệm vụ:</label>
+                <div class="w-20">
+                    <label  class="tiite_lale" for="">Trạng thái</label>
                 </div>
-                <div class="basis-2/5">
+                <div class="w-40">
                     <span
-                        >Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch
-                        trong quản lý VTTB</span
+                        >Đã được công nhận</span
                     >
                 </div>
-                <div class="basis-1/12">
-                    <label for="">Cấp độ ĐT/NV:</label>
+                <div class="w-40">
+                    <label  class="tiite_lale" for="">Ngày xét duyệt</label>
                 </div>
-                <div class="basis-1/5">
-                    <span>Cấp EVN</span>
-                </div>
-            </div>
-            <div class="flex flex-row row gap-4">
-                <div class="basis-1/12">
-                    <label for="">Chủ nhiệm:</label>
-                </div>
-                <div class="basis-2/5">
-                    <span>Nguyễn Văn A</span>
-                </div>
-                <div class="basis-1/12">
-                    <label for="">Đơn vị công tác:</label>
-                </div>
-                <div class="basis-1/5">
-                    <span>Ban KHCNMT</span>
+                <div class="w-40">
+                    <span>09/12/2020</span>
                 </div>
             </div>
-            <label class="tiite_lale" for=""
-                >Danh sách các văn bản liên quan</label
-            >
-            <table class="table table_custom" style="margin-top: 0">
-                <thead>
-                    <tr>
-                        <th class="stt_table">STT</th>
-                        <th>Tên văn bản</th>
-                        <th>Số ký hiệu</th>
-                        <th>Ngày văn bản</th>
-                        <th>File nội dung</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="stt_table">1</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                        <td>
-                            <button class="dowwnload" style="color: #2a3493">
-                                <i class="fa fa-cloud-download"></i> Tải về
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
+          
+            <label class="tiite_lale flex" >Luận giải của hội đồng khoa học về kết quả đánh giá</label>
+            <label class="tiite_lale flex" >Kiến nghị của Hội đồng</label>
+            <label class="tiite_lale flex" >Thù lao cho sáng kiến</label>
             <label
                 class="tiite_lale"
                 style="margin-top: 20px; display: block"
@@ -390,38 +347,74 @@
                     </tr>
                 </tbody>
             </table>
-            <label
-                class="tiite_lale"
-                style="margin-top: 20px; display: block"
-                for=""
-                >Kết luận, kiến nghị của Hội đồng<label
-                    style="font-style: italic"
-                    >(kiến nghị về các nội dung cần sửa đổi)</label
-                ></label
-            >
+
+            <table class="table table_custom mt-5">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Văn bản liên quan</th>
+                        <th>Số ký hiệu</th>
+                        <th>Ngày văn bản</th>
+                        <th>File nội dung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td class="text-center">Noi dung</td>
+                        <td class="text-center" >Noi dung</td>
+                        <td class="text-center">
+                            <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+           
             <div class="flex flex-row row gap-4">
                 <div class="basis-1/6">
                     <label for=""
-                        >Biên bản họp hội đồng xét duyệt, tuyển chọn</label
+                        >Phiếu đánh giá của các thành viên hội đồng</label
                     >
                 </div>
                 <div class="basis-1/5">
-                    <button class="dowwnload" style="color: #2a3493">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
                 </div>
             </div>
             <div class="flex flex-row row gap-4">
                 <div class="basis-1/6">
-                    <label for="">Phiếu đánh giá và tài liệu khác</label>
+                    <label for="">Biên bản họp hội đồng sáng kiến</label>
                 </div>
                 <div class="basis-1/5">
-                    <button class="dowwnload" style="color: #2a3493">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Quyết định công nhận sáng kiến</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Giấy chứng nhận sáng kiến</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Quyết định chi trả thù lao</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
                 </div>
             </div>
         </mat-tab>
     </mat-tab-group>
+
 
 </div>

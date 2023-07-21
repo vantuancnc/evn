@@ -115,33 +115,46 @@ export class ListItemComponent implements OnInit, OnDestroy {
             }
         });
     }
-
+ 
+    detail(item){
+        this._router.navigate(
+            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+            { queryParams: { type: 'CHITIET' } }
+          );
+   }
 
   
     editer(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
-            { queryParams: { type: 'CHITIET' } }
+            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+            { queryParams: { type: 'CHINHSUA' } }
           );
-       }
+    }
 
-    updateActionHD(item){
+    updateActionHDXDCN(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet'],
-            { queryParams: { type: 'updateActionHD' } }
+            ['/nghiepvu/sangkien/xetduyet'],
+            { queryParams: { type: 'updateActionHDXDCN' } }
+          );
+    }
+
+    updateActionKQXDCN(item){
+        this._router.navigate(
+            ['/nghiepvu/sangkien/xetduyet'],
+            { queryParams: { type: 'updateActionKQXDCN' } }
           );
     }
 
     updateActionKQ(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet'],
+            ['/nghiepvu/sangkien/xetduyet'],
             { queryParams: { type: 'updateActionKQ' } }
-          );
+          ); 
     }
 
     updateActionRaSoat(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet'],
+            ['/nghiepvu/sangkien/xetduyet'],
             { queryParams: { type: 'updateActionRaSoat' } }
           );
     }

@@ -117,38 +117,18 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
 
-  
-    editer(item){
-        this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'CHINHSUA' } }
-          );
-    }
 
     detail(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'], 
+            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
             { queryParams: { type: 'CHITIET' } }
           );
     }
 
-    updateActionHDNT(item){
+    updateAction(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'updateActionHDNT' } }
-          );
-    }
-
-    updateActionKQNT(item){
-        this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'updateActionKQNT' } }
-          );
-    }
-    updateActionHSQT(item){
-        this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'updateActionHSQT' } }
+            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+            { queryParams: { type: 'THEMMOI' } }
           );
     }
 }
