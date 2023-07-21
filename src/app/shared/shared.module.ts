@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TablePlansComponent } from './component/table-plans/table-plans.component';
 import { PopupFileComponent } from './component/popup-file/popup-filecomponent';
 import { PopupConfirmComponent } from './component/popup-confirm/popup-confirmcomponent';
+import { LichsuComponent } from './component/lichsu/lichsu.component';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { PopupConfirmComponent } from './component/popup-confirm/popup-confirmco
     declarations: [
         TablePlansComponent,
         PopupFileComponent,
-        PopupConfirmComponent
+        PopupConfirmComponent,
+        LichsuComponent
     ],
     exports: [
         CommonModule,
@@ -23,7 +25,8 @@ import { PopupConfirmComponent } from './component/popup-confirm/popup-confirmco
         ReactiveFormsModule,
         TablePlansComponent,
         PopupFileComponent,
-        PopupConfirmComponent
+        PopupConfirmComponent,
+        LichsuComponent
     ]
 })
 export class SharedModule
