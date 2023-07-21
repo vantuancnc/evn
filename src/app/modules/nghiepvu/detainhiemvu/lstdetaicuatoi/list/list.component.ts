@@ -114,7 +114,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
    lichsu(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
-        { queryParams: { type: 'LICHSU' } }
+        { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
       );
    }
 

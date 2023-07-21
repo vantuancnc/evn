@@ -42,6 +42,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listYears = [];
     public actionType: string = null;
     public form: FormGroup;
+    public title_lichsu;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -53,10 +54,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     ) {
         this.initForm()
         this._activatedRoute.queryParams.subscribe((params) => {
+            console.log(params);
+            
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
                 this.actionType = null;
+            }
+            if (params?.title) {
+                 this.title_lichsu = params?.title;
             }
         });
     }
