@@ -31,7 +31,12 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     public checked;
     public getDinhHuongSubcription: Subscription;
     public listDinhHuong = [];
-    public selectedGrid:String;
+    public selectedGrid:[{}];
+    public userLogin={EMAIL:'',ORGID:'124'};
+    sizes: any[] = [
+        { 'size': '0', 'diameter': '16000 km' },
+        { 'size': '1', 'diameter': '32000 km' }
+      ];
     /**
      * Constructor
      */
@@ -45,18 +50,33 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         private _functionService: FunctionService,
         private _serviceApi: ServiceService,
         private _listdinhhuongService: ListdinhhuongService,
+       
         private el: ElementRef
     ) {
+       
+        this._activatedRoute.queryParams
+        .subscribe(params => {
+          
+          if(params?.type){
+            this.actionClick = params?.type
+          }else{
+            this.actionClick = null
+            this.timKiem();
+          }
+        }
+      
+      );
+     
     }
 
     ngOnInit() {
-
+        this.getUserLogin();
         this.actionClick = null;
         this._listdinhhuongService.getValueYear().subscribe((values: any) => {
             if (values){
                 this.listYears = values;
-                this.listYears.push({"NAME":2024,"ID":2024});
-                this.listYears.push({"NAME":2025,"ID":2025})
+                // this.listYears.push({"NAME":2024,"ID":2024});
+                // this.listYears.push({"NAME":2025,"ID":2025})
             }
                
         })
@@ -84,10 +104,35 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
 
     tonghop(status){
         this.addNew();
-        this.selectedGrid="355B4604-D23D-4A64-8E24-B96085F0B0E4";
-        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong/'+this.selectedGrid+"?type="+status);
+        let arr = this.listDinhHuong.filter(c => c.state==true);
+        let listKeHoach =[];
+        debugger;
+        if(arr !=undefined && arr.length >0){
+          for(let i=0;i< arr.length;i++){
+            if(arr[i] !=undefined && arr[i].listKeHoach !=undefined && arr[i].listKeHoach.length >0){
+              for(let j=0;j<arr[i].listKeHoach.length;j++){
+                let chitiet = arr[i].listKeHoach[j];
+                chitiet.maDonVi = arr[i].maDonVi;
+                listKeHoach.push(arr[i].listKeHoach[j]);
+              }
+            }
+            
+          }
+        }
+        let kehoach = {listKeHoach:listKeHoach,capTao:'TCT'}
+        this._serviceApi.dataKeHoach.next(kehoach);
+        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong?type='+status);
     }
 
+    checkAll(ev) {
+        this.listDinhHuong.filter(c => c.tongHop==false).forEach(x => x.state = ev.target.checked);
+        
+        console.log(this.listDinhHuong);
+      }
+      
+      isAllChecked() {
+        return this.listDinhHuong.filter(c => c.tongHop==false).every(_ => _.state);
+      }
 
     // getListDinhHuong() {
     //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
@@ -103,7 +148,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
          }
         
          this.selectedYear 
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"MA_TRANG_THAI_LIST","value":"CHO_PHE_DUYET,Y_CAU_HIEU_CHINH,DA_PHE_DUYET"},{"name":"NAM_LIST","value":nam},{"name":"NAM","value":""},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("038D4EB5-55D0-49C4-8FDB-C242E6759955", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM_LIST","value":nam},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].TotalPage;
@@ -111,12 +156,18 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
              
          })
     }
+    getUserLogin() {
 
+            this._serviceApi.execServiceLogin("EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8", [{"name":"USERID","value":"STR"}]).subscribe((data) => {
+                this.userLogin = data.data || {};
+            })
+        
+    }
 
     ngOnDestroy() {
         this.getDinhHuongSubcription.unsubscribe()
         //this.getYearSubscription.unsubscribe()
-        this.getStatusSubscription.unsubscribe()
+        //this.getStatusSubscription.unsubscribe()
     }
 
      //phân trang

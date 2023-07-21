@@ -11,7 +11,7 @@
                 <label  class="wp-15" style="margin-right: 83px; width: 48%;"  for="">Tên<span>(*)</span></label>
                 <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
                     class="form-control input-form" />
-                <div *ngIf="submitted && f?.name?.errors" class="invalid-feedback">
+                <div *ngIf="submitted.check && f?.name?.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Trường bắt buộc nhập</div>
                   </div>
             </div>
@@ -56,9 +56,9 @@
                 <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label>
-                <ul style="margin-left: 20px;">
+                <!-- <ul style="margin-left: 20px;">
                     <li><a href="javascript:void(0)" class="cursor-point" (click)="openAlertDialog()">Xem File</a></li>
-                </ul>
+                </ul> -->
             <button class="add_button" style="margin-left: 99px;">
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
@@ -72,12 +72,40 @@
                 <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label> -->
-                <ul style="margin-left: 20px;">
+                <!-- <ul style="margin-left: 20px;">
                     <li><a>Xem File</a></li>
-                </ul>
+                </ul> -->
             <!-- <button class="add_button" style="margin-left: 99px;">
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button> -->
+        </div>
+        <div class="list-file" *ngIf="listupload.length >0">
+            <table class="table table_custom action-table">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên file</th>
+                        <th class="text-center">Kích thước
+                        </th>
+                        <th class="text-center">Số văn bản
+                        </th>
+                        <th style="width: 100px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listupload; let i = index">
+                        <td class="stt_table">{{i+1}}</td>
+                        <td>{{item.fileName}}</td>
+                        <td>{{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+'(MB)':item.size >1024?(item.size/(1024)).toFixed(1)+'(KB)':item.size.toFixed(1) +"K"}}</td>
+                        <td>{{item.sovanban}}</td>
+                        <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item)" class="fa fa-trash" title="Xóa bỏ"></i>
+                            <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item)" title="Download file"></i>
+                        </td>
+        
+                    </tr>
+        
+                </tbody>
+            </table>
         </div>
         <div class="row-for">
             <p>
@@ -85,6 +113,6 @@
             </p>
         </div>
     </div>
-    <table-plans [form]="form" [dataImport]="dataImport"  *ngIf="showTable" [class.khongthaotac]="checkChiTiet=='CHITIET'"></table-plans>
+    <table-plans [form]="form" [submitted]="submitted" [dataImport]="dataImport"  *ngIf="showTable" [class.khongthaotac]="checkChiTiet=='CHITIET'"></table-plans>
     <!-- <table-plans-kehoach [form]="form" ></table-plans-kehoach> -->
 </div>

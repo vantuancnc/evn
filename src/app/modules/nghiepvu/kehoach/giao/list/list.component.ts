@@ -50,6 +50,20 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         private _serviceApi: ServiceService,
         private _listdinhhuongService: ListdinhhuongService,
     ) {
+       
+        this._activatedRoute.queryParams
+        .subscribe(params => {
+          
+          if(params?.type){
+            this.actionClick = params?.type
+          }else{
+            this.actionClick = null
+            this.timKiem();
+          }
+        }
+      
+      );
+     
     }
 
     ngOnInit() {
@@ -58,8 +72,8 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         this._listdinhhuongService.getValueYear().subscribe((values: any) => {
             if (values){
                 this.listYears = values;
-                this.listYears.push({"NAME":2024,"ID":2024});
-                this.listYears.push({"NAME":2025,"ID":2025})
+                // this.listYears.push({"NAME":2024,"ID":2024});
+                // this.listYears.push({"NAME":2025,"ID":2025})
             }
                
         })
@@ -100,10 +114,9 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     // }
 
     timKiem(){
-        let nam =this.selectedYear;
-        
+        let nam =this.selectedYear;     
          this.selectedYear 
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"MA_TRANG_THAI_LIST","value":"CGIAO,DGIAO"},{"name":"NAM_LIST","value":nam},{"name":"NAM","value":""},{"name":"ORGID","value":"115"},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{"name":"NAM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].TotalPage;

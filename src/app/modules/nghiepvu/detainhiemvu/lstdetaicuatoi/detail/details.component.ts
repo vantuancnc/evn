@@ -42,6 +42,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listYears = [];
     public actionType: string = null;
     public form: FormGroup;
+    public selectedLinhVucNghienCuu:[];
+    public listLinhVucNghienCuu;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -63,53 +65,54 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     initForm() {
         this.form = this._formBuilder.group({
-            TENDETAI: [null, [Validators.required]],
-            CANCUTHUCHIEN: [null],
-            CAPQUANLY: [null, [Validators.required]],
-            VANBANCHIDAOSO: [null],
-            LINHVUCNGHIENCUU: this._formBuilder.array([]),
-            DONVICHUTRI: [null, [Validators.required]],
-            THOIGIANTHUCHIENTU: [null, [Validators.required]],
-            THOIGIANTHUCHIENDEN: [null, [Validators.required]],
+            tenDeTai: [null, [Validators.required]],
+            canCuThucHien: [null],
+            capQuanLy: [null, [Validators.required]],
+            vanBanChiDaoSo: [null],
+            linhVucNghienCuu:[],
+            //LINHVUCNGHIENCUU: this._formBuilder.array([]),
+            donViChuTri: [null, [Validators.required]],
+            thoiGianThucHienTu: [null, [Validators.required]],
+            thoiGianThucHienDen: [null, [Validators.required]],
 
-            CHUNHIEMDETAI: [null, [Validators.required]],
-            GIOTINH: [null],
-            HOCHAM: [null],
-            HOCVI: [null],
-            DONVICONGTAC: [null],
+            chuNhiemDeTai: [null, [Validators.required]],
+            gioiTinh: [null],
+            hocHam: [null],
+            hocVi: [null],
+            donViCongTac: [null],
 
-            DONGCHUNHIEMDETAI: [null, [Validators.required]],
-            GIOTINH_DONGCHUNHIEM: [null],
-            HOCHAM_DONGCHUNHIEM: [null],
-            HOCVI_DONGCHUNHIEM: [null],
-            DONVICONGTAC_DONGCHUNHIEM: [null],
+            dongChuNhiemDeTai: [null, [Validators.required]],
+            gioiTinhDongChuNhiem: [null],
+            hocHamDongChuNhiem: [null],
+            hocViDongChuNhiem: [null],
+            donViCongTacDongChuNhiem: [null],
 
-            THUKYDETAI: [null],
-            GIOTINH_THUKY: [null],
-            HOCHAM_THUKY: [null],
-            HOCVI_THUKY: [null],
-            DONVICONGTAC_THUKY: [null],
+            thuKyDeTai: [null],
+            gioiTinhThuKy: [null],
+            hocHamThuKy: [null],
+            hocViThuKy: [null],
+            donViCongTacThuKy: [null],
 
-            DANHSACH_THANHVIEN: this._formBuilder.array([this.THEM_THANHVIEN()]),
+            danhSachThanhVien: this._formBuilder.array([this.THEM_THANHVIEN()]),
 
-            NGUONKINHPHI: [null, [Validators.required]],
-            TONGKINHPHI: [null, [Validators.required]],
-            PHHUONGTHUCKHOANCHI: [null],
-            KINHPHIKHOAN: [null],
-            KHINHPHIKHONGKHOAN: [null],
+            nguonKinhPhi: [null, [Validators.required]],
+            tongKinhPhi: [null, [Validators.required]],
+            phuongThucKhoanChi: [null],
+            kinhPhiKhoan: [null],
+            kinhPhiKhongKhoan: [null],
 
-            TINHCAPTHIETCUA_DETAI_NHIEMVU: [null],
-            MUCTIEU: [null],
-            NHIEMVUVAPHAMVINGHIENCUU: [null],
-            KETQUADUKIEN: [null],
-            KIENNGHIDEXUAT: [null],
+            tinhCapThietCuaDeTaiNhiemVu: [null],
+            mucTieu: [null],
+            nhiemVuVaPhamViNghienCuu: [null],
+            ketQuaDuKien: [null],
+            kienNghiDeXuat: [null],
 
-            LIST_FILE1: this._formBuilder.array([]),
-            LIST_FILE2: this._formBuilder.array([]),
-            LIST_FILE3: this._formBuilder.array([]),
-            LIST_FILE4: this._formBuilder.array([]),
-            LIST_FILE5: this._formBuilder.array([]),
-            LIST_FILE6: this._formBuilder.array([]),
+            listFile1: this._formBuilder.array([]),
+            listFile2: this._formBuilder.array([]),
+            listFile3: this._formBuilder.array([]),
+            listFile4: this._formBuilder.array([]),
+            listFile5: this._formBuilder.array([]),
+            listFile6: this._formBuilder.array([]),
         });
     }
 
@@ -146,11 +149,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     THEM_THANHVIEN(): FormGroup {
         return this._formBuilder.group({
-          TEN: 'LE VAN A',
-          CHUCDANH: ' GIAM DOC',
-          SODIENTHOAI: '03921983',
-          EMAIL:'email',
-          DONVICONGTAC:'baoiv'
+          ten: 'LE VAN A',
+          chucDanh: ' GIAM DOC',
+          soDienThoai: '03921983',
+          email:'email',
+          donViCongTac:'baoiv'
         });
     }
 

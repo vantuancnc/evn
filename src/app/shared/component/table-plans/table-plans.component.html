@@ -23,7 +23,7 @@
                 <ng-container [formGroupName]="i">
                     <tr class="font-semibold text-3xl">
                         <td class="text-center">{{i+1}}</td>
-                        <td class="">{{item.get('NoiDungDangKy').value}}</td>
+                        <td class="">{{item.get('noiDungDangKy').value}}</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -33,12 +33,12 @@
                         <td></td>
                         <!-- <td></td> -->
                     </tr>
-                    <ng-container *ngIf="listDonvi.length==0" formArrayName="listNhiemVu_cap2">
+                    <ng-container *ngIf="keHoach.capTao =='DONVI'" formArrayName="listNhiemVu_cap2">
                         <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
                             <ng-container [formGroupName]="j">
                                 <tr class="italic font-semibold">
                                     <td class="text-center">{{i+1}}.{{j+1}}</td>
-                                    <td class="">{{items.get('NoiDungDangKy').value}}</td>
+                                    <td class="">{{items.get('noiDungDangKy').value}}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -58,19 +58,22 @@
                                         <ng-container [formGroupName]="c">
                                             <tr class="">
                                                 <td class="text-center">{{c+1}}</td>
-                                                <td><input type="text" class="form-control" formControlName="NoiDungDangKy" />
+                                                <td><input type="text" class="form-control" formControlName="noiDungDangKy" />
+                                                    <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors" class="invalid-feedback">
+                                                        <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường bắt buộc nhập</div>
+                                                      </div>
                                                 </td>
                                                 <td>
                                                      <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                                       <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
-                                                    formControlName="NguonKinhPhi">
+                                                    formControlName="nguonKinhPhi">
                                                 </ng-select>  
                                             </td>
-                                                <td><input type="text" class="form-control" formControlName="DuDoan" /></td>
-                                                <td><input type="text" class="form-control" formControlName="DonViChuTri" /></td>
-                                                <td><input type="text" class="form-control" formControlName="ChuNhiemNhiemVu" /></td>
-                                                <td><input type="text" class="form-control" formControlName="NoiDungHoatDong" /></td>
-                                                <td><input type="text" class="form-control" formControlName="ThoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                                <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
+                                                <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
+                                                <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
+                                                <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
                                                 <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly">
@@ -90,7 +93,7 @@
                             <ng-container [formGroupName]="j">
                                 <tr class="italic font-semibold">
                                     <td class="text-center">{{i+1}}.{{j+1}}</td>
-                                    <td class="">{{items.get('NoiDungDangKy').value}}</td>
+                                    <td class="">{{items.get('noiDungDangKy').value}}</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -101,12 +104,12 @@
                                     <td class="text-center action-table actiom-table-detail">
                                     </td>
                                 </tr>
-                                <ng-container *ngIf="listDonvi.length > 0" formArrayName="listNhiemVu_cap3">
+                                <ng-container *ngIf="keHoach.capTao !='DONVI'" formArrayName="listNhiemVu_cap3">
                                     <ng-container *ngFor="let items2 of items.get('listNhiemVu_cap3')['controls']; let k = index;">
                                         <ng-container [formGroupName]="k">
                                             <tr class="italic font-semibold">
                                                 <td class="text-center">{{i+1}}.{{j+1}}.{{k+1}}</td>
-                                                <td class="">{{items2.get('NoiDungDangKy').value}}</td>
+                                                <td class="">{{items2.get('noiDungDangKy').value}}</td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -126,19 +129,22 @@
                                                     <ng-container [formGroupName]="c">
                                                         <tr class="">
                                                             <td class="text-center">{{c+1}}</td>
-                                                            <td><input type="text" class="form-control" formControlName="NoiDungDangKy" />
+                                                            <td><input type="text" class="form-control" formControlName="noiDungDangKy" />
+                                                                <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors" class="invalid-feedback">
+                                                                    <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường bắt buộc nhập</div>
+                                                                  </div>
                                                             </td>
                                                             <td>
                                                                  <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                                                   <ng-select [items]="listNguonKinhPhi"  bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
-                                                                formControlName="NguonKinhPhi">
+                                                                formControlName="nguonKinhPhi">
                                                             </ng-select>  
                                                         </td>
-                                                            <td><input type="text" class="form-control" formControlName="DuDoan" /></td>
-                                                            <td><input type="text" class="form-control" formControlName="DonViChuTri" /></td>
-                                                            <td><input type="text" class="form-control" formControlName="ChuNhiemNhiemVu" /></td>
-                                                            <td><input type="text" class="form-control" formControlName="NoiDungHoatDong" /></td>
-                                                            <td><input type="text" class="form-control" formControlName="ThoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                            <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
                                                             <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                             <td class="text-center action-table actiom-table-detail">
                                                                 <div class="flex justify-evenly">

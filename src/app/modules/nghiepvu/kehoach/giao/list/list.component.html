@@ -11,20 +11,18 @@
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
-            <div class="statust-right">
+            <!-- <div class="statust-right">
                 <label for="">Trạng thái</label>
                 <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" (change)="timKiem()" bindValue="MA_TRANG_THAI" placeholder="Chọn trạng thái"
                     [(ngModel)]="selectedStatus">
                 </ng-select>
-            </div>
-            <button class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
-                <!-- <i class="fa fa-file"></i> Tổng hợp đơn vị -->
+            </div> -->
+            <!-- <button class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
                 Tổng hợp đơn vị
             </button>
             <button class="add_button" (click)="tonghop('TH_EVN')">
-                <!-- <i class="fa fa-file"></i> -->
                  Tổng hợp EVN
-            </button>
+            </button> -->
         </div>
         <table class="table table_custom">
             <thead>
@@ -37,28 +35,24 @@
                     <th class="text-center">Trạng thái</th>
                     <th>Ý kiến xét duyệt</th>
                     <th class="text-center action-table"></th>
-                    <th class="text-center action-table"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of listDinhHuong; let i = index">
                     <td class="stt_table">{{ i+ 1}}</td>
-                    <td>{{item.TEN_KE_HOACH}}</td>
-                    <td class="text-center">{{item.USERNAME}}</td>
-                    <td class="text-center">{{item.NGAY_GUI}}</td>
-                    <td class="text-center">{{item.NAM}}</td>
-                    <td class="text-center">{{item.TEN_TRANG_THAI}}</td>
-                    <td>{{item.Y_KIEN_NGUOI_PHE_DUYET}}</td>
+                    <td>{{item.name}}</td>
+                    <td class="text-center">{{item.nguoiGui}}</td>
+                    <td class="text-center">{{item.ngayGui}}</td>
+                    <td class="text-center">{{item.nam}}</td>
+                    <td class="text-center">{{item.tenTrangThai}}</td>
+                    <td>{{item.yKienNguoiPheDuyet}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
+                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
                             <i class="fa fa-clock-o" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
-             
+                            <i *ngIf="item.maTrangThai=='CGIAO' " class="fa fa-pencil"  [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='CGIAO' " class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
-                    </td>
-                    <td class="text-center action-table">
-                        <input type="radio" name="tonghop" formControlName="tonghop">
                     </td>
                 </tr>
                 <!-- <li class="nav-item">

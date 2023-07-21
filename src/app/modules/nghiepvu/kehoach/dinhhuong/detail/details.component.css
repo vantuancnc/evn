@@ -114,3 +114,13 @@ table.table.table_custom td {
 .dinhhuong-name.khongthaotac{
     width: 86%;
 }
+
+.list-file {
+    width: 30%;
+}
+
+h1.title-component {
+    font-size: 21px;
+    margin: 15px 0px;
+    font-weight: 600;
+}

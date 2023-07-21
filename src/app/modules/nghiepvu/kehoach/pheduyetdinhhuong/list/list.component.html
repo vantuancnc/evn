@@ -17,11 +17,11 @@
                     [(ngModel)]="selectedStatus">
                 </ng-select>
             </div>
-            <button class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
+            <button *ngIf="userLogin.ORGID !='124'" class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
                 <!-- <i class="fa fa-file"></i> Tổng hợp đơn vị -->
                 Tổng hợp đơn vị
             </button>
-            <button class="add_button" (click)="tonghop('TH_EVN')">
+            <button *ngIf="userLogin.ORGID =='124'" class="add_button  mg-left mr-5" (click)="tonghop('TH_EVN')">
                 <!-- <i class="fa fa-file"></i> -->
                  Tổng hợp EVN
             </button>
@@ -35,31 +35,30 @@
                     <th class="text-center">Ngày gửi</th>
                     <th class="text-center">Năm</th>
                     <th class="text-center">Trạng thái</th>
-                    <th>Ý kiến xét duyệt</th>
                     <th class="text-center action-table"></th>
-                    <th class="text-center action-table"></th>
+                    <th class="text-center action-table-check"><input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of listDinhHuong; let i = index">
                     <td class="stt_table">{{ i+ 1}}</td>
-                    <td>{{item.TEN_KE_HOACH}}</td>
-                    <td class="text-center">{{item.USERNAME}}</td>
-                    <td class="text-center">{{item.NGAY_GUI}}</td>
-                    <td class="text-center">{{item.NAM}}</td>
-                    <td class="text-center">{{item.TEN_TRANG_THAI}}</td>
-                    <td>{{item.Y_KIEN_NGUOI_PHE_DUYET}}</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
+                    <td>{{item.name}}</td>
+                    <td class="text-center">{{item.nguoiGui}}</td>
+                    <td class="text-center">{{item.ngayGui}}</td>
+                    <td class="text-center">{{item.nam}}</td>
+                    <td class="text-center">{{item.tenTrangThai}}</td>
+                    <td class="action-table">
+                        <div class="flex justify-evenly" style="float: left;">
+                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
                             <i class="fa fa-clock-o" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.MA_KE_HOACH]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
+                            <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
              
                         </div>
                     </td>
-                    <td class="text-center action-table">
-                        <input type="radio" name="tonghop" formControlName="tonghop">
+                    <td class="text-center action-table-check">
+                        <input type="checkbox" *ngIf="item.tongHop==false" name="sizecb[]" value="{{item.id}}" [(ngModel)]="item.state"/>
                     </td>
+                   
                 </tr>
                 <!-- <li class="nav-item">
                     <a class="nav-link" 
