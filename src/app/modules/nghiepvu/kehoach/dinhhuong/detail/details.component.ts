@@ -44,6 +44,8 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     submitted = { check: false };
     public listFile;
     public listFileDelete = [];
+    public actionType: string = null;
+    public makehoach: string = null;
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -56,6 +58,19 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         this._activatedRoute.queryParams.subscribe(params => {
             this.checkChiTiet = params["type"];
             this.updateDate();
+            if (params?.type) {
+                this.actionType = params?.type;
+            } else {
+                this.actionType = null;
+            }
+            if (params?.makehoach) {
+                this.makehoach = params?.makehoach;
+            } else {
+                this.makehoach = null;
+            }
+            // if (params?.title) {
+            //      this.title_lichsu = params?.title;
+            // }
         }
         )
         this.initForm()

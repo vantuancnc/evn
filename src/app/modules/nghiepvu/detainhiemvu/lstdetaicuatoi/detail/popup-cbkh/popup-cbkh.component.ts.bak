@@ -22,7 +22,7 @@ export class PopupCbkhComponent implements OnInit {
     message: string = "Are you sure?"
     confirmButtonText = "Yes"
     cancelButtonText = "Cancel"
-    public tenKeHoach="";
+    public tenKeHoach:String =null;
     public checkType=""
     public listKehoach = [];
     public listChuNhiem = [];
@@ -54,13 +54,6 @@ export class PopupCbkhComponent implements OnInit {
 
     ngOnInit(): void {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
-        if(this.checkType=="KEHOACH"){
-            this.timkiemKehoach();
-        }else{
-            this.timkiemNguoi(this.checkType);
-        }
-       
-       
     }
 
 
@@ -76,14 +69,13 @@ export class PopupCbkhComponent implements OnInit {
     }
 
     timkiemKehoach(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":""}]).subscribe((data) => {
-            console.log(data.data);
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":this.tenKeHoach}]).subscribe((data) => {
             this.listKehoach = data.data || [];
               
            })
     }
     timkiemNguoi(type){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":""}]).subscribe((data) => {
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":this.tenKeHoach}]).subscribe((data) => {
             if(type=="CHUNHIEM"){
                 this.listChuNhiem = data.data || [];
             }else if(type=="DONGCHUNHIEM"){
@@ -91,7 +83,7 @@ export class PopupCbkhComponent implements OnInit {
             }else if(type=="THUKY"){
                 this.listThuKy = data.data || [];
             }else if(type=="THANHVIEN"){
-                this.listThanhVien = data.data || [];
+                this.listThuKy = data.data || [];
             }
               
            })

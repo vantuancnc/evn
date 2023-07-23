@@ -12,6 +12,7 @@ import { ListdinhhuongService } from '../listdinhhuong.service';
 import { ApiDinhHuongComponent } from '../listdinhhuong.component';
 import { ServiceService } from 'app/shared/service/service.service';
 import { PageEvent } from '@angular/material/paginator';
+import { SnotifyToast } from 'ng-alt-snotify';
 
 @Component({
     selector: 'component-list',
@@ -139,10 +140,54 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
        this.length = event.length;
        this.pageSize = event.pageSize;
        this.pageIndex = event.pageIndex;
-       debugger;
        this.timKiem();
 
      }
+
+     lichsu(item){
+      this._router.navigate(
+          ['/nghiepvu/kehoach/dinhhuong'],
+          { queryParams: { type: 'LICHSU', makehoach:item.maKeHoach } }
+        );
+     }
+     xoa(item){
+      this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.name + "\"", (toast: SnotifyToast) => {
+        this._messageService.notify().remove(toast.id);
+        this._serviceApi.execServiceLogin("44126995-587A-48EE-840F-769F02050BBB", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+          console.log(data);
+          switch (data.data) {
+                            case 1:
+                                this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                break;
+                            case 0:
+                                this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                                break;
+                            case -1:
+                                this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                                break;
+                        }
+         })
+        // if (State.create==1) {
+        //     this._apiService.deleteObject(this.api?.API_SERVICEID)
+        //         .pipe(takeUntil(this._unsubscribeAll))
+        //         .subscribe((result: any) => {
+        //             switch (result) {
+        //                 case 1:
+        //                     this._messageService.showSuccessMessage("Thông báo", "Xóa dịch vụ thành công");
+        //                     break;
+        //                 case 0:
+        //                     this._messageService.showErrorMessage("Thông báo", "Không tìm thấy dịch vụ cần xóa");
+        //                     break;
+        //                 case -1:
+        //                     this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa dịch vụ");
+        //                     break;
+        //             }
+  
+        //         });
+        // }
+      })
+     }
+    
 
 
 }

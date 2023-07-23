@@ -1,7 +1,14 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+    FormArray,
+    FormBuilder,
+    FormGroup,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
@@ -29,7 +36,8 @@ export class DetailsComponent implements OnInit {
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
-    public actionType =  null
+    public actionType =  null;
+    public form: FormGroup;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -39,6 +47,7 @@ export class DetailsComponent implements OnInit {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
+        this.initForm()
         this._activatedRoute.queryParams
         .subscribe(params => {
           if(params?.type){
@@ -58,6 +67,57 @@ export class DetailsComponent implements OnInit {
         this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
 
+    initForm() {
+        this.form = this._formBuilder.group({
+            tenDeTai: [null, [Validators.required]],
+            canCuThucHien: [null],
+            keHoach: [null],
+            capQuanLy: [null, [Validators.required]],
+            vanBanChiDaoSo: [null],
+            linhVucNghienCuu:[],
+            //LINHVUCNGHIENCUU: this._formBuilder.array([]),
+            donViChuTri: [null, [Validators.required]],
+            thoiGianThucHienTu: [null, [Validators.required]],
+            thoiGianThucHienDen: [null, [Validators.required]],
+
+            chuNhiemDeTaiInfo:"",
+            chuNhiemDeTai: [null, [Validators.required]],
+            gioiTinh: [null],
+            hocHam: [null],
+            hocVi: [null],
+            donViCongTac: [null],
+
+            dongChuNhiemDeTaiInfo:"",
+            dongChuNhiemDeTai: [null, [Validators.required]],
+            gioiTinhDongChuNhiem: [null],
+            hocHamDongChuNhiem: [null],
+            hocViDongChuNhiem: [null],
+            donViCongTacDongChuNhiem: [null],
+
+            thuKyDeTaiInfo:"",
+            thuKyDeTai: [null],
+            gioiTinhThuKy: [null],
+            hocHamThuKy: [null],
+            hocViThuKy: [null],
+            donViCongTacThuKy: [null],
+
+            danhSachThanhVien: this._formBuilder.array([]),
+            danhSachThanhVienHD: this._formBuilder.array([]),
+
+            nguonKinhPhi: [null, [Validators.required]],
+            tongKinhPhi: [null, [Validators.required]],
+            phuongThucKhoanChi: [null],
+            kinhPhiKhoan: [null],
+            kinhPhiKhongKhoan: [null],
+
+            tinhCapThietCuaDeTaiNhiemVu: [null],
+            mucTieu: [null],
+            nhiemVuVaPhamViNghienCuu: [null],
+            ketQuaDuKien: [null],
+            kienNghiDeXuat: [null],
+            listFolderFile:this._formBuilder.array([])
+        });
+    }
 
     geListYears() {
         this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
@@ -79,6 +139,22 @@ export class DetailsComponent implements OnInit {
                 top: '100px',
             }
         });
+    }
+
+    getListFolderFile() {
+        this._serviceApi
+            .execServiceLogin('61808455-D993-4C3A-8117-1978C43F20C9', null)
+            .subscribe((data) => {
+                console.log(data.data);
+                this.listFolderFile = data.data || [];
+                let val = this.form.get("listFolderFile") as FormArray;
+                for(let i=0;i< this.listFolderFile.length;i++){
+                  
+                val.push(this.newFolder(this.listFolderFile[i]));
+                }
+                
+
+            });
     }
 
 

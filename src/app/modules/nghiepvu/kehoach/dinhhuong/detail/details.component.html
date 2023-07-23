@@ -1,5 +1,6 @@
 <!--(ngSubmit)="onSubmit()"-->
-<div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
+
+<div  *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' " [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
         <h1 class="title-component">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
@@ -115,4 +116,10 @@
     </div>
     <table-plans [form]="form" [submitted]="submitted" [dataImport]="dataImport"  *ngIf="showTable" [class.khongthaotac]="checkChiTiet=='CHITIET'"></table-plans>
     <!-- <table-plans-kehoach [form]="form" ></table-plans-kehoach> -->
+</div>
+<div *ngIf="actionType == 'LICHSU'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+
+    <app-lichsu-kehoach [makehoach]="makehoach"></app-lichsu-kehoach>
 </div>

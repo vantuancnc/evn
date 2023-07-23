@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TablePlansComponent } from './component/table-plans/table-plans.component';
 import { PopupFileComponent } from './component/popup-file/popup-filecomponent';
 import { PopupConfirmComponent } from './component/popup-confirm/popup-confirmcomponent';
+import { LichsuComponent } from './component/lichsu/lichsu.component';
+import { LichsuKeHoachComponent } from './component/lichsuKeHoach/lichsuKeHoach.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-
 
 @NgModule({
     imports: [
@@ -19,7 +19,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     declarations: [
         TablePlansComponent,
         PopupFileComponent,
-        PopupConfirmComponent
+        PopupConfirmComponent,
+        LichsuComponent,
+        LichsuKeHoachComponent
     ],
     exports: [
         CommonModule,
@@ -27,7 +29,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ReactiveFormsModule,
         TablePlansComponent,
         PopupFileComponent,
-        PopupConfirmComponent
+        PopupConfirmComponent,
+        LichsuComponent,
+        LichsuKeHoachComponent
     ]
 })
 export class SharedModule

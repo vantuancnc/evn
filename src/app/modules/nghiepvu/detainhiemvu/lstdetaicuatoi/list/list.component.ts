@@ -32,7 +32,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
         {id:3,name:'ten_file2',kichthuoc:'20mb'}
     ]
-    public name:String =null;
+    public name:"";
 
 
     /**
@@ -88,8 +88,8 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     }
 
     timKiem() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("9A021360-5910-49C4-9327-B7BE7B7EFF39", [{"name":"TEN_DETAI","value":this.name},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
-            this.listGiao = data.data || [];
+        this.getGiaoSubcription = this._serviceApi.execServiceLogin("00249219-4EE7-466D-BD84-269064AC9D9B", [{"name":"TEN_DETAI","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+          this.listGiao = data.data || [];
         })
     }
 
@@ -119,14 +119,18 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
       );
    }
 
+   lichsu(item){
+    this._router.navigate(
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+        { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
+      );
+   }
+
    editer(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
         { queryParams: { type: 'CHINHSUA' } }
       );
-   }
-   TimKiem(){
-
    }
    
 }

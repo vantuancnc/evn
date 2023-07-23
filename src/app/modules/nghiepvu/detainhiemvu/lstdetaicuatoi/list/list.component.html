@@ -5,7 +5,7 @@
         <div class="flex items-center justify-between">
             <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI</h1>
             <button class="add_button" (click)="addNew()">
-                <i class="fa fa-plus"></i> Tạo bản ghi mới
+                <i class="fa fa-plus"></i> Đăng ký mới
             </button>
         </div>
         <div class="header-list-dinh-huong">
@@ -15,12 +15,12 @@
                     class="form-control"
                     [(ngModel)]="txtSeach"
                     name="serach"
-                    (change)="TimKiem()"
+                    (change)="timKiem()"
                     placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
                     [(ngModel)]="name" 
                     (change)="onChange()"
                 />
-                <button   (click)="TimKiem()">
+                <button   (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -64,7 +64,7 @@
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
-                            <i class="fa fa-retweet" title="Xem lịch sử"></i>
+                            <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" (click)="editer($event)" title="Chỉnh sửa"></i>
                             <i class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>
