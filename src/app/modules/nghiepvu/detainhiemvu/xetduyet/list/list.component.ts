@@ -62,7 +62,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.geListYears();
-        this.getListDinhHuong()
+        this.timKiem()
     }
 
     geListYears() {
@@ -84,11 +84,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this.getGiaoSubcription.unsubscribe();
     }
 
-    getListDinhHuong() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listGiao = data.data || [];
-        })
-    }
     //phân trang
     length = 500;
     pageSize = 10;
@@ -115,33 +110,37 @@ export class ListItemComponent implements OnInit, OnDestroy {
             }
         });
     }
-
+    timKiem() {
+        this._serviceApi.execServiceLogin("00249219-4EE7-466D-BD84-269064AC9D9B", [{"name":"TEN_DETAI","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+          this.listGiao = data.data || [];
+        })
+    }
 
   
     editer(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
             { queryParams: { type: 'CHITIET' } }
           );
        }
 
     updateActionHD(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet'],
+            ['/nghiepvu/detainhiemvu/xetduyet/'+item.maDeTai],
             { queryParams: { type: 'updateActionHD' } }
           );
     }
 
     updateActionKQ(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet'],
+            ['/nghiepvu/detainhiemvu/xetduyet/'+item.maDeTai],
             { queryParams: { type: 'updateActionKQ' } }
           );
     }
 
     updateActionRaSoat(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet'],
+            ['/nghiepvu/detainhiemvu/xetduyet/'+item.maDeTai],
             { queryParams: { type: 'updateActionRaSoat' } }
           );
     }

@@ -114,14 +114,14 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
 
    detail(item){
     this._router.navigate(
-        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
         { queryParams: { type: 'CHITIET' } }
       );
    }
 
    lichsu(item){
     this._router.navigate(
-        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
         { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
       );
    }
