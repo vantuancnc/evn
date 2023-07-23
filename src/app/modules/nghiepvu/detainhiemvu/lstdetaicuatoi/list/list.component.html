@@ -37,29 +37,28 @@
                     <th class="text-center">Thời gian thực hiện</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center">Năm đăng ký</th>
-                    <th class="text-center">Cập nhập HSTH</th>
                     <th class="text-center">TBáo cáo tiến độ thực hiện</th>
-                    <th class="text-center">Cập nhập HSNT</th>
-                    <th class="text-center">Cập nhập HSQT</th>
+
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i+ 1}}</td>
-                    <td>{{item.tenDeTai}}</td>
-                    <td>{{item.tenCapQuanLy}}</td>
-                    <td class="text-center">{{item.chuNhiemDeTai}}</td>
-                    <td>{{item.tenDonViChuTri}}</td>
-                    <td class="text-center">{{item.thoiGianThucHienDen | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                    <td>{{item.tenTrangThai}}</td>
-                    <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <tr>
+                    <tr *ngFor="let item of listGiao; let i = index">
+                        <td class="stt_table">{{ i+ 1}}</td>
+                        <td>{{item.tenDeTai}}</td>
+                        <td>{{item.tenCapQuanLy}}</td>
+                        <td class="text-center">{{item.chuNhiemDeTai}}</td>
+                        <td>{{item.tenDonViChuTri}}</td>
+                        <td class="text-center">{{item.thoiGianThucHienDen | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                        <td>{{item.tenTrangThai}}</td>
+                        <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
+                            <i (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionTIENDO(item)" title="TBáo cáo tiến độ thực hiện	" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-retweet"></i>
                             <i (click)="detail(item)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"

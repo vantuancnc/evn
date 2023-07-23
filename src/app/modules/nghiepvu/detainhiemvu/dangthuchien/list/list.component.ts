@@ -61,8 +61,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.geListYears();
-        this.getListDinhHuong()
+       // this.geListYears();
+        this.timKiem()
+    }
+    timKiem() {
+        this._serviceApi.execServiceLogin("00249219-4EE7-466D-BD84-269064AC9D9B", [{"name":"TEN_DETAI","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+          this.listGiao = data.data || [];
+        })
     }
 
     geListYears() {
@@ -90,16 +95,18 @@ export class ListItemComponent implements OnInit, OnDestroy {
         })
     }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 0;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50,100];
     showFirstLastButtons = true;
   
     handlePageEvent(event: PageEvent) {
       this.length = event.length;
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
+      this.timKiem();
+
     }
 
    // mo popup file
@@ -120,28 +127,28 @@ export class ListItemComponent implements OnInit, OnDestroy {
   
     editer(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'+item.maDeTai],
             { queryParams: { type: 'CHINHSUA' } }
           );
     }
 
     detail(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'], 
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'+item.maDeTai], 
             { queryParams: { type: 'CHITIET' } }
           );
     }
 
     updateActionHSTH(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/dangthuchien'],
+            ['/nghiepvu/detainhiemvu/dangthuchien'+item.maDeTai],
             { queryParams: { type: 'updateActionHSTH' } }
           );
     }
 
     updateActionGH(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/dangthuchien'],
+            ['/nghiepvu/detainhiemvu/dangthuchien/'+item.maDeTai],
             { queryParams: { type: 'updateActionGH' } }
           );
     }

@@ -71,25 +71,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td>Cấp EVN</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td>Ban kế toán</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
-                    <td>Đang thực hiện</td>
-                    <td class="text-center">2023</td>
+                <tr *ngFor="let item of listGiao; let i = index">
+                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td>{{item.tenDeTai}}</td>
+                    <td>{{item.tenCapQuanLy}}</td>
+                    <td class="text-center">{{item.chuNhiemDeTai}}</td>
+                    <td>{{item.tenDonViChuTri}}</td>
+                    <td class="text-center">{{item.thoiGianThucHienDen | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                    <td>{{item.tenTrangThai}}</td>
+                    <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i (click)="updateActionHSTH($event)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
-                            <i  (click)="updateActionGH($event)" title="Gia hạn" class="fa fa-retweet"></i>
-                            <i (click)="detail($event)"
+                            <i (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionGH(item)" title="Gia hạn" class="fa fa-retweet"></i>
+                            <i (click)="detail(item)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-repeat"  title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="editer($event)"
+                            <i class="fa fa-pencil" (click)="editer(item)"
                             class="fa fa-pencil" title="Chỉnh sửa"></i>
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
                         </div>
@@ -108,7 +108,7 @@
             aria-label="Select page"
         >
         </mat-paginator>
-        <button (click)="openAlertDialog()" >Mop pup up fille</button>
+      
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

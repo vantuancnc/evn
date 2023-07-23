@@ -60,6 +60,9 @@ export class DetailsComponent implements OnInit {
             this.actionType =null
           }
           console.log( this.actionType);
+          if(this.actionType=="updateActionKQ"){
+            this.method="THANHLAPHD";
+          }else
           if(this.actionType=="updateActionHD"){
             this.method="HOIDONG";
           }else{
@@ -76,6 +79,8 @@ export class DetailsComponent implements OnInit {
     ngOnInit(): void {
         if(this.actionType=="updateActionHD"){
         this.geListTrangThaiHD();
+        }else{
+            this.geListTrangThaiThanhLapHD();
         }
         this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
@@ -129,6 +134,10 @@ export class DetailsComponent implements OnInit {
 
     initForm(actionType) {
         this.form = this._formBuilder.group({
+            thoiGianHop:[null],
+            ketQuaPhieuDanhGia:[null],
+            ketLuanKienNghiHD:[null],
+            diaDiem:[null],
             method:actionType,
             maTrangThai:[null],
             yKien: "",
@@ -246,8 +255,21 @@ export class DetailsComponent implements OnInit {
     geListTrangThaiHD() {
         this._serviceApi.execServiceLogin("2EE0D143-CA88-4CFF-AC24-448236ECD72C", null).subscribe((data) => {
             this.listTrangThai = data.data || [];
+            debugger;
             this.listTrangThai  = this.listTrangThai .filter(c => c.ID=='DA_TLHDXD');
             this.form.get("maTrangThai").setValue('DA_TLHDXD');
+        })
+    }
+
+    geListTrangThaiThanhLapHD() {
+        this._serviceApi.execServiceLogin("2EE0D143-CA88-4CFF-AC24-448236ECD72C", null).subscribe((data) => {
+            this.listTrangThai = data.data || [];
+            this.listTrangThai  = this.listTrangThai.filter(function (str) {
+                if(str.ID=='DANG_THUC_HIEN' || str.ID=='DUNG_THUC_HIEN' || str.ID=='Y_CAU_HIEU_CHINH'){
+                    return str;
+                }
+                return;
+              });
         })
     }
 
@@ -342,7 +364,7 @@ export class DetailsComponent implements OnInit {
 
     submit(maTrangThai,method){
         this.form.get('method').setValue(method);
-        this.form.get("maTrangThai").setValue(maTrangThai)
+        this.form.get("maTrangThai").setValue(maTrangThai);
         console.log(this.form.value);
         // var token = localStorage.getItem("accessToken");
         // this._serviceApi

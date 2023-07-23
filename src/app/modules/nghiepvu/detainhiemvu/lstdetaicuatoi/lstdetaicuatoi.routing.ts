@@ -84,9 +84,6 @@ export const lstdetaicuatoiRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: LstdetaicuatoiDetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
           }
         ]
       }
