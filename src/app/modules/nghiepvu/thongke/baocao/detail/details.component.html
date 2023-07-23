@@ -1,0 +1,275 @@
+<div
+    *ngIf="actionType == 'THEOHOATDONG'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">Báo cáo - Thống kê Đề tài/ nhiệm vụ EVN  </h1>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Đơn vị chủ trì"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Chọn cấp"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lĩnh vực nghiên cứu"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+
+        <div class="basis-2/5 flex justify-end">
+           <button class="rounded-md text-white px-10 py-2 bg-blue-900">Thống kê</button>
+           <button class="rounded-md text-white px-10 py-2 bg-black ml-3">Xuất biểu mẫu</button>
+        </div>
+       
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lọc theo thời gian"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Từ năm"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Đến năm"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+
+        <div class="basis-2/5 flex justify-end">
+           
+        </div>
+       
+    </div>
+
+    <table class="table table_custom mt-4">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th class="">Tên Đề tài /nhiệm vụ</th>
+                <th class="">Chủ nhiệm</th>
+                <th class="">Cấp quản lý</th>
+                <th class="">Lĩnh vực khoa học</th>
+                <th class="">Đơn vị chủ trì</th>
+                <th class="">Kinh phí</th>
+                <th class="">Nguồn kinh phí</th>
+                <th class="">Thời gian thực hiện</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="9">Lĩnh vực khoa học 1</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            <tr>
+                <td colspan="9">Lĩnh vực khoa học 2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+</div>
+
+<div
+    *ngIf="actionType == 'THEOSANGKIEN'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">Báo cáo - Thống kê hoạt động sáng kiến EVN        </h1>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Đơn vị chủ đầu tư"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Chọn cấp"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+        <div class="basis-1/5">
+            <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lĩnh vực nghiên cứu"
+            [(ngModel)]="selectedYear"
+            style="width: 100%"
+        >
+        </ng-select>
+        </div>
+
+        <div class="basis-2/5 flex justify-end">
+           <button class="rounded-md text-white px-10 py-2 bg-blue-900">Thống kê</button>
+           <button class="rounded-md text-white px-10 py-2 bg-black ml-3">Xuất biểu mẫu</button>
+        </div>
+       
+    </div>
+
+    <table class="table table_custom mt-4">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th class="">Tên giải pháp</th>
+                <th class="">Tác giả</th>
+                <th class="">Cấp quản lý</th>
+                <th class="">Lĩnh vực khoa học</th>
+                <th class="">Đơn vị chủ đầu tư</th>
+                <th class="">Số tiền làm lợi năm đầu tiên áp dụng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7">Lĩnh vực khoa học 1</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            <tr>
+                <td colspan="7">Lĩnh vực khoa học 2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+</div>
+
+
+
+

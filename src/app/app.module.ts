@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ErrorCatchingInterceptor } from './error-catching.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -80,6 +81,9 @@ const routerConfig: ExtraOptions = {
 
         // Core module of your application
         CoreModule,
+        FormsModule,
+        NgSelectModule,
+        RouterModule,
 
         // Layout module of your application
         LayoutModule,
