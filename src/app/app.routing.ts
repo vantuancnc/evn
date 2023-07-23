@@ -123,7 +123,7 @@ export const appRoutes: Route[] = [
                     },
                     {
                         path: 'tracuu', children: [
-                            { path: 'lstsangkiencuatoi', loadChildren: () => import('app/modules/nghiepvu/sangkien/lstsangkiencuatoi/lstsangkiencuatoi.module').then(m => m.LstsangkiencuatoiModule) },
+                            { path: 'tracuu-timkiem', loadChildren: () => import('app/modules/nghiepvu/tracuu/tracuu-timkiem/tracuu-timkiem.module').then(m => m.TraCuuTimKiemModule) },
                             { path: 'xetduyet', loadChildren: () => import('app/modules/nghiepvu/sangkien/xetduyet/xetduyet.module').then(m => m.XetDuyetModule) },
                             { path: 'dangthuchien', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
                             { path: 'thulao', loadChildren: () => import('app/modules/nghiepvu/sangkien/nghiemthu/nghiemthu.module').then(m => m.ThuLaoModule) },
