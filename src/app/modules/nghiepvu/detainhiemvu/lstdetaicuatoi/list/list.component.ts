@@ -118,6 +118,36 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
       );
    }
 
+   updateActionHSTH(item){
+    this._router.navigate(
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+        { queryParams: { type: 'updateActionHSTH' } }
+      );
+}
+updateActionHSNT(e){
+
+  this._router.navigate(
+    ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+    { queryParams: { type: 'updateActionHSNT' } }
+  );
+
+}
+
+updateActionHSQT(e){
+
+  this._router.navigate(
+    ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+    { queryParams: { type: 'updateActionHSQT' } }
+  );
+
+}
+updateActionTIENDO(item){
+  this._router.navigate(
+    ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+    { queryParams: { type: 'TIENDO' } }
+  );
+}
+
    editer(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],

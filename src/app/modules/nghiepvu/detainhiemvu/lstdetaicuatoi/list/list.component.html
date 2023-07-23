@@ -35,10 +35,8 @@
                     <th class="text-center">Thời gian thực hiện</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center">Năm đăng ký</th>
-                    <th class="text-center">Cập nhập HSTH</th>
                     <th class="text-center">TBáo cáo tiến độ thực hiện</th>
-                    <th class="text-center">Cập nhập HSNT</th>
-                    <th class="text-center">Cập nhập HSQT</th>
+
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -53,11 +51,13 @@
                     <td>Đang thực hiện</td>
                     <td class="text-center">2023</td>
                     <td class="text-center"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+      
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
+                            <i (click)="updateActionHSTH($event)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionHSNT($event)" title="Cập nhật HSNT" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionTIENDO($event)" title="TBáo cáo tiến độ thực hiện	" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionHSQT($event)" title="Cập nhật HSQT" class="fa fa-retweet"></i>
                             <i (click)="detail($event)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
