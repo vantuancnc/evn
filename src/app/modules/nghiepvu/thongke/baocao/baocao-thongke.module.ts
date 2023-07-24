@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,9 +24,9 @@ import { CommonModule } from '@angular/common';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
-import { DangThucHienRoutes} from './dangthuchien.routing';
+import { BaoCaoThongKeRoutes} from './baocao-thongke.routing';
 import { ListItemComponent } from './list/list.component';
-import { DangThucHienComponent } from './dangthuchien.component';
+import { BaoCaoThongKeComponent } from './baocao-thongke.component';
 import { DetailsComponent } from './detail/details.component';
 import { ApiGiaoEmptyDetailsComponent } from './empty-details/empty-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -34,11 +34,10 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
 
-
 @NgModule({
     imports: [
         SharedModule,
-        RouterModule.forChild(DangThucHienRoutes), MatButtonModule,
+        RouterModule.forChild(BaoCaoThongKeRoutes), MatButtonModule,
         MatButtonToggleModule,
         MatDividerModule,
         MatIconModule,
@@ -51,18 +50,20 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatTableModule,
         FormsModule,
         MatDialogModule,
+        RouterModule, 
         MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
         MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
         CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
     ],
     declarations: [
         DetailsComponent,
-        ListItemComponent,
-        DetailsComponent,
-        DangThucHienComponent,
+        BaoCaoThongKeComponent,
         ApiGiaoEmptyDetailsComponent,
-        PopupCbkhComponent
-    ]
+        PopupCbkhComponent,
+        ListItemComponent
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
 })
-
-export class DanthuchienModule { }
+export class BaoCaoThongKeModule { }

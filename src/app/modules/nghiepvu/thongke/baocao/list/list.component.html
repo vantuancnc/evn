@@ -1,0 +1,70 @@
+<div class="relative eco_conntent">
+    <div class="bg-white p-3">
+    <!--màn hình danh sách-->
+    <ng-container *ngIf="!actionClick">
+        <div class="flex items-center justify-between">
+            <h1 class="title-component">Báo cáo - Thống kê hoạt động KHCN EVN</h1>
+        </div>
+
+       <div class="px-3 bg-blue-500 py-3 text-white uppercase">
+        Báo cáo - Thống kê hoạt động KHCN EVN
+       </div>
+       <table class="table table_custom" style="margin-top: 0">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th class="text-left">Tiêu chí báo cáo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="stt_table">1</td>
+                <td class="uppercase" (click)="THEOHOATDONG()">Theo lĩnh vực khoa học</td>
+            </tr>
+            <tr>
+                <td class="stt_table">1</td>
+                <td class="uppercase"  (click)="THEOHOATDONG()">Theo lĩnh vực khoa học</td>
+            </tr>
+            <tr>
+                <td class="stt_table">1</td>
+                <td class="uppercase"  (click)="THEOHOATDONG()">Theo lĩnh vực khoa học</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="px-3 bg-blue-500 py-3 text-white uppercase mt-8">
+        TỔNG HỢP DANH SÁCH SÁNG KIẾN KHCN
+       </div>
+       <table class="table table_custom" style="margin-top: 0">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th class="text-left">Tiêu chí báo cáo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="stt_table">1</td>
+                <td class="uppercase"  (click)="THEOSANGKIEN()">Theo lĩnh vực khoa học</td>
+            </tr>
+            <tr>
+                <td class="stt_table">1</td>
+                <td class="uppercase" (click)="THEOSANGKIEN()">Theo lĩnh vực khoa học</td>
+            </tr>
+            <tr>
+                <td class="stt_table">1</td>
+                <td class="uppercase" (click)="THEOSANGKIEN()">Theo lĩnh vực khoa học</td>
+            </tr>
+        </tbody>
+    </table>
+    </ng-container>
+</div>
+    <!-- details -->
+    <ng-container *ngIf="actionClick">
+        <div
+            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+        >
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
+</div>
