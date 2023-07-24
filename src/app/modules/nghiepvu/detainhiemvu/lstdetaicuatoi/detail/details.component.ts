@@ -49,13 +49,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listNguonKinhPhi = [];
     public listKhoanChi = [];
     public listChucDanh = [];
-    
+
     public actionType: string = null;
     public form: FormGroup;
     public title_lichsu;
-    public selectedLinhVucNghienCuu:[];
+    public selectedLinhVucNghienCuu: [];
     public listLinhVucNghienCuu;
-    public listFolderFile:[{TEN_LOAI_FILE:"",listFile:[]}];
+    public listFolderFile: [{ TEN_LOAI_FILE: ''; listFile: [] }];
     public method;
     public listTrangThai = [];
     public listThang = [];
@@ -70,73 +70,76 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
-        this.initForm()
+        this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
             console.log(params);
-            
+
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
                 this.actionType = null;
             }
             if (params?.title) {
-                 this.title_lichsu = params?.title;
+                this.title_lichsu = params?.title;
             }
-            if(this.actionType=="updateActionHSTH"){
-                this.method="CAPNHATHSTHUCHIEN";
-              }else if(this.actionType=="TIENDO"){
-                this.method="BAOCAOTIENDO";// BÁO CÁO TIẾN ĐỘ THỰC HIỆN ĐỊNH KỲ
-              }else if(this.actionType=="CHINHSUA"){
-                this.method="CAPNHAT";// cap nhat, them moi
-              }else if(this.actionType=="updateActionHSQT"){
-                this.method="HSQTOAN"; // CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN
-              }
-              else{
-                this.method="DETAIL";
-              }
-              if( this.idParam !=undefined &&  this.idParam != '' &&  this.idParam != null){
+            if (this.actionType == 'updateActionHSTH') {
+                this.method = 'CAPNHATHSTHUCHIEN';
+            } else if (this.actionType == 'TIENDO') {
+                this.method = 'BAOCAOTIENDO'; // BÁO CÁO TIẾN ĐỘ THỰC HIỆN ĐỊNH KỲ
+            } else if (this.actionType == 'CHINHSUA') {
+                this.method = 'CAPNHAT'; // cap nhat, them moi
+            } else if (this.actionType == 'updateActionHSQT') {
+                this.method = 'HSQTOAN'; // CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN
+            } else {
+                this.method = 'DETAIL';
+            }
+            if (
+                this.idParam != undefined &&
+                this.idParam != '' &&
+                this.idParam != null
+            ) {
                 this.detail(this.method);
-              }
+            }
         });
     }
 
     initForm() {
         this.form = this._formBuilder.group({
-			maDeTai:[null],
-            method:[null],
+            maDeTai: [null],
+            method: [null],
             tenDeTai: [null, [Validators.required]],
             canCuThucHien: [null],
             keHoach: [null],
             capQuanLy: [null, [Validators.required]],
             vanBanChiDaoSo: [null],
-            linhVucNghienCuu:[],
-            noiDungGuiMail:[null],
-            noiDung:[null],
-            keHoachTiepTheo:[null],
-            dexuatKienNghi:[null],
-            thang:[null],
-            nam:(new Date()).getFullYear(),
+            linhVucNghienCuu: [],
+            noiDungGuiMail: [null],
+            noiDung: [null],
+            keHoachTiepTheo: [null],
+            dexuatKienNghi: [null],
+            thang: [null],
+            nam: new Date().getFullYear(),
             //LINHVUCNGHIENCUU: this._formBuilder.array([]),
             donViChuTri: [null, [Validators.required]],
             thoiGianThucHienTu: [null, [Validators.required]],
             thoiGianThucHienDen: [null, [Validators.required]],
 
-            chuNhiemDeTaiInfo:"",
+            chuNhiemDeTaiInfo: '',
             chuNhiemDeTai: [null, [Validators.required]],
-            gioiTinh: "",
+            gioiTinh: '',
             hocHam: [null],
             hocVi: [null],
             donViCongTac: [null],
 
-            dongChuNhiemDeTaiInfo:"",
+            dongChuNhiemDeTaiInfo: '',
             dongChuNhiemDeTai: [null, [Validators.required]],
             gioiTinhDongChuNhiem: [null],
             hocHamDongChuNhiem: [null],
             hocViDongChuNhiem: [null],
             donViCongTacDongChuNhiem: [null],
 
-            thuKyDeTaiInfo:"",
+            thuKyDeTaiInfo: '',
             thuKyDeTai: [null],
             gioiTinhThuKy: [null],
             hocHamThuKy: [null],
@@ -157,9 +160,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             nhiemVuVaPhamViNghienCuu: [null],
             ketQuaDuKien: [null],
             kienNghiDeXuat: [null],
-            listFolderFile:this._formBuilder.array([]),
-            listFolderFileThucHien:this._formBuilder.array([]),
-            listFolderFileTamUng:this._formBuilder.array([]),
+
+            listFolderFile: this._formBuilder.array([]),
+
+            listFolderFileThucHien: this._formBuilder.array([]),
+            listFolderFileTamUng: this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -170,12 +175,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if(this.actionType=="updateActionHSTH"){
-           this.geListTrangThaiHSThucHien();
-          }
+        if (this.actionType == 'updateActionHSTH') {
+            this.geListTrangThaiHSThucHien();
+        }
         this.getThang();
         this.getNam();
-        this.getListFolderFile();
+        if (this.actionType == 'THEMMOI') {
+            this.getListFolderFile();
+        }
         this.getListCapQuanLy();
         this.getListDonViChuTri();
         this.getListHocHam();
@@ -185,49 +192,108 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getListLinhVucNghienCuu();
         this.getListGioiTinh();
         this.getListChucDanh();
-       // this.detail();
-       // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
+        // this.detail();
+        // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
         console.log(this.actionType);
     }
 
-    getThang(){
-        this.listThang=[];
-        for(var i=1;i<=12;i++){
-            this.listThang.push({ID:i,NAME:i});
+    getThang() {
+        this.listThang = [];
+        for (var i = 1; i <= 12; i++) {
+            this.listThang.push({ ID: i, NAME: i });
         }
     }
 
-    getNam(){
-        this.listNam=[];
-        var obj = { "NAME": 0, "ID": 0 };
-        var year = (new Date()).getFullYear();
+    getNam() {
+        this.listNam = [];
+        var obj = { NAME: 0, ID: 0 };
+        var year = new Date().getFullYear();
         var yearStart = year - 4;
         var yearEnd = yearStart + 10;
         for (let i = yearStart; i <= yearEnd; i++) {
-            obj = { "NAME": i, "ID": i }
+            obj = { NAME: i, ID: i };
             this.listNam.push(obj);
         }
         //this.selectedN = (new Date()).getFullYear();
     }
 
-    detail(method){
+    addListDocParent(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            maFolder: item?.maFolder || null,
+            listFile: this._formBuilder.array([]),
+        });
+    }
+
+    addListDocChild(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            base64: item?.base64 || null,
+            size: item?.size || 0,
+            sovanban: item?.sovanban || null,
+            mafile: item?.mafile || null,
+            maFolder: item?.maFolder || null,
+            tenFolder: item?.tenFolder || null,
+        });
+    }
+
+    detail(method) {
         this._serviceApi
-        .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [{"name":"MA_DE_TAI","value":this.idParam},{"name":"METHOD_BUTTON","value":method}])
-        .subscribe((data) => {
-            console.log(data.data);
-            this.form.patchValue(data.data);
-            var arr = [];
-            if(data.data.listFolderFile !=null && data.data.listFolderFile.length >0){
-                for(var i=0;i<data.data.listFolderFile.length;i++){
-                    arr.push(this.newFolderEdit(data.data.listFolderFile[i]));
+            .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
+                { name: 'MA_DE_TAI', value: this.idParam },
+                { name: 'METHOD_BUTTON', value: method },
+            ])
+            .subscribe((data) => {
+                console.log(data.data);
+                this.form.patchValue(data.data);
+                let formDocParent = this.form.get(
+                    'listFolderFile'
+                ) as FormArray;
+
+                if (data.data.listFolderFile != null) {
+                    for (let i = 0; i < data.data.listFolderFile.length; i++) {
+                        formDocParent.push(
+                            this.addListDocParent(data.data.listFolderFile[i])
+                        );
+                        if (
+                            data.data.listFolderFile[i].listFile != null &&
+                            data.data.listFolderFile[i].listFile.length > 0
+                        ) {
+                            let formChild = formDocParent
+                                .at(i)
+                                .get('listFile') as FormArray;
+                            for (
+                                let j = 0;
+                                j < data.data.listFolderFile[i].listFile.length;
+                                j++
+                            ) {
+                                formChild.push(
+                                    this.addListDocChild(
+                                        data.data.listFolderFile[i].listFile[j]
+                                    )
+                                );
+                            }
+                        }
+                    }
                 }
-               
-                this.form.get("listFolderFile").setValue(arr);
-            }
-           
-            console.log( this.form.value);
-        })
-         }
+
+                if (data.data.danhSachThanhVien != null) {
+                    let formThanhVien = this.form.get(
+                        'danhSachThanhVien'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < data.data.danhSachThanhVien.length;
+                        i++
+                    ) {
+                        formThanhVien.push(
+                            this.THEM_THANHVIEN(data.data.danhSachThanhVien[i])
+                        );
+                    }
+                }
+            });
+    }
 
     geListYears() {
         this.getYearSubscription = this._serviceApi
@@ -237,10 +303,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             });
     }
 
-    openAlertDialog(type,item?:any) {
-      let data =   this.dialog.open(PopupCbkhComponent, {
+    openAlertDialog(type, item?: any) {
+        let data = this.dialog.open(PopupCbkhComponent, {
             data: {
-                type:type,
+                type: type,
                 message: 'HelloWorld',
                 buttonText: {
                     cancel: 'Done',
@@ -254,151 +320,167 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         });
 
         data.afterClosed().subscribe((data) => {
-            if(type=='KEHOACH'){
+            if (type == 'KEHOACH') {
                 console.log('data2', data);
                 this.form.get('canCuThucHien').setValue(data.data.name);
                 this.form.get('keHoach').setValue(data.data);
-            }else if(type=='CHUNHIEM'){
+            } else if (type == 'CHUNHIEM') {
                 console.log('data1', data);
                 this.form.get('chuNhiemDeTai').setValue(data.data.username);
                 this.form.get('chuNhiemDeTaiInfo').setValue(data.data);
-                this.form.get('gioiTinh').setValue(data.data.gioiTinh+"");
+                this.form.get('gioiTinh').setValue(data.data.gioiTinh + '');
                 this.form.get('hocHam').setValue(data.data.maHocHam);
                 this.form.get('hocVi').setValue(data.data.maHocVi);
                 this.form.get('donViCongTac').setValue(data.data.noiLamViec);
-                
-                
-            }else if(type=='DONGCHUNHIEM'){
+            } else if (type == 'DONGCHUNHIEM') {
                 console.log('data1', data);
                 this.form.get('dongChuNhiemDeTai').setValue(data.data.username);
                 this.form.get('dongChuNhiemDeTaiInfo').setValue(data.data);
-                this.form.get('gioiTinhDongChuNhiem').setValue(data.data.gioiTinh+"");
-                this.form.get('hocHamDongChuNhiem').setValue(data.data.maHocHam);
+                this.form
+                    .get('gioiTinhDongChuNhiem')
+                    .setValue(data.data.gioiTinh + '');
+                this.form
+                    .get('hocHamDongChuNhiem')
+                    .setValue(data.data.maHocHam);
                 this.form.get('hocViDongChuNhiem').setValue(data.data.maHocVi);
-                this.form.get('donViCongTacDongChuNhiem').setValue(data.data.noiLamViec);
-                
-            }else if(type=='THUKY'){
+                this.form
+                    .get('donViCongTacDongChuNhiem')
+                    .setValue(data.data.noiLamViec);
+            } else if (type == 'THUKY') {
                 console.log('data1', data);
                 this.form.get('thuKyDeTai').setValue(data.data.username);
                 this.form.get('thuKyDeTaiInfo').setValue(data.data);
-                this.form.get('gioiTinhThuKy').setValue(data.data.gioiTinh+"");
+                this.form
+                    .get('gioiTinhThuKy')
+                    .setValue(data.data.gioiTinh + '');
                 this.form.get('hocHamThuKy').setValue(data.data.maHocHam);
                 this.form.get('hocViThuKy').setValue(data.data.maHocVi);
-                this.form.get('donViCongTacThuKy').setValue(data.data.noiLamViec);
-                
-            }else if(type=='THANHVIEN'){
+                this.form
+                    .get('donViCongTacThuKy')
+                    .setValue(data.data.noiLamViec);
+            } else if (type == 'THANHVIEN') {
                 console.log('data1', data);
-               item.get('ten').setValue(data.data.username);
-               item.get('soDienThoai').setValue(data.data.sdt);
-               item.get('email').setValue(data.data.email);
-               item.get('donViCongTac').setValue(data.data.noiLamViec);
+                item.get('ten').setValue(data.data.username);
+                item.get('soDienThoai').setValue(data.data.sdt);
+                item.get('email').setValue(data.data.email);
+                item.get('donViCongTac').setValue(data.data.noiLamViec);
             }
-         
-           
-          });
-    }
-    
-
-
-    THEM_THANHVIEN(): FormGroup {
-        return this._formBuilder.group({
-          ma:"",
-          ten: '',
-          chucDanh: '',
-          soDienThoai: '',
-          email:'',
-          donViCongTac:''
         });
     }
-    addMember(){
+
+    THEM_THANHVIEN(item?: any): FormGroup {
         return this._formBuilder.group({
-            ma:"",
+            ma: item?.ma || null,
+            ten: item?.ten || null,
+            chucDanh: item?.chucDanh || null,
+            soDienThoai: item?.soDienThoai || null,
+            email: item?.email || null,
+            donViCongTac: item?.donViCongTac || null,
+        });
+    }
+    addMember() {
+        return this._formBuilder.group({
+            ma: '',
             ten: '',
             chucDanh: '',
             soDienThoai: '',
-            email:'',
-            donViCongTac:''
-          });
+            email: '',
+            donViCongTac: '',
+        });
     }
-    addThanhVien(){
-        let ar =  this.form.get('danhSachThanhVien') as FormArray;
+    addThanhVien() {
+        let ar = this.form.get('danhSachThanhVien') as FormArray;
         ar.push(this.addMember());
-     
     }
 
-    onSubmit(status,method){
+    onSubmit(status, method) {
         console.log(this.form.value);
         this.form.get('method').setValue(method);
-        var token = localStorage.getItem("accessToken");
+        var token = localStorage.getItem('accessToken');
         this._serviceApi
-        .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
-        .subscribe((data) => {
-           if(data.data.status==1){
-            this._messageService.showSuccessMessage('Thông báo', data.data.message);
-           }else{
-            this._messageService.showErrorMessage('Thông báo', 'Lỗi trong quá trình thực hiện');
-           }
-           
-        })
-
+            .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
+                { name: 'DE_TAI', value: JSON.stringify(this.form.value) },
+                { name: 'TOKEN_LINK', value: token },
+            ])
+            .subscribe((data) => {
+                if (data.data.status == 1) {
+                    this._messageService.showSuccessMessage(
+                        'Thông báo',
+                        data.data.message
+                    );
+                } else {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        'Lỗi trong quá trình thực hiện'
+                    );
+                }
+            });
     }
-    newFolder(item?:any){
-         return this._formBuilder.group({
-        maFolder:item?.maFolder,
-        fileName: item?.fileName,
-        ghiChu: item?.ghiChu,
-        listFile:this._formBuilder.array(
-            [
-              //this.addFile2()
-            ]
-        )
-     
-         })
+    newFolder(item?: any) {
+        return this._formBuilder.group({
+            maFolder: item?.maFolder,
+            fileName: item?.fileName,
+            ghiChu: item?.ghiChu,
+            listFile: this._formBuilder.array([
+                //this.addFile2()
+            ]),
+        });
     }
 
-    newFolderEdit(item?:any){
-        var arr =[];
-        if(item.listFile !=undefined && item.listFile.length >0){
-            for(let i=0;i<item.listFile.length;i++){
-                arr.push( this.addFile(item.listFile[i],item.listFile[i],item.listFile[i].base64));
+    newFolderEdit(item?: any) {
+        var arr = [];
+        if (item.listFile != undefined && item.listFile.length > 0) {
+            for (let i = 0; i < item.listFile.length; i++) {
+                arr.push(
+                    this.addFileEdit(
+                        item.listFile[i],
+                        item.listFile[i],
+                        item.listFile[i].base64
+                    )
+                );
             }
-            
         }
-      
-        return this._formBuilder.group({
-       maFolder:item?.maFolder,
-       fileName: item?.fileName,
-       ghiChu: item?.ghiChu,
-       listFile:this._formBuilder.array(
-        arr
-       )
-    
-        })
-   }
 
-    addFile2(){
         return this._formBuilder.group({
-       fileName: "",
-       base64: "",
-       size: 0,
-       sovanban: "",
-       mafile: "",
-       maFolder:"",
-       tenFolder:"",
-        })
-   }
+            maFolder: item?.maFolder,
+            fileName: item?.fileName,
+            ghiChu: item?.ghiChu,
+            listFile: this._formBuilder.array(arr),
+        });
+    }
 
-    addFile(item,itemVal,base64){
+    addFile2() {
         return this._formBuilder.group({
-       fileName: itemVal.name,
-       base64: base64,
-       size: itemVal.size,
-       sovanban: "",
-       mafile: "",
-       maFolder:item?.MA_LOAI_FILE,
-       tenFolder:item?.TEN_LOAI_FILE
-        })
-   }
+            fileName: '',
+            base64: '',
+            size: 0,
+            sovanban: '',
+            mafile: '',
+            maFolder: '',
+            tenFolder: '',
+        });
+    }
+
+    addFileEdit(item, itemVal, base64) {
+        return this._formBuilder.group({
+            fileName: itemVal.name,
+            base64: base64,
+            size: itemVal.size,
+            sovanban: '',
+            mafile: '',
+        });
+    }
+    addFile(item, itemVal, base64) {
+        return this._formBuilder.group({
+            fileName: itemVal.name,
+            base64: base64,
+            size: itemVal.size,
+            sovanban: '',
+            mafile: '',
+            maFolder: item?.MA_LOAI_FILE,
+            tenFolder: item?.TEN_LOAI_FILE,
+        });
+    }
 
     getListFolderFile() {
         this._serviceApi
@@ -406,165 +488,146 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data.data);
                 this.listFolderFile = data.data || [];
-                let val = this.form.get("listFolderFile") as FormArray;
-                for(let i=0;i< this.listFolderFile.length;i++){
-                  
-                val.push(this.newFolder(this.listFolderFile[i]));
+                let val = this.form.get('listFolderFile') as FormArray;
+                for (let i = 0; i < this.listFolderFile.length; i++) {
+                    val.push(this.newFolder(this.listFolderFile[i]));
                 }
-                
-
             });
     }
 
-    getListCapQuanLy(){
+    getListCapQuanLy() {
         this._serviceApi
             .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listCapQuanLy = data.data || [];
-            })
-        
+            });
     }
 
-    getListDonViChuTri(){
+    getListDonViChuTri() {
         this._serviceApi
             .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listDonViChuTri = data.data || [];
-                this.listDonViCongTac= data.data || [];
-            })
-        
+                this.listDonViCongTac = data.data || [];
+            });
     }
 
-    getListHocHam(){
+    getListHocHam() {
         this._serviceApi
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listHocHam = data.data || [];
-            })
-        
+            });
     }
 
-    getListHocVi(){
+    getListHocVi() {
         this._serviceApi
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listHocVi = data.data || [];
-            })
-        
+            });
     }
 
-    getListNguonKinhPhi(){
+    getListNguonKinhPhi() {
         this._serviceApi
             .execServiceLogin('942181CC-FD57-42FE-8010-59B6FF1D26DB', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listNguonKinhPhi = data.data || [];
-            })
-        
+            });
     }
 
-    getListKhoanChi(){
+    getListKhoanChi() {
         this._serviceApi
             .execServiceLogin('89191345-88FF-4C2E-B3CF-6FE315D6A631', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listKhoanChi = data.data || [];
-            })
-        
+            });
     }
 
-    getListLinhVucNghienCuu(){
+    getListLinhVucNghienCuu() {
         this._serviceApi
             .execServiceLogin('FF1D2502-E182-4242-A754-BCCC29B70C61', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listLinhVucNghienCuu = data.data || [];
-            })
-        
+            });
     }
 
-    getListGioiTinh(){
+    getListGioiTinh() {
         this._serviceApi
             .execServiceLogin('0DBB4D71-326D-4846-9E50-5665E573E8B6', null)
             .subscribe((data) => {
                 console.log(data.data);
                 this.listGioiTinh = data.data || [];
-            })
-        
+            });
     }
 
-    getListChucDanh(){
+    getListChucDanh() {
         this._serviceApi
             .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
             .subscribe((data) => {
                 this.listChucDanh = data.data || [];
-            })
-        
+            });
     }
 
     removeItem(items, i) {
         // remove address from the list
-            const control = items.get('danhSachThanhVien');
-            control.removeAt(i);
-
+        const control = items.get('danhSachThanhVien');
+        control.removeAt(i);
     }
- 
 
-    listupload = []
-    handleUpload(event,item,index) {
-        let arr =item.get("listFile") as FormArray;;
+    listupload = [];
+    handleUpload(event, item, index) {
+        let arr = item.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
-                arr.push(this.addFile(item,itemVal,reader.result));
+            reader.onload = () => {
+                arr.push(this.addFile(item, itemVal, reader.result));
             };
-          
         }
-          console.log(item);
-
+        console.log(item);
     }
 
-    handleUploadTamUng(event,item,index) {
-        let arr =item.get("listFolderFileTamUng") as FormArray;;
+    handleUploadTamUng(event, item, index) {
+        let arr = item.get('listFolderFileTamUng') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
-                arr.push(this.addFile(item,itemVal,reader.result));
+            reader.onload = () => {
+                arr.push(this.addFile(item, itemVal, reader.result));
             };
-          
         }
-          console.log(item);
-
+        console.log(item);
     }
-    handleUploadThucHien(event,item,index) {
-        let arr =item.get("listFolderFileThucHien") as FormArray;;
+    handleUploadThucHien(event, item, index) {
+        let arr = item.get('listFolderFileThucHien') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
-                arr.push(this.addFile(item,itemVal,reader.result));
+            reader.onload = () => {
+                arr.push(this.addFile(item, itemVal, reader.result));
             };
-          
         }
-          console.log(item);
-
+        console.log(item);
     }
-    deleteItemFile(items,i) {
+    deleteItemFile(items, i) {
         const control = items.get('listFile');
         control.removeAt(i);
     }
     downloadTempExcel(userInp, fileName) {
-        var mediaType = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
-       
+        var mediaType =
+            'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
+
         const downloadLink = document.createElement('a');
 
         downloadLink.href = mediaType + userInp;
@@ -574,7 +637,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     downLoadFile(item) {
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
-            let url = "";
+            let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
@@ -582,22 +645,31 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             }
             this.downloadTempExcel(url, item.fileName);
         } else {
-            var token = localStorage.getItem("accessToken");
-            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{ "name": "DUONG_DAN", "value": item.duongdan }, { "name": "TOKEN_LINK", "value": "Bearer " + token }]).subscribe((data) => {
-                console.log("downloadFile:" + JSON.stringify(data));
-            })
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    { name: 'DUONG_DAN', value: item.duongdan },
+                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                ])
+                .subscribe((data) => {
+                    console.log('downloadFile:' + JSON.stringify(data));
+                });
         }
-
     }
     geListTrangThaiHSThucHien() {
-        this._serviceApi.execServiceLogin("2EE0D143-CA88-4CFF-AC24-448236ECD72C", null).subscribe((data) => {
-            this.listTrangThai = data.data || [];
-            this.listTrangThai  = this.listTrangThai.filter(function (str) {
-                if(str.ID=='DANG_THUC_HIEN' || str.ID=='YCAU_CAP_NHAT_HS_NTHU'){
-                    return str;
-                }
-                return;
-              });
-        })
+        this._serviceApi
+            .execServiceLogin('2EE0D143-CA88-4CFF-AC24-448236ECD72C', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(function (str) {
+                    if (
+                        str.ID == 'DANG_THUC_HIEN' ||
+                        str.ID == 'YCAU_CAP_NHAT_HS_NTHU'
+                    ) {
+                        return str;
+                    }
+                    return;
+                });
+            });
     }
 }

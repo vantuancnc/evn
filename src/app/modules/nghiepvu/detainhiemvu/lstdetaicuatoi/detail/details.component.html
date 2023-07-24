@@ -135,7 +135,7 @@
             </ng-select>
         </div>
         <div class="basis-1/4">
-            <label for="">Học vị</label>
+            <label for="">Học vị</label> 
             <ng-select
                 [items]="listHocVi"
                 bindLabel="NAME"
@@ -442,11 +442,12 @@
                     </tr>
                 </thead>
                 <tbody formArrayName="listFolderFile">
-                    <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+                    <ng-container *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+                    <tr   [formGroupName]="i" >
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}}</td>
                         <td >
-                            <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                            <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                                 <table class="table table_custom action-table">
                                     <thead>
                                         <tr> 
@@ -460,9 +461,8 @@
                                         </tr>
                                     </thead>
                                     <tbody formArrayName="listFile">
-                                     
-
-                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                        <ng-container *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                        <tr  [formGroupName]="k">
                                             <td class="stt_table">{{k+1}}</td>
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
@@ -474,6 +474,7 @@
                                             </td>  
                             
                                         </tr>
+                                    </ng-container>
                             
                                     </tbody>
                                 </table>
@@ -489,6 +490,7 @@
                             </button> -->
                         </td>
                     </tr>
+                </ng-container>
                 </tbody>
             </table>
         </div>
