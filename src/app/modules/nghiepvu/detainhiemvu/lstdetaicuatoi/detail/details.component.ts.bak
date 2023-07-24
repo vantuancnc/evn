@@ -103,7 +103,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     initForm() {
         this.form = this._formBuilder.group({
-			maDeTai:[null],
             method:[null],
             tenDeTai: [null, [Validators.required]],
             canCuThucHien: [null],
@@ -124,7 +123,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
             chuNhiemDeTaiInfo:"",
             chuNhiemDeTai: [null, [Validators.required]],
-            gioiTinh: "",
+            gioiTinh: [null],
             hocHam: [null],
             hocVi: [null],
             donViCongTac: [null],
@@ -215,17 +214,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [{"name":"MA_DE_TAI","value":this.idParam},{"name":"METHOD_BUTTON","value":method}])
         .subscribe((data) => {
             console.log(data.data);
-            this.form.patchValue(data.data);
-            var arr = [];
-            if(data.data.listFolderFile !=null && data.data.listFolderFile.length >0){
-                for(var i=0;i<data.data.listFolderFile.length;i++){
-                    arr.push(this.newFolderEdit(data.data.listFolderFile[i]));
-                }
-               
-                this.form.get("listFolderFile").setValue(arr);
-            }
+            this.form.patchValue(data.data)
            
-            console.log( this.form.value);
         })
          }
 
@@ -333,7 +323,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
         .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
         .subscribe((data) => {
-           if(data.data.status==1){
+           if(data.data==1){
             this._messageService.showSuccessMessage('Thông báo', data.data.message);
            }else{
             this._messageService.showErrorMessage('Thông báo', 'Lỗi trong quá trình thực hiện');
@@ -356,26 +346,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
          })
     }
 
-    newFolderEdit(item?:any){
-        var arr =[];
-        if(item.listFile !=undefined && item.listFile.length >0){
-            for(let i=0;i<item.listFile.length;i++){
-                arr.push( this.addFile(item.listFile[i],item.listFile[i],item.listFile[i].base64));
-            }
-            
-        }
-      
-        return this._formBuilder.group({
-       maFolder:item?.maFolder,
-       fileName: item?.fileName,
-       ghiChu: item?.ghiChu,
-       listFile:this._formBuilder.array(
-        arr
-       )
-    
-        })
-   }
-
     addFile2(){
         return this._formBuilder.group({
        fileName: "",
@@ -395,8 +365,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
        size: itemVal.size,
        sovanban: "",
        mafile: "",
-       maFolder:item?.MA_LOAI_FILE,
-       tenFolder:item?.TEN_LOAI_FILE
+       maFolder:item.MA_LOAI_FILE,
+       tenFolder:item.TEN_LOAI_FILE
         })
    }
 

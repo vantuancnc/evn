@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <label for="">Tác gỉa/Đồng tác giả của giải pháp</label>
+    <label for="">Tác giả/Đồng tác giả của giải pháp</label>
     <table class="table table_custom">
         <thead>
             <tr>
@@ -58,10 +58,36 @@
                 <th>Nơi công tác</th>
                 <th>Trình độ chuyên môn</th>
                 <th>Nội dung tham gia</th>
+                <th><button class="pull-right add_button" (click)="addThanhVien()">+Thêm thành viên</button></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr *ngFor="let thanhvien of $any(form.get('danhSachThanhVien')).controls;let i = index" [formGroup]="thanhvien">
+                <td class="stt_table">{{i+1}}</td>
+                <td>
+                    <div class="select-cbkh flex items-center form-control">
+                        <input class="inputselect" type="text" name="" id="" formControlName="ten"  />
+                        <i (click)="openAlertDialog('THANHVIEN',thanhvien)" class="fa fa-search"></i>
+                    </div>
+                    <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
+                </td>
+                <td>  <ng-select
+                    [items]="listChucDanh"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Chọn chức"
+                    formControlName="chucDanh" 
+                >
+                </ng-select></td>
+                <!-- {{thanhvien.get('chucDanh').value}} -->
+                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="namSinh"  /></td>
+                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="donViCongTac"  /></td>
+                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="trinhDoChuyenMon"  /></td>
+                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="noiDung"  /></td>
+                <td  class="text-center action-table"> <i (click)="removeItem(form,i)" class="fa fa-trash"
+                    title="Xóa bỏ"></i></td>
+            </tr>
+            <!-- <tr>
                 <td class="stt_table">1</td>
                 <td> <div class="select-cbkh flex items-center form-control">
                     <input class="inputselect" type="text" name="" id="" />
@@ -81,15 +107,18 @@
                 <td>EVN</td>
                 <td>EVN</td>
                 <td>EVN</td>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
 
     <div class="flex flex-row row gap-4 items-center mt-3">
-        <div class="basis-1/4">
+        <div class="basis-1/2">
             <label for="">Lĩnh vực áp dụng sáng kiến</label>
+            <ng-select [items]="listLinhVucNghienCuu" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" [multiple]="true"
+            formControlName="linhVucNghienCuu" >
+        </ng-select>
         </div>
-        <div class="basis-1/4">
+        <!-- <div class="basis-1/4">
             <div class="list_check">
                 <div class="item_list_check">
                     <input type="checkbox" name="" id="" />
@@ -100,7 +129,7 @@
                     <span>Công nghệ thông tin</span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="basis-1/2 flex items-center justify-end">
             <input type="checkbox" class="mr-1">
             <label for="">Lĩnh vực áp dụng sáng kiến</label>
@@ -113,6 +142,7 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
+                formControlName="uuNhuocDiem" 
             ></textarea>
         </div>
     </div>
@@ -123,6 +153,7 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
+                formControlName="noiDungGiaiPhap" 
             ></textarea>
         </div>
     </div>
@@ -137,6 +168,7 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
+                formControlName="ngayApDung" 
             ></textarea>
         </div>
     </div>
@@ -147,6 +179,7 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
+                formControlName="hieuQuaThucTe" 
             ></textarea>
         </div>
     </div>
@@ -157,6 +190,7 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
+                formControlName="tomTat" 
             ></textarea>
         </div>
     </div>
@@ -167,32 +201,33 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
+                formControlName="thamGiaToChuc" 
             ></textarea>
         </div>
     </div>
     <div class="flex flex-row row gap-4 items-center">
         <label for="">Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</label>
-        <input type="text" class="form-control w-100 ml-4 mr-4" name="" id="">
+        <input type="text" class="form-control w-100 ml-4 mr-4" name="" id=""  formControlName="soTienLamLoi" >
         <label for="">(Lần tháng lương cơ sơ)</label>
     </div>
-    <div class="flex flex-row row items-center">
-        <label for="" class="w-100">Đơn đã ký<span>(*)</span></label>
+    <div *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" class="flex flex-row row items-center">
+        <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
         <label for="chontep" class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer">Chọn tệp</label>
         <input type="file" name="" id="chontep" hidden>
     </div>
-    <div class="flex flex-row row items-center">
+    <!-- <div class="flex flex-row row items-center">
         <label for="" class="w-100">Hồ sơ, tài liệu đính kèm</label>
         <label for="chontep1" class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer">Chọn tệp</label>
         <input type="file" name="" id="chontep1" hidden>
-    </div>
+    </div> -->
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
-        <button class="add_button	">
+        <button class="add_button" (click)="onSubmit('LUU','SUA')"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button"	(click)="onSubmit('LUU','SUA')">
             <i class="fa fa-save"></i> Lưu và gửi
         </button>
-        <button class="add_button bg-sky-500	">
-            <i class="fa fa-cloud-download"></i> Tải mẫu đơn
+        <button class="add_button bg-sky-500" (click)="exportMau()">
+            <i class="fa fa-cloud-download"></i> Xuất mẫu đơn
         </button>
     </div>
 </div>

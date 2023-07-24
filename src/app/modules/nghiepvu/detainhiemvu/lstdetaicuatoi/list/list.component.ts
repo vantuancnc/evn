@@ -12,6 +12,7 @@ import { ServiceService } from 'app/shared/service/service.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
+import { SnotifyToast } from 'ng-alt-snotify';
 
 @Component({
     selector: 'component-list',
@@ -161,6 +162,26 @@ updateActionTIENDO(item){
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
         { queryParams: { type: 'CHINHSUA' } }
       );
+   }
+
+   xoa(item){
+    this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.name + "\"", (toast: SnotifyToast) => {
+      this._messageService.notify().remove(toast.id);
+      this._serviceApi.execServiceLogin("44126995-587A-48EE-840F-769F02050BBB", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+        console.log(data);
+        switch (data.data) {
+                          case 1:
+                              this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                              break;
+                          case 0:
+                              this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                              break;
+                          case -1:
+                              this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                              break;
+                      }
+       })
+    })
    }
    
 }
