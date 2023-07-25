@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
 import {
+    AbstractControl,
     FormArray,
     FormBuilder,
     FormGroup,
@@ -174,6 +175,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         });
     }
 
+    get f(): { [key: string]: AbstractControl } {
+        return this.form.controls;
+    }
     ngOnInit(): void {
         if (this.actionType == 'updateActionHSTH') {
             this.geListTrangThaiHSThucHien();
