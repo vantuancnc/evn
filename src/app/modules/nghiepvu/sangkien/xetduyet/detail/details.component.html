@@ -1,11 +1,11 @@
 <div
     *ngIf="actionType == 'updateActionHDXDCN'"
-    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"  [formGroup]="form"  novalidate
 >
     <div class="">
         <h1 class="title-component">     
             CẬP NHẬT THÔNG TIN HỘI ĐỒNG XÉT DUYỆT/CÔNG NHẬN SÁNG KIẾN
-        </h1>
+        </h1> 
     </div>
 
     <div class="flex flex-row row gap-4">
@@ -63,9 +63,10 @@
                 <th>Tìm kiếm văn bản từ D-Office</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td class="stt_table">1</td>
+        <tbody  formArrayName="vanBan">
+            <ng-container *ngFor="let item_vb of form.get('vanBan')['controls']; let i = index">
+            <tr [formGroup]="item_vb">
+                <td class="stt_table">{{i+1}}</td>
                 <td>Noi dung</td>
                 <td>Noi dung</td>
                 <td>Noi dung</td>
@@ -80,6 +81,7 @@
                     </button>
                 </td>
             </tr>
+        </ng-container>
         </tbody>
     </table>
     <div
@@ -108,9 +110,10 @@
                 <th>Ghi chú</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td class="stt_table">1</td>
+        <tbody formArrayName="thanhVien">
+            <ng-container *ngFor="let item_tt of form.get('thanhVien')['controls']; let i = index">
+            <tr  [formGroup]="item_tt">
+                <td class="stt_table">{{i+1}}</td>
                 <td>
                     <ng-select
                         [items]="listYears"
@@ -133,6 +136,7 @@
                 </td>
                 <td>Noi dung</td>
             </tr>
+        </ng-container>
         </tbody>
     </table>
 
@@ -143,7 +147,7 @@
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            [(ngModel)]="selectedYear"
+            formControlName="trangThai"
             style="width: 200px"
         >
         </ng-select>
@@ -153,8 +157,9 @@
         <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
+
 <div
-    *ngIf="actionType == 'updateActionKQXDCN'"
+    *ngIf="actionType == 'updateActionKQXDCN'" [formGroup]="form"  novalidate
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
@@ -229,7 +234,7 @@
             <label for="">Điểm họp</label>
         </div>
         <div class="basis-11/12">
-            <input type="text" class="form-control" name="" id="" />
+            <input type="text" class="form-control" name="" id=""  formControlName="diemHop"/>
         </div>
     </div>
     <div style="display: flex; margin-top: 10px; align-items: center">
@@ -237,7 +242,7 @@
             <label for="">Thời gian họp</label>
         </div>
         <div class="basis-1/5">
-            <input type="date" class="form-control" name="" id="" />
+            <input type="date" class="form-control" name="" id="" formControlName="thoiGianHop" />
         </div>
     </div>
     <div style="display: flex; margin-top: 10px; align-items: center">
@@ -251,6 +256,7 @@
                 placeholder="Phiếu, tổng số phiếu"
                 name=""
                 id=""
+                formControlName="ketQuaPhieuDanhGia"
             />
         </div>
     </div>
@@ -266,6 +272,7 @@
                 placeholder=""
                 name=""
                 id=""
+                formControlName="thuLaoTacGia"
             />
         </div>
     </div>
@@ -280,6 +287,7 @@
                 placeholder=""
                 name=""
                 id=""
+                formControlName="thuLaoChoNguoiLanDau"
             />
         </div>
     </div>
@@ -295,6 +303,7 @@
                 placeholder=""
                 name=""
                 id=""
+                formControlName="thoaThuanChiPhi"
             />
         </div>
     </div>
@@ -308,17 +317,18 @@
             placeholder="Lựa chọn"
             [(ngModel)]="selectedYear"
             style="width: 200px"
+            formControlName="trangThai"
         >
         </ng-select>
     </div>
 
     <label class="title_labe" for=""
         >Luận giải của hội đồng khoa học về kết quả đánh giá</label>
-    <textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+    <textarea class="form-control"  formControlName="luanGiaiHoiDong" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
 
     <label class="title_labe" for=""
     >Kiến nghị của hội đồng</label>
-<textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+<textarea class="form-control" name="" formControlName="kienNghiHoiDong" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
 
   
 
@@ -341,18 +351,18 @@
     </div>
 
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
-        <input type="checkbox" name="" id="">
+        <input type="checkbox" name="" id="" formControlName="guiMail">
         <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
     </div>
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit()"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
 
 <div
     *ngIf="actionType == 'updateActionRaSoat'"
-    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" [formGroup]="form"  novalidate
 >
     <div class="">
         <h1 class="title-component">
@@ -387,7 +397,7 @@
 
 
 <div
-    *ngIf="actionType == 'updateActionKQ'"
+    *ngIf="actionType == 'updateActionKQ'" [formGroup]="form"  novalidate
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">

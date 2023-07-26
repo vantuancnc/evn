@@ -1,7 +1,18 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
@@ -16,20 +27,19 @@ import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
 
-
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
-
 export class DetailsComponent implements OnInit {
-
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
-    public actionType =  null
+    public actionType = null;
+    public form;
+    public submitted = { check: false };
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -39,30 +49,67 @@ export class DetailsComponent implements OnInit {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
-        this._activatedRoute.queryParams
-        .subscribe(params => {
-          if(params?.type){
-            this.actionType = params?.type
-          }else{
-            this.actionType =null
-          }
-          console.log( this.actionType);
-          
-        }
-      );
+        this.initFormUpdateActionHDXDCN();
+        this.initFormUpdateActionKQXDCN();
+        this._activatedRoute.queryParams.subscribe((params) => {
+            if (params?.type) {
+                this.actionType = params?.type;
+            } else {
+                this.actionType = null;
+            }
+            console.log(this.actionType);
+        });
     }
 
+    initFormUpdateActionHDXDCN() {
+        this.form = this._formBuilder.group({
+            tenGiaiPhap: [null, [Validators.required]],
+            capDoSangKien: [null],
+            nam: [null],
+            tacGia: [null],
+            donViCongTac: [null],
+            donViThucHien: [null],
+            vanBan: this._formBuilder.array([]),
+            thanhVien: this._formBuilder.array([]),
+            trangThai: [null],
+        });
+    }
+
+    initFormUpdateActionKQXDCN() {
+        this.form = this._formBuilder.group({
+            tenGiaiPhap: [null, [Validators.required]],
+            capDoSangKien: [null],
+            nam: [null],
+            tacGia: [null],
+            donViCongTac: [null],
+            donViThucHien: [null],
+            quyetDinhThanhLapHoiDing: [null],
+            diemHop: [null],
+            thoiGianHop: [null],
+            ketQuaPhieuDanhGia: [null],
+            thuLaoTacGia: [null],
+            thuLaoChoNguoiLanDau: [null],
+            thoaThuanChiPhi: [null],
+            trangThai: [null],
+            luanGiaiHoiDong: [null],
+            kienNghiHoiDong: [null],
+            phieuDanhGia: [null],
+            bienBan: [null],
+            guiMail: [false],
+        });
+    }
 
     ngOnInit(): void {
         this.geListYears();
-        this._messageService.showSuccessMessage("Thông báo", "Thành công")
+        this._messageService.showSuccessMessage('Thông báo', 'Thành công');
     }
 
-
     geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listYears = data.data || [];
-        })
+        this.getYearSubscription = this._serviceApi
+            .execServiceLogin('E5050E10-799D-4F5F-B4F2-E13AFEA8543B', null)
+            .subscribe((data) => {
+                this.listYears = data.data || [];
+            });
     }
 
     openAlertDialog() {
@@ -70,16 +117,22 @@ export class DetailsComponent implements OnInit {
             data: {
                 message: 'HelloWorld',
                 buttonText: {
-                    cancel: 'Done'
-                }
+                    cancel: 'Done',
+                },
             },
             width: '800px',
             panelClass: 'custom-PopupCbkh',
             position: {
                 top: '100px',
-            }
+            },
         });
     }
 
-
+    onSubmit() {
+        this.submitted.check = true;
+        if (this.form.invalid) {
+            return;
+        }
+        console.log(this.form.value);
+    }
 }

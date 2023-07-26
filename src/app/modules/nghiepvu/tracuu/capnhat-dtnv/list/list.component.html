@@ -1,11 +1,11 @@
-<div class="relative eco_conntent">
+<div class="relative eco_conntent"  [formGroup]="form" novalidate>
     <div class="bg-white p-3">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ            </h1>
            
-        </div>
+        </div> 
 
         <label class="title_labe" for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
         <textarea
@@ -15,7 +15,11 @@
             cols="30"
             rows="10"
             style="padding: 10px; min-height: 100px"
+            formControlName="tenDeTai" 
         ></textarea>
+        <div *ngIf="submitted.check && f?.tenDeTai?.errors" class="invalid-feedback">
+            <div *ngIf="f.tenDeTai.errors.required">Trường bắt buộc nhập</div>
+          </div>
 
 
         <div class="flex flex-row gap-4 items-center mb-3 mt-3	">
@@ -27,7 +31,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn năm"
-                [(ngModel)]="selectedYear"
+                formControlName="capQuanLy" 
             >
             </ng-select>
             </div>
@@ -40,7 +44,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Lựa chọn"
-                [(ngModel)]="selectedYear"
+                formControlName="linhVucNghienCuu" 
             >
             </ng-select>
             </div>
@@ -50,11 +54,11 @@
 
             <div class="basis-1/2">
                 <label for="">Thời gian thực hiện từ</label>
-                <input class="form-control" type="date" name="" id="">
+                <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" >
             </div>
             <div  class="basis-1/2">
                 <label for="">Đến</label>
-                <input class="form-control" type="date" name="" id="">
+                <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" >
             </div>
             </div>
 
@@ -68,13 +72,13 @@
                     bindLabel="NAME"
                     bindValue="ID"
                     placeholder="Lựa chọn"
-                    [(ngModel)]="selectedYear"
+                    formControlName="donViChuTri" 
                 >
                 </ng-select>
                 </div>
                 <div  class="basis-1/2">
                     <label for="">Kinh phí thực hiện</label>
-                    <input class="form-control" type="text" name="" id="">
+                    <input class="form-control" type="text" name="" id="" formControlName="kinhPhiThucHien" >
                 </div>
                 </div>
 
@@ -88,7 +92,7 @@
                         bindLabel="NAME"
                         bindValue="ID"
                         placeholder="Lựa chọn"
-                        [(ngModel)]="selectedYear"
+                        formControlName="tacGia"
                     >
                     </ng-select>
                     </div>
@@ -111,10 +115,11 @@
                         cols="30"
                         rows="10"
                         style="padding: 10px; min-height: 100px"
+                        formControlName="noiDung"
                     ></textarea>
 
                     <div class="action-all-f mt-3">
-                        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+                        <button class="add_button" (click)="onSubmit()"><i class="fa fa-save"></i> Lưu</button>
                     </div>
 
 
