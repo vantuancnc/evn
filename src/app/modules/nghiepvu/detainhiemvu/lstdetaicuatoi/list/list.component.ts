@@ -165,9 +165,9 @@ updateActionTIENDO(item){
    }
 
    xoa(item){
-    this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.name + "\"", (toast: SnotifyToast) => {
+    this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenDeTai + "\"", (toast: SnotifyToast) => {
       this._messageService.notify().remove(toast.id);
-      this._serviceApi.execServiceLogin("44126995-587A-48EE-840F-769F02050BBB", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+      this._serviceApi.execServiceLogin("9A2E2C8E-72F8-41E1-BEF7-A14E4FF5DF62", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
         console.log(data);
         switch (data.data) {
                           case 1:

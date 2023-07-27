@@ -65,7 +65,7 @@ export class DetailsComponent implements OnInit {
           }else
           if(this.actionType=="updateActionHD"){
             this.method="HOIDONG";
-          }else{
+          }else if(this.actionType=="updateActionRaSoat"){
             this.method="RASOAT";
           }
 
@@ -107,7 +107,144 @@ export class DetailsComponent implements OnInit {
     detail(method){
         this._serviceApi.execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [{"name":"MA_DE_TAI","value":this.idParam},{"name":"METHOD_BUTTON","value":method}]).subscribe((data) => {
             this.form.patchValue(data.data);
+            let formDocParent = this.form.get(
+                'listFolderFile'
+            ) as FormArray;
+
+            let formDocParentThucHien = this.form.get(
+                'listFolderFileThucHien'
+            ) as FormArray;
+
+            let formDocParentTamUng = this.form.get(
+                'listFolderFileTamUng'
+            ) as FormArray;
+
+            if (data.data.listFolderFile != null) {
+                for (let i = 0; i < data.data.listFolderFile.length; i++) {
+                    formDocParent.push(
+                        this.addListDocParent(data.data.listFolderFile[i])
+                    );
+                    if (
+                        data.data.listFolderFile[i].listFile != null &&
+                        data.data.listFolderFile[i].listFile.length > 0
+                    ) {
+                        let formChild = formDocParent
+                            .at(i)
+                            .get('listFile') as FormArray;
+                        for (
+                            let j = 0;
+                            j < data.data.listFolderFile[i].listFile.length;
+                            j++
+                        ) {
+                            formChild.push(
+                                this.addListDocChild(
+                                    data.data.listFolderFile[i].listFile[j]
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+
+            if (data.data.listFolderFileTamUng != null) {
+                for (let i = 0; i < data.data.listFolderFileTamUng.length; i++) {
+                    formDocParentTamUng.push(
+                        this.addListDocParent(data.data.listFolderFileTamUng[i])
+                    );
+                    if (
+                        data.data.listFolderFileTamUng[i].listFile != null &&
+                        data.data.listFolderFileTamUng[i].listFile.length > 0
+                    ) {
+                        let formChild = formDocParentTamUng
+                            .at(i)
+                            .get('listFile') as FormArray;
+                        for (
+                            let j = 0;
+                            j < data.data.listFolderFileTamUng[i].listFile.length;
+                            j++
+                        ) {
+                            formChild.push(
+                                this.addListDocChild(
+                                    data.data.listFolderFileTamUng[i].listFile[j]
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+
+            if (data.data.listFolderFileThucHien != null) {
+                for (let i = 0; i < data.data.listFolderFileThucHien.length; i++) {
+                    formDocParentThucHien.push(
+                        this.addListDocParent(data.data.listFolderFileThucHien[i])
+                    );
+                    if (
+                        data.data.listFolderFileThucHien[i].listFile != null &&
+                        data.data.listFolderFileThucHien[i].listFile.length > 0
+                    ) {
+                        let formChild = formDocParentThucHien
+                            .at(i)
+                            .get('listFile') as FormArray;
+                        for (
+                            let j = 0;
+                            j < data.data.listFolderFileThucHien[i].listFile.length;
+                            j++
+                        ) {
+                            formChild.push(
+                                this.addListDocChild(
+                                    data.data.listFolderFileThucHien[i].listFile[j]
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+            console.log(this.form.value);
+            if (data.data.danhSachThanhVien != null) {
+                let formThanhVien = this.form.get(
+                    'danhSachThanhVien'
+                ) as FormArray;
+
+                for (
+                    let i = 0;
+                    i < data.data.danhSachThanhVien.length;
+                    i++
+                ) {
+                    formThanhVien.push(
+                        this.THEM_THANHVIEN(data.data.danhSachThanhVien[i])
+                    );
+                }
+            }
         })
+    }
+    addListDocParent(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            maFolder: item?.maFolder || null,
+            listFile: this._formBuilder.array([]),
+        });
+    }
+    addListDocChild(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            base64: item?.base64 || null,
+            size: item?.size || 0,
+            sovanban: item?.sovanban || null,
+            mafile: item?.mafile || null,
+            maFolder: item?.maFolder || null,
+            tenFolder: item?.tenFolder || null,
+        });
+    }
+    THEM_THANHVIEN(item?: any): FormGroup {
+        return this._formBuilder.group({
+            ma: item?.ma || null,
+            ten: item?.ten || null,
+            chucDanh: item?.chucDanh || null,
+            soDienThoai: item?.soDienThoai || null,
+            email: item?.email || null,
+            donViCongTac: item?.donViCongTac || null,
+            ghiChu: item?.ghiChu || null,
+        });
     }
 
     addMember(){
@@ -134,6 +271,7 @@ export class DetailsComponent implements OnInit {
 
     initForm(actionType) {
         this.form = this._formBuilder.group({
+            maDeTai:[null],
             thoiGianHop:[null],
             ketQuaPhieuDanhGia:[null],
             ketLuanKienNghiHD:[null],
@@ -216,7 +354,7 @@ export class DetailsComponent implements OnInit {
     //         )
     //     });
     // }
-    addFile(itemVal,base64){
+    addFile(item,itemVal,base64){
         return this._formBuilder.group({
        fileName: itemVal.name,
        base64: base64,
@@ -226,30 +364,30 @@ export class DetailsComponent implements OnInit {
         })
    }
 
-    handleUploadRaSoat(event) {
+    handleUploadRaSoat(event,item,index) {
          let arr =this.form.get("listFile") as FormArray;;
          for (var i = 0; i < event.target.files.length; i++) {
              const reader = new FileReader();
              let itemVal = event.target.files[i];
              reader.readAsDataURL(event.target.files[i]);
              reader.onload = () => {        
-                 arr.push(this.addFile(itemVal,reader.result));
+                 arr.push(this.addFile(item,itemVal,reader.result));
              };
            
          }
      }
 
-     handleUpload(event) {
-        let arr =this.form.get("listFile") as FormArray;;
+     handleUpload(event, item, index) {
+        let arr = item.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
-                arr.push(this.addFile(itemVal,reader.result));
+            reader.onload = () => {
+                arr.push(this.addFile(item, itemVal, reader.result));
             };
-          
         }
+        console.log(item);
     }
 
     geListTrangThaiHD() {
@@ -362,17 +500,50 @@ export class DetailsComponent implements OnInit {
 
     }
 
-    submit(maTrangThai,method){
-        this.form.get('method').setValue(method);
-        this.form.get("maTrangThai").setValue(maTrangThai);
-        console.log(this.form.value);
-        // var token = localStorage.getItem("accessToken");
-        // this._serviceApi
-        // .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
-        // .subscribe((data) => {
-        //     console.log(data.data);
+    // submit(maTrangThai,method){
+    //     this.form.get('method').setValue(method);
+    //     this.form.get("maTrangThai").setValue(maTrangThai);
+    //     console.log(this.form.value);
+    //     // var token = localStorage.getItem("accessToken");
+    //     // this._serviceApi
+    //     // .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
+    //     // .subscribe((data) => {
+    //     //     console.log(data.data);
            
-        // })
+    //     // })
+    // }
+
+    onSubmit(status, method) {
+        console.log(this.form.value);
+        this.form.get('method').setValue(method);
+        var token = localStorage.getItem('accessToken');
+        debugger;
+        if(method=='HSNHIEMTHU'){
+            if(status=="LUU"){
+                this.form.get('maTrangThai').setValue("CHUA_GUI_HS_NTHU");
+            }else if(status=="LUUGUI"){
+                this.form.get('maTrangThai').setValue("DA_NTHU");
+            }
+            
+        }
+        this._serviceApi
+            .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
+                { name: 'DE_TAI', value: JSON.stringify(this.form.value) },
+                { name: 'TOKEN_LINK', value: token },
+            ])
+            .subscribe((data) => {
+                if (data.data.status == 1) {
+                    this._messageService.showSuccessMessage(
+                        'Thông báo',
+                        data.data.message
+                    );
+                } else {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        'Lỗi trong quá trình thực hiện'
+                    );
+                }
+            });
     }
 
 

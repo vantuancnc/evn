@@ -29,8 +29,8 @@ export class DetailsComponent implements OnInit {
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
-    public actionType =  null;
-    public method;
+    public actionType =  null
+
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -47,8 +47,8 @@ export class DetailsComponent implements OnInit {
             this.actionType =null
           }
           console.log( this.actionType);
-		    if(this.actionType=="updateActionHSTN"){
-            this.method="HDNGHIEMTHU";
+		    if(this.actionType=="updateActionHSTH"){
+            this.method="CAPNHATHSTHUCHIEN";
           }else
           if(this.actionType=="CHINHSUA"){
             this.method="HSNHIEMTHU";

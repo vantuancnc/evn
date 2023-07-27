@@ -60,7 +60,7 @@ export class DetailsComponent implements OnInit {
           }
           console.log( this.actionType);
 		   if(this.actionType=="updateActionHSTH"){
-            this.method="CAPNHATHSTHUCHIEN";
+            this.method="GIAHAN";
           }else
           if(this.actionType=="updateActionGH"){
             this.method="GIAHAN";
@@ -74,9 +74,7 @@ export class DetailsComponent implements OnInit {
 
     initForm(actionType) {
         this.form = this._formBuilder.group({
-            maDeTai:[null],
             lyDo:[null],
-
             lanGiaHanThu:[null],
             soLanGiaHan:[null],
             thoiGianHop:[null],
@@ -175,9 +173,6 @@ export class DetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.geListYears();
-        if(this.actionType=="updateActionGH"){
-        this.getThang();
-        }
         this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
 

@@ -64,9 +64,6 @@ export class DetailsComponent implements OnInit {
             } else {
                 this.actionType = null;
             }
-            if (this.actionType == 'updateActionHSTH') {
-                this.method = 'CAPNHATHSTHUCHIEN';
-            } 
             this.initForm(this.method);
             this.detail(this.method);
         });
@@ -91,7 +88,6 @@ export class DetailsComponent implements OnInit {
     initForm(actionType) {
         this.form = this._formBuilder.group({
             method: actionType,
-			nam: [null],
             capDoSangKien: [null, [Validators.required]],
             donViChuDauTu: [null, [Validators.required]],
             tenGiaiPhap: [null, [Validators.required]],

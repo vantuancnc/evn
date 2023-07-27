@@ -39,6 +39,8 @@ export class DetailsComponent implements OnInit {
     public listYears = [];
     public actionType = null;
     public form;
+    public method;
+    public idParam;
     public submitted = { check: false };
 
     constructor(
@@ -51,14 +53,35 @@ export class DetailsComponent implements OnInit {
     ) {
         this.initFormUpdateActionHDXDCN();
         this.initFormUpdateActionKQXDCN();
+        this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
                 this.actionType = null;
             }
+            if (this.actionType == 'updateActionRaSoat') {
+                this.method = 'RASOAT';
+            } else  if (this.actionType == 'updateActionHDXDCN') {
+                this.method = 'HOIDONGXD';
+            }  else  if (this.actionType == 'updateActionKQXDCN') {
+                this.method = 'KETQUAXD';
+            }  else  if (this.actionType == 'updateActionKQ') {
+                this.method = 'CHUNGNHANSK';
+            } 
             console.log(this.actionType);
+            this.detail(this.method);
         });
+    }
+    detail(method) {
+        this._serviceApi
+            .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
+                { name: 'MA_DE_TAI', value: this.idParam },
+                { name: 'METHOD_BUTTON', value: method },
+            ])
+            .subscribe((data) => {
+                this.form.patchValue(data.data);
+            });
     }
 
     initFormUpdateActionHDXDCN() {

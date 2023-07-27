@@ -47,6 +47,7 @@
                 <th>Tên văn bản</th>
                 <th>Số ký hiệu</th>
                 <th>Ngày văn bản</th>
+                <th></th>
                 <th>File nội dung</th>
                 <th>Tìm kiếm văn bản từ D-Office</th>
             </tr>
@@ -55,6 +56,8 @@
             <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
                 <td class="stt_table">{{i+1}}</td>
                 <td>{{item.get('fileName').value}}</td>
+                <td></td>
+                <td></td>
                 <td >
                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                         <table class="table table_custom action-table">
@@ -91,12 +94,17 @@
                 </td>
                 <td class="text-center">
                     <label class="custom-file-upload add_button-import">
-                        <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
+                        <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
                         <i class="fa fa-cloud-upload"></i> Upload file
                     </label>
                     <!-- <button class="add_button">
                         <i class="fa fa-link"></i> Upload file
                     </button> -->
+                </td>
+                <td>
+                    <button class="add_button" style="margin-left: 99px;">
+                        <i class="fa fa-search"></i> Tìm kiếm từ D-Office
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -147,6 +155,7 @@
                 <th style="width: 300px">Thành viên hội đồng</th>
                 <th style="width: 300px">Vai trò</th>
                 <th>Ghi chú</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -168,9 +177,9 @@
                 >
                 </ng-select></td>
                 <!-- {{thanhvien.get('chucDanh').value}} -->
-                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="soDienThoai"  /></td>
-                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="email"  /></td>
-                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="donViCongTac"  /></td>
+                <!-- <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="soDienThoai"  /></td>
+                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="email"  /></td> -->
+                <td><input  style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"  class="inputselect" type="text" name="" id="" formControlName="ghiChu"  /></td>
                 <td  class="text-center action-table"> <i (click)="removeItem(form,i)" class="fa fa-trash"
                     title="Xóa bỏ"></i></td>
             </tr>
@@ -215,7 +224,7 @@
     </div>
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit('LUU','HOIDONG')"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
 <div
@@ -339,7 +348,7 @@
         </div>
         <div class="basis-1/5">
             <label class="custom-file-upload add_button-import">
-                <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
+                <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label>
            <!-- <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button> -->
@@ -387,7 +396,7 @@
     </div> -->
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit('LUU','THANHLAPHD')"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
 
@@ -428,16 +437,17 @@
         <div class="basis-1/5">
             <label for="">File đính kèm</label>
         </div>
-        <div class="basis-1/5">
+        <div class="basis-1/5" *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
             <label class="custom-file-upload add_button-import">
-                <input type="file" multiple  (change)="handleUploadRaSoat($event)" #fileUpload2/>
+                <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label>
            <!-- <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button> -->
         </div>
 
     </div>
-    <div class="list-file" *ngIf="form.get('listFile').value.length >0">
+    <ng-container *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+    <div class="list-file" *ngIf="item.get('listFile').value.length >0">
         <table class="table table_custom action-table">
             <thead>
                 <tr> 
@@ -452,14 +462,14 @@
             </thead>
             <tbody>
 
-                <tr *ngFor="let item2 of form.get('listFile')['controls']; let k = index" [formGroup]="item2">
+                <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index" [formGroup]="item2">
                     <td class="stt_table">{{k+1}}</td>
                     <td>{{item2.get('fileName').value}}</td>
                     <td>
                         {{item2.get('size').value >(1024 * 1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1) +"K"}}</td>
                     
                      <td>{{item2.get('sovanban').value}}</td>
-                    <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(form,k)" class="fa fa-trash" title="Xóa bỏ"></i>
+                    <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item,k)" class="fa fa-trash" title="Xóa bỏ"></i>
                         <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
                     </td>  
     
@@ -468,8 +478,9 @@
             </tbody>
         </table>
     </div> 
+    </ng-container>
     <div class="action-all-f">
-        <button class="add_button" (click)="submit('CHAPTHUAN','RASOAT')"><i class="fa fa-check-square" aria-hidden="true"></i> Chấp thuận</button>
-        <button class="add_button" style="background-color: #dc2626;" (click)="submit('TRALAI','RASOAT')"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i> Trả lại</button>
+        <button class="add_button" (click)="onSubmit('CHAPTHUAN','RASOAT')"><i class="fa fa-check-square" aria-hidden="true"></i> Chấp thuận</button>
+        <button class="add_button" style="background-color: #dc2626;" (click)="onSubmit('TRALAI','RASOAT')"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i> Trả lại</button>
     </div>
 </div>

@@ -295,7 +295,7 @@
                 name=""
                 id=""
                 class="form-control p-3 min-h-30"
-                formControlName="quaTrinhApDung"
+                formControlName="ngayApDung"
             ></textarea>
         </div>
     </div>

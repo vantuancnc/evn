@@ -1208,8 +1208,8 @@
                     <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index">
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}}</td>
-                        <td>{{item.get('fileName').value}}</td>
-                        <td>{{item.get('fileName').value}}</td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
@@ -1282,14 +1282,15 @@
                         <th>Ngày cập nhập</th>
                         <th>File đính kèm</th>
                         <th>Ghi chú</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody formArrayName="listFolderFileTamUng">
                     <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index">
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}}</td>
-                        <td>{{item.get('fileName').value}}</td>
-                        <td>{{item.get('fileName').value}}</td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
@@ -1325,15 +1326,12 @@
                         </td>
                         <td class="text-center">
                             <label class="custom-file-upload add_button-import">
-                                <input type="file" multiple  (change)="handleUploadTamUng($event,item,i)" #fileUpload2/>
+                                <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label>
                             <!-- <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
-                        </td>
-                        <td class="text-center">
-                           
                         </td>
                     </tr>
                 </tbody>
@@ -1389,15 +1387,14 @@
         </div>
         <div class="basis-2/5">
             <span
-                >Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch trong quản
-                lý VTTB</span
+                >{{form.get('tenDeTai').value}}</span
             >
         </div>
         <div class="basis-1/12">
             <label for="">Cấp độ ĐT/NV:</label>
         </div>
         <div class="basis-1/5">
-            <span>Cấp EVN</span>
+            <span>{{form.get('tenCapQuanLy').value}}</span>
         </div>
     </div>
     <div class="flex flex-row row gap-4">
@@ -1405,13 +1402,13 @@
             <label for="">Chủ nhiệm:</label>
         </div>
         <div class="basis-2/5">
-            <span>Nguyễn Văn A</span>
+            <span>{{form.get('chuNhiemDeTai').value}}</span>
         </div>
         <div class="basis-1/12">
             <label for="">Đơn vị công tác:</label>
         </div>
         <div class="basis-1/5">
-            <span>Ban KHCNMT</span>
+            <span>{{form.get('donViCongTac').value}}</span>
         </div>
     </div>
     <div class="title-section">
@@ -1423,14 +1420,68 @@
                 <thead>
                     <tr>
                         <th class="stt_table">STT</th>
-                        <th>Tên hồ sơ</th>
+                        <th style="width: 50%;">Tên hồ sơ</th>
                         <th>Người cập nhập</th>
                         <th>Ngày cập nhập</th>
+                        <th>File Upload</th>
                         <th>File đính kèm</th>
                         <th>Ghi chú</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody formArrayName="listFolderFileTamUng">
+                    <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index">
+                        <td class="stt_table">{{i+1}}</td>
+                        <td>{{item.get('fileName').value}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                <table class="table table_custom action-table">
+                                    <thead>
+                                        <tr> 
+                                            <th class="stt_table">STT</th>
+                                            <th>Tên file</th>
+                                            <th class="text-center">Kích thước
+                                            </th>
+                                            <th class="text-center">Số văn bản
+                                            </th>
+                                            <th style="width: 100px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="listFile">
+                                     
+                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                            <td class="stt_table">{{k+1}}</td>
+                                            <td>{{item2.get('fileName').value}}</td>
+                                            <td>
+                                                {{item2.get('size').value >(1024 * 1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1) +"K"}}</td>
+                                            
+                                             <td>{{item2.get('sovanban').value}}</td>
+                                            <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item,k)" class="fa fa-trash" title="Xóa bỏ"></i>
+                                                <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
+                                            </td>  
+                            
+                                        </tr>
+                            
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </td>
+                        <td class="text-center">
+                            <label class="custom-file-upload add_button-import">
+                                <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label>
+                            <!-- <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button> -->
+                        </td>
+                        <td class="text-center">
+                           
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- <tbody>
                     <tr>
                         <td class="stt_table">1</td>
                         <td>Noi dung</td>
@@ -1442,7 +1493,7 @@
                             </td>
                         <td>Noi dung</td>
                     </tr>
-                </tbody>
+                </tbody> -->
             </table>
         </mat-tab>
         <mat-tab label="Bàn giao, lưu trữ kết quả thực hiện">
@@ -1450,14 +1501,66 @@
                 <thead>
                     <tr>
                         <th class="stt_table">STT</th>
-                        <th>Tên hồ sơ</th>
+                        <th style="width: 50%;">Tên hồ sơ</th>
                         <th>Người cập nhập</th>
                         <th>Ngày cập nhập</th>
+                        <th>File upload</th>
                         <th>File đính kèm</th>
                         <th>Ghi chú</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody formArrayName="listFolderFileThucHien">
+                    <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index">
+                        <td class="stt_table">{{i+1}}</td>
+                        <td>{{item.get('fileName').value}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                <table class="table table_custom action-table">
+                                    <thead>
+                                        <tr> 
+                                            <th class="stt_table">STT</th>
+                                            <th>Tên file</th>
+                                            <th class="text-center">Kích thước
+                                            </th>
+                                            <th class="text-center">Số văn bản
+                                            </th>
+                                            <th style="width: 100px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="listFile">
+                                     
+                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                            <td class="stt_table">{{k+1}}</td>
+                                            <td>{{item2.get('fileName').value}}</td>
+                                            <td>
+                                                {{item2.get('size').value >(1024 * 1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1) +"K"}}</td>
+                                            
+                                             <td>{{item2.get('sovanban').value}}</td>
+                                            <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item,k)" class="fa fa-trash" title="Xóa bỏ"></i>
+                                                <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
+                                            </td>  
+                            
+                                        </tr>
+                            
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </td>
+                        <td class="text-center">
+                            <label class="custom-file-upload add_button-import">
+                                <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label>
+                            <!-- <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button> -->
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <!-- <tbody>
                     <tr>
                         <td class="stt_table">1</td>
                         <td>Noi dung</td>
@@ -1469,13 +1572,13 @@
                         </button></td>
                         <td>Noi dung</td>
                     </tr>
-                </tbody>
+                </tbody> -->
             </table>
         </mat-tab>
     </mat-tab-group>
 
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
         <ng-select
             [items]="listYears"
@@ -1486,7 +1589,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div>
+    </div> -->
 
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
         <input type="checkbox" name="" id="">
@@ -1497,7 +1600,10 @@
     <textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit('LUU','HSNHIEMTHU')"><i class="fa fa-save"></i> Lưu</button>
+    </div>
+    <div class="action-all-f">
+        <button class="add_button" (click)="onSubmit('LUUGUI','HSNHIEMTHU')"><i class="fa fa-save"></i> Lưu & Gửi</button>
     </div>
 </div>
 

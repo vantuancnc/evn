@@ -315,9 +315,8 @@
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            [(ngModel)]="selectedYear"
             style="width: 200px"
-            formControlName="trangThai"
+            formControlName="maTrangThai"
         >
         </ng-select>
     </div>
@@ -351,7 +350,7 @@
     </div>
 
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
-        <input type="checkbox" name="" id="" formControlName="guiMail">
+        <input type="checkbox" name="" id="" formControlName="isEmail">
         <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
     </div>
 
