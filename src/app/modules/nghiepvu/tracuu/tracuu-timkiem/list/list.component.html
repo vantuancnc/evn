@@ -100,14 +100,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td>Cấp EVN</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">2023</td>
-                    <td>Đang thực hiện</td>
-                    <td>2020</td>
+                <tr *ngFor="let item of listData; let i = index">
+                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td>{{item.hoatDongKeHoach}}</td>
+                    <td>{{item.tenDeTaiSK}}</td>
+                    <td>{{item.capQuanLy}}</td>
+                    <td class="text-center">{{item.tenChuNhiemTG}}</td>
+                    <td class="text-center">{{item.nam}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
                             <i (click)="detail($event)"

@@ -30,7 +30,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
         {id:1,name:'ten_file',kichthuoc:'20mb'},
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
         {id:3,name:'ten_file2',kichthuoc:'20mb'}
-    ]
+    ];
+    public listData=[];
 
 
     /**
@@ -129,4 +130,22 @@ export class ListItemComponent implements OnInit, OnDestroy {
         { queryParams: { type: 'CHINHSUA' } }
       );
    }
+   timKiem(){
+    let obj ={
+        hoatDongKhCN:"",
+        linhVucNghienCuu:[],
+        capQuanLy:"",
+        nam:0,
+        tenDeTaiSK:"",
+        tenChuNhiemTG:""
+    }
+   this._serviceApi.execServiceLogin("DEA672A5-4533-4C16-8D99-7E6D4D277941", [{"name":"TIM_KIEM","value":obj},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+      this.listData = data.data || [];
+         if(data.data != null && data.data.length >0){
+            this.length = data.data[0].TotalPage;
+         }
+         
+     })
+}
+
 }

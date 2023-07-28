@@ -62,8 +62,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.geListYears();
-        this.getListDinhHuong()
+        //this.geListYears();
+        this.timKiem()
     }
 
     geListYears() {
@@ -85,8 +85,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this.getGiaoSubcription.unsubscribe();
     }
 
-    getListDinhHuong() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+    timKiem() {
+        this.getGiaoSubcription = this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", null).subscribe((data) => {
             this.listGiao = data.data || [];
         })
     }

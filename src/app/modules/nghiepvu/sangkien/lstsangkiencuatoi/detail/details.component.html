@@ -13,7 +13,7 @@
         </div>
         <div class="basis-2/5">
             <ng-select
-                [items]="listYears"
+                [items]="listCapDo"
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Lựa chọn"
@@ -34,7 +34,7 @@
         </div>
         <div class="basis-2/5">
             <ng-select
-                [items]="listYears"
+                [items]="listDonViChuDauTu"
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Lựa chọn"
@@ -207,7 +207,7 @@
                 [items]="listLinhVucNghienCuu"
                 bindLabel="NAME"
                 bindValue="ID"
-                placeholder="Chọn năm"
+                placeholder="Lựa chọn"
                 [multiple]="true"
                 formControlName="linhVucNghienCuu"
             >
@@ -355,7 +355,7 @@
         <label for="chontep" class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer">Chọn tệp</label>
         <input type="file" name="" id="chontep" hidden>
     </div> -->
-    <div class="flex flex-row row items-center">
+    <!-- <div class="flex flex-row row items-center">
         <label for="" class="w-100">Đơn đã ký<span>(*)</span></label>
         <label
             for="chontep1"
@@ -372,13 +372,64 @@
             >Chọn tệp</label
         >
         <input type="file" name="" id="chontep1" hidden />
+    </div> -->
+    <div class="flex flex-row row items-center"  *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+
+            <label for="" class="w-100">{{ item.maFolder}}<span *ngIf="item.maFolder=='VBDANGKY'">(*)</span></label>
+
+                    <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
+                        <table class="table table_custom action-table">
+                            <thead>
+                                <tr>
+                                    <th class="stt_table">STT</th>
+                                    <th>Tên file</th>
+                                    <th class="text-center">Kích thước
+                                    </th>
+                                    <th class="text-center">Số văn bản
+                                    </th>
+                                    <th style="width: 100px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="listFile">
+                                <ng-container
+                                    *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                    <tr [formGroupName]="k">
+                                        <td class="stt_table">{{k+1}}</td>
+                                        <td>{{item2.get('fileName').value}}</td>
+                                        <td>
+                                            {{item2.get('size').value >(1024 *
+                                            1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                            >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                            +"K"}}</td>
+
+                                        <td>{{item2.get('sovanban').value}}</td>
+                                        <td class="text-center"> <i
+                                                style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                title="Xóa bỏ"></i>
+                                            <i class="fa fa-cloud-download"
+                                                style="color: green; cursor: pointer;" aria-hidden="true"
+                                                (click)="downLoadFile(item2)" title="Download file"></i>
+                                        </td>
+
+                                    </tr>
+                                </ng-container>
+
+                            </tbody>
+                        </table>
+                    </div>
+               
+                    <label class="custom-file-upload add_button-import">
+                        <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                        <i class="fa fa-cloud-upload"></i> Upload file
+                    </label>
     </div>
 
     <div class="action-all-f">
         <button class="add_button" (click)="onSubmit('LUU', 'SUA')">
             <i class="fa fa-save"></i> Lưu
         </button>
-        <button class="add_button" (click)="onSubmit('LUU', 'SUA')">
+        <button class="add_button" (click)="onSubmit('LUUGUI', 'SUA')">
             <i class="fa fa-save"></i> Lưu và gửi
         </button>
         <button class="add_button bg-sky-500" (click)="exportMau()">

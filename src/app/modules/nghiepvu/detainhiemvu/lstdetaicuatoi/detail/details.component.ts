@@ -112,6 +112,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             maDeTai: [null],
             method: [null],
             tenDeTai: [null, [Validators.required]],
+            tenTrangThai:[null],
             maTrangThai:[null],
             tenCapQuanLy:[null],
             isEmail:false,
@@ -119,14 +120,17 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             keHoach: [null],
             capQuanLy: [null, [Validators.required]],
             vanBanChiDaoSo: [null],
+            tenLinhVucNghienCuu:[null],
             linhVucNghienCuu: [],
             noiDungGuiMail: [null],
             noiDung: [null],
             keHoachTiepTheo: [null],
             dexuatKienNghi: [null],
             thang: [null],
+            soLanGiaHan: [null],
             nam: new Date().getFullYear(),
             //LINHVUCNGHIENCUU: this._formBuilder.array([]),
+            tenDonViChuTri:[null],
             donViChuTri: [null, [Validators.required]],
             thoiGianThucHienTu: [null, [Validators.required]],
             thoiGianThucHienDen: [null, [Validators.required]],
@@ -154,7 +158,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
             danhSachThanhVien: this._formBuilder.array([]),
             danhSachThanhVienHD: this._formBuilder.array([]),
-
+            danhSachThanhVienHDXT: this._formBuilder.array([]),
+            tenNguonKinhPhi:[null],
             nguonKinhPhi: [null, [Validators.required]],
             tongKinhPhi: [null, [Validators.required]],
             phuongThucKhoanChi: [null],
@@ -171,6 +176,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
             listFolderFileThucHien: this._formBuilder.array([]),
             listFolderFileTamUng: this._formBuilder.array([]),
+            listTienDoCongViec:this._formBuilder.array([]),
+            listHDXD:this._formBuilder.array([]),
+            listHDNT:this._formBuilder.array([]),
+            listFolderHSDK: this._formBuilder.array([]),
+            listFolderHSXD: this._formBuilder.array([]),
+            listFolderBanGiao: this._formBuilder.array([]),
+            listFolderQuyetToan: this._formBuilder.array([]),
+            listFolderHSNT: this._formBuilder.array([]),
+
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -449,6 +463,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             soDienThoai: item?.soDienThoai || null,
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
+            tenChucDanh:item?.tenChucDanh || null,
         });
     }
     addMember() {
