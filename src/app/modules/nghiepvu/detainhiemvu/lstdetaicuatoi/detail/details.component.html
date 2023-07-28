@@ -1205,13 +1205,14 @@
                     </tr>
                 </thead>
                 <tbody formArrayName="listFolderFileThucHien">
-                    <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index">
+                    <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index"  [formGroupName]="i">
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}}</td>
                         <td></td>
                         <td></td>
                         <td>
-                            <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                            <ng-container  formArrayName="listFile">
+                            <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                                 <table class="table table_custom action-table">
                                     <thead>
                                         <tr> 
@@ -1224,9 +1225,9 @@
                                             <th style="width: 100px;"></th>
                                         </tr>
                                     </thead>
-                                    <tbody formArrayName="listFile">
+                                    <tbody>
                                      
-                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index"  [formGroupName]="k">
                                             <td class="stt_table">{{k+1}}</td>
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
@@ -1239,9 +1240,10 @@
                             
                                         </tr>
                             
-                                    </tbody>
+                                    </tbody> 
                                 </table>
                             </div> 
+                        </ng-container>
                         </td>
                         <td class="text-center">
                             <label class="custom-file-upload add_button-import">
@@ -1429,13 +1431,13 @@
                     </tr>
                 </thead>
                 <tbody formArrayName="listFolderFileTamUng">
-                    <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index">
+                    <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index"  [formGroupName]="i">
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}}</td>
                         <td></td>
                         <td></td>
                         <td>
-                            <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                            <div formArrayName="listFile" class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
                                     <thead>
                                         <tr> 
@@ -1448,9 +1450,9 @@
                                             <th style="width: 100px;"></th>
                                         </tr>
                                     </thead>
-                                    <tbody formArrayName="listFile">
+                                    <tbody >
                                      
-                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index"  [formGroupName]="k">
                                             <td class="stt_table">{{k+1}}</td>
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
@@ -1510,7 +1512,7 @@
                     </tr>
                 </thead>
                 <tbody formArrayName="listFolderFileThucHien">
-                    <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index">
+                    <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index"  [formGroupName]="i">
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}}</td>
                         <td></td>
