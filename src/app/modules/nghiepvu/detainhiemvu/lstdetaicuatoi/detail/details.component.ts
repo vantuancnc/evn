@@ -112,14 +112,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             maDeTai: [null],
             method: [null],
             tenDeTai: [null, [Validators.required]],
-            maTrangThai:[null],
-            tenCapQuanLy:[null],
-            isEmail:false,
+            maTrangThai: [null],
+            tenCapQuanLy: [null],
+            isEmail: false,
             canCuThucHien: [null],
             keHoach: [null],
             capQuanLy: [null, [Validators.required]],
             vanBanChiDaoSo: [null],
-            tenLinhVucNghienCuu:[null],
+            tenLinhVucNghienCuu: [null],
             linhVucNghienCuu: [],
             noiDungGuiMail: [null],
             noiDung: [null],
@@ -129,7 +129,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             soLanGiaHan: [null],
             nam: new Date().getFullYear(),
             //LINHVUCNGHIENCUU: this._formBuilder.array([]),
-            tenDonViChuTri:[null],
+            tenDonViChuTri: [null],
             donViChuTri: [null, [Validators.required]],
             thoiGianThucHienTu: [null, [Validators.required]],
             thoiGianThucHienDen: [null, [Validators.required]],
@@ -158,7 +158,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             danhSachThanhVien: this._formBuilder.array([]),
             danhSachThanhVienHD: this._formBuilder.array([]),
             danhSachThanhVienHDXT: this._formBuilder.array([]),
-            tenNguonKinhPhi:[null],
+            tenNguonKinhPhi: [null],
             nguonKinhPhi: [null, [Validators.required]],
             tongKinhPhi: [null, [Validators.required]],
             phuongThucKhoanChi: [null],
@@ -175,9 +175,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
             listFolderFileThucHien: this._formBuilder.array([]),
             listFolderFileTamUng: this._formBuilder.array([]),
-            listTienDoCongViec:this._formBuilder.array([]),
-            listHDXD:this._formBuilder.array([]),
-            listHDNT:this._formBuilder.array([]),
+            listTienDoCongViec: this._formBuilder.array([]),
+            listHDXD: this._formBuilder.array([]),
+            listHDNT: this._formBuilder.array([]),
             listFolderHSDK: this._formBuilder.array([]),
             listFolderHSXD: this._formBuilder.array([]),
             listFolderBanGiao: this._formBuilder.array([]),
@@ -309,7 +309,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         }
                     }
                 }
-                // file tạm ứng
+                //file tạm ứng
                 if (data.data.listFolderFileTamUng != null) {
                     for (
                         let i = 0;
@@ -401,8 +401,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         );
                     }
                 }
-
-                console.log('form,', this.form.value.listFolderFile);
+                setTimeout(() => {
+                    console.log('form,', this.form);
+                }, 10000);
             });
     }
 
@@ -487,7 +488,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             soDienThoai: item?.soDienThoai || null,
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
-            tenChucDanh:item?.tenChucDanh || null,
+            tenChucDanh: item?.tenChucDanh || null,
         });
     }
     addMember() {
@@ -597,9 +598,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
     addFile(item, itemVal, base64) {
         return this._formBuilder.group({
-            fileName: itemVal.name,
-            base64: base64,
-            size: itemVal.size,
+            fileName: itemVal?.name || null,
+            base64: base64 || null,
+            size: itemVal?.size || null,
             sovanban: '',
             mafile: '',
         });
@@ -707,8 +708,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     listupload = [];
     handleUpload(event, item, index) {
-        console.log(item);
-
         let arr = item.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
@@ -717,7 +716,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             reader.onload = () => {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
-            console.log('upload', arr.value);
         }
     }
 
