@@ -67,14 +67,14 @@
             </div>
             <div class="grow flex justify-end">
                 <button class="add_button" (click)="addNew()">
-                    <i class="fa fa-plus"></i> Thêm mới
+                    <i class="fa fa-plus"></i> Đăng ký mới
                 </button>
             </div>
         </div>
 
 
         <div class="flex flex-row row gap-4 items-center">
-            <div class="basic-1/4" style="margin-right: 13px;">
+            <div class="basic-1/4" style="margin-right: 13px;" (click)="timKiem()">
                 <label for="">Tìm kiếm</label>
             </div>
             <div class="basis-1/2">
@@ -114,7 +114,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let item of listGiao; let i = index">
+                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td>{{item.tenGiaiPhap}}</td>
+                    <td class="text-center">{{item.tenCapDoSangKien}}</td>
+                    <td class="text-center">{{item.tenDonViChuDauTu}}</td>
+                    <td class="text-center">{{item.nam}}</td>
+                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>
+                    <td class="text-center">{{item.tenTrangThai}}</td>
+                    <td class="action-table">
+                        <div class="flex justify-evenly"  style="float: left;">
+                            <i (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
+                            <i (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionKQXDCN(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
+                            <i   (click)="updateActionKQ(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
+
+                            <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>
+                          <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i> 
+                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-pencil cursor-point"  [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
+                             <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
+                        </div>
+                    </td>
+                </tr>
+                <!-- <tr>
                     <td class="stt_table">1</td>
                     <td>Bản đăng ký định hướng 2023</td>
                     <td>Cấp EVN</td>
@@ -136,10 +158,10 @@
                             <i class="fa fa-clock-o"  title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" (click)="editer($event)"
                             class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
+                          
                         </div>
                     </td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
         <!-- phan trang -->
@@ -153,7 +175,6 @@
             aria-label="Select page"
         >
         </mat-paginator>
-        <button (click)="openAlertDialog()" >Mop pup up fille</button>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

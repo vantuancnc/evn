@@ -13,6 +13,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
 import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-confirmcomponent';
+import { SnotifyToast } from 'ng-alt-snotify';
 
 @Component({
     selector: 'component-list',
@@ -63,6 +64,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.geListYears();
         this.getListDinhHuong()
+        this.timKiem();
     }
 
     geListYears() {
@@ -74,10 +76,21 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     addNew(): void {
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
+            ['/nghiepvu/sangkien/lstdetaicuatoi'],
             { queryParams: { type: 'THEMMOI' } }
           );
     }
+    timKiem() {
+        this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", [{"name":"LOAI_TIM_KIEM","value":"CUATOI"},{"name":"TIM_KIEM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+            this.listGiao = data.data || [];
+        })
+    }
+    lichsu(item){
+        this._router.navigate(
+            ['/nghiepvu/sangkien/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
+          );
+       }
 
     ngOnDestroy() {
         this.getYearSubscription.unsubscribe()
@@ -118,7 +131,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
  
     detail(item){
         this._router.navigate(
-            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+            ['/nghiepvu/sangkien/lstsangkiencuatoi/'+item.maSangKien],
             { queryParams: { type: 'CHITIET' } }
           );
    }
@@ -126,36 +139,55 @@ export class ListItemComponent implements OnInit, OnDestroy {
   
     editer(item){
         this._router.navigate(
-            ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+            ['/nghiepvu/sangkien/lstsangkiencuatoi/'+item.maSangKien],
             { queryParams: { type: 'CHINHSUA' } }
           );
     }
 
     updateActionHDXDCN(item){
         this._router.navigate(
-            ['/nghiepvu/sangkien/xetduyet'],
+            ['/nghiepvu/sangkien/xetduyet/'+item.maSangKien],
             { queryParams: { type: 'updateActionHDXDCN' } }
           );
     }
 
     updateActionKQXDCN(item){
         this._router.navigate(
-            ['/nghiepvu/sangkien/xetduyet'],
-            { queryParams: { type: 'updateActionKQXDCN' } }
+            ['/nghiepvu/sangkien/xetduyet/'+item.maSangKien],
+            { queryParams: { type: 'updateActionKQXDCN'} }
           );
     }
 
     updateActionKQ(item){
         this._router.navigate(
-            ['/nghiepvu/sangkien/xetduyet'],
+            ['/nghiepvu/sangkien/xetduyet/'+item.maSangKien],
             { queryParams: { type: 'updateActionKQ' } }
           ); 
     }
 
     updateActionRaSoat(item){
         this._router.navigate(
-            ['/nghiepvu/sangkien/xetduyet'],
+            ['/nghiepvu/sangkien/xetduyet/'+item.maSangKien],
             { queryParams: { type: 'updateActionRaSoat' } }
           );
     }
+
+    xoa(item){
+        this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenGiaiPhap + "\"", (toast: SnotifyToast) => {
+          this._messageService.notify().remove(toast.id);
+          this._serviceApi.execServiceLogin("36A4A979-FDB3-4F60-8C5E-3B11EA084039", [{"name":"MA_SANGKIEN","value":item.tenGiaiPhap},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+            switch (data.data) {
+                              case 1:
+                                  this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                  break;
+                              case 0:
+                                  this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                                  break;
+                              case -1:
+                                  this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                                  break;
+                          }
+           })
+        })
+       }
 }

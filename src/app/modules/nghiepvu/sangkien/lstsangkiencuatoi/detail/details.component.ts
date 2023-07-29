@@ -52,6 +52,7 @@ export class DetailsComponent implements OnInit {
     public listCapDo=[];
     public listFolderFile=[];
 
+
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -80,6 +81,7 @@ export class DetailsComponent implements OnInit {
         this.getListLinhVucNghienCuu();
         this.getListCapDoSK();
         this.getListDonViChuDauTu();
+        this.getListChucDanh();
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
         }
@@ -141,6 +143,7 @@ export class DetailsComponent implements OnInit {
     initForm(actionType) {
         this.form = this._formBuilder.group({
             method: actionType,
+            maTrangThai:[null],
 			nam: [null],
             capDoSangKien: [null, [Validators.required]],
             donViChuDauTu: [null, [Validators.required]],
@@ -156,6 +159,7 @@ export class DetailsComponent implements OnInit {
             thamGiaToChuc: [null],
             soTienLamLoi: [null],
             donDangKy: [null],
+            thuTruongDonVi:[null],
             taiLieuDinhKem: [null],
             listFolderFile: this._formBuilder.array([]),
         });
@@ -278,10 +282,19 @@ export class DetailsComponent implements OnInit {
         }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
+        this.form.get('nam').setValue(new Date().getFullYear());
+        if(method=="SUA"){
+            if(status=="LUU"){
+                this.form.get('maTrangThai').setValue('SOAN');
+            }else if(status=="LUUGUI"){
+                this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
+            }
+        }
         var token = localStorage.getItem("accessToken");
         this._serviceApi
-        .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
+        .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [{"name":"SANG_KIEN","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
         .subscribe((data) => {
+            debugger;
             console.log(data.data);
 
         })
@@ -342,4 +355,5 @@ export class DetailsComponent implements OnInit {
                 });
         }
     }
+    
 }

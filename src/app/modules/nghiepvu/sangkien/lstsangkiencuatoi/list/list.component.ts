@@ -12,6 +12,7 @@ import { ServiceService } from 'app/shared/service/service.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
+import { SnotifyToast } from 'ng-alt-snotify';
 
 @Component({
     selector: 'component-list',
@@ -81,15 +82,21 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe()
-        this.getGiaoSubcription.unsubscribe();
+        //this.getYearSubscription.unsubscribe()
+       // this.getGiaoSubcription.unsubscribe();
     }
 
     timKiem() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", null).subscribe((data) => {
+        this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", [{"name":"LOAI_TIM_KIEM","value":"CUATOI"},{"name":"TIM_KIEM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listGiao = data.data || [];
         })
     }
+    lichsu(item){
+        this._router.navigate(
+            ['/nghiepvu/sangkien/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
+          );
+       }
     //phân trang
     length = 500;
     pageSize = 10;
@@ -128,5 +135,24 @@ export class ListItemComponent implements OnInit, OnDestroy {
         ['/nghiepvu/sangkien/lstsangkiencuatoi'],
         { queryParams: { type: 'CHINHSUA' } }
       );
+   }
+
+   xoa(item){
+    this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenGiaiPhap + "\"", (toast: SnotifyToast) => {
+      this._messageService.notify().remove(toast.id);
+      this._serviceApi.execServiceLogin("36A4A979-FDB3-4F60-8C5E-3B11EA084039", [{"name":"MA_SANGKIEN","value":item.tenGiaiPhap},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+        switch (data.data) {
+                          case 1:
+                              this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                              break;
+                          case 0:
+                              this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                              break;
+                          case -1:
+                              this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                              break;
+                      }
+       })
+    })
    }
 }

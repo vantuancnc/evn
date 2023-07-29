@@ -83,10 +83,7 @@ export const XetDuyetRoutes: Route[] = [
           {
             path: ':id',
             runGuardsAndResolvers: 'always',
-            component: DetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
+            component: DetailsComponent
           }
         ]
       }

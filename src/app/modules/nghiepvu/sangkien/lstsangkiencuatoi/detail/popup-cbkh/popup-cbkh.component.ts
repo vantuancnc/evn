@@ -22,7 +22,14 @@ export class PopupCbkhComponent implements OnInit {
     message: string = "Are you sure?"
     confirmButtonText = "Yes"
     cancelButtonText = "Cancel"
-
+    public tenKeHoach="";
+    public checkType=""
+    public listKehoach = [];
+    public listChuNhiem = [];
+    public listDongChuNhiem = [];
+    public listThuKy = [];
+    public listThanhVien = [];
+    public getDinhHuongSubcription: Subscription;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private _formBuilder: UntypedFormBuilder,
@@ -31,9 +38,11 @@ export class PopupCbkhComponent implements OnInit {
         public _router: Router,
         private _serviceApi: ServiceService,
         public dialog: MatDialog,
+        
         private dialogRef: MatDialogRef<PopupCbkhComponent>
     ) {
         if (data) {
+            this.checkType=data.type;
             this.message = data.message || this.message;
             if (data.buttonText) {
                 this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
@@ -45,12 +54,51 @@ export class PopupCbkhComponent implements OnInit {
 
     ngOnInit(): void {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
+        if(this.checkType=="KEHOACH"){
+            this.timkiemKehoach();
+        }else{
+            this.timkiemNguoi(this.checkType);
+        }
+       
+       
     }
 
 
-    onConfirmClick(): void {
+    onCloseClick(): void {
         this.dialogRef.close(true);
     }
+
+    submit(item){
+
+        this.dialogRef.close({
+           data:item
+          });
+    }
+
+    timkiemKehoach(){
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":""}]).subscribe((data) => {
+            console.log(data.data);
+            this.listKehoach = data.data || [];
+              
+           })
+    }
+    timkiemNguoi(type){
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":""}]).subscribe((data) => {
+            if(type=="CHUNHIEM"){
+                this.listChuNhiem = data.data || [];
+            }else if(type=="DONGCHUNHIEM"){
+                this.listDongChuNhiem = data.data || [];
+            }else if(type=="THUKY"){
+                this.listThuKy = data.data || [];
+            }else if(type=="THANHVIEN"){
+                this.listThanhVien = data.data || [];
+            }
+              
+           })
+    }
+    // ngOnDestroy() {
+    //     this.getDinhHuongSubcription.unsubscribe()
+    // }
 
 
 
