@@ -50,9 +50,7 @@ export class DetailsComponent implements OnInit {
     public toNam:number;
     public listPhanLoai=[];
     public form: FormGroup;
-	public loaiThongKe:String=null;
-    public loaiTimKiem:String=null;
-    public actionSearch:String=null;
+	 public loaiThongKe:String=null;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -62,7 +60,6 @@ export class DetailsComponent implements OnInit {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
-        this.initForm();
         this._activatedRoute.queryParams
         .subscribe(params => {
           if(params?.type){
@@ -70,30 +67,7 @@ export class DetailsComponent implements OnInit {
           }else{
             this.actionType =null
           }
-          if(params?.search){
-            this.actionSearch = params?.search
-          }else{
-            this.actionSearch =null
-          }
-          if(this.actionSearch=="TKKHOAHOC"){
-            this.loaiTimKiem ="DETAI";
-            this.loaiThongKe="KHOAHOC"
-          }else if(this.actionSearch=="TKDETAI"){
-            this.loaiTimKiem ="DETAI";
-            this.loaiThongKe="CAPDETAI"
-          }else if(this.actionSearch=="TKDONVI"){
-            this.loaiTimKiem ="DETAI";
-            this.loaiThongKe="CAPDONVI"
-          }else if(this.actionSearch=="TKAPDUNG"){
-            this.loaiTimKiem ="SANGKIEN";
-            this.loaiThongKe="KHOAHOC"
-          }else if(this.actionSearch=="TKSANGKIEN"){
-            this.loaiTimKiem ="SANGKIEN";
-            this.loaiThongKe="CAPDETAI"
-          }else if(this.actionSearch=="TKSKDONVI"){
-            this.loaiTimKiem ="SANGKIEN";
-            this.loaiThongKe="CAPDONVI"
-          }
+          console.log( this.actionType);
           
         }
       );
@@ -106,12 +80,9 @@ export class DetailsComponent implements OnInit {
         this.getListCapQuanLy();
         this.getListPhanLoai();
     }
-    newLinhVuc(){
-
-    }
     initForm() {
         this.form = this._formBuilder.group({
-            linhVuc: this._formBuilder.array([])
+            linhVuc: this._formBuilder.array([]),
         })
     }
     getlistDonViChuTri(){
@@ -167,9 +138,8 @@ export class DetailsComponent implements OnInit {
             fromNam:this.fromNam,
             toNam:this.toNam,
         }
-        this._serviceApi.execServiceLogin("8EA6E3A8-860D-46A9-98B6-AD215E62FE45", [{"name":"LOAI_TIM_KIEM","value":this.loaiTimKiem},{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
-            debugger;
-            this.form.patchValue(data.data);
+        this._serviceApi.execServiceLogin("8EA6E3A8-860D-46A9-98B6-AD215E62FE45", [{"name":"LOAI_TIM_KIEM","value":this.actionType},{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+            this.listYears = data.data || [];
         })
     }
 

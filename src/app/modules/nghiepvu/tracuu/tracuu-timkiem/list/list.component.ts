@@ -26,6 +26,14 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public listHoatDongKHCN = [];
+    public hoatDongKhCN: string =null;
+    public listLinhVucNghienCuu = [];
+    public linhVucNghienCuu: String = null;
+    public listCapQuanLy = [];
+    public capQuanLy: String = null;
+    public tenDeTaiSK: String = null;
+    public tenChuNhiemTG : String = null;
     public ListFleDemo = [
         {id:1,name:'ten_file',kichthuoc:'20mb'},
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
@@ -64,7 +72,30 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.geListYears();
-        this.getListDinhHuong()
+        this.getlistHoatDongKHCN();
+        this.getListLinhVucNghienCuu();
+        this.getListCapQuanLy()
+    }
+
+    getListCapQuanLy() {
+        this._serviceApi
+            .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
+            .subscribe((data) => {
+                console.log(data.data);
+                this.listCapQuanLy = data.data || [];
+            });
+    }
+
+    getlistHoatDongKHCN(){
+        this.listHoatDongKHCN=[{"id":"hoatdong","name":"Hoạt động"}];
+    }
+    getListLinhVucNghienCuu() {
+        this._serviceApi
+            .execServiceLogin('FF1D2502-E182-4242-A754-BCCC29B70C61', null)
+            .subscribe((data) => {
+                console.log(data.data);
+                this.listLinhVucNghienCuu = data.data || [];
+            });
     }
 
     geListYears() {
@@ -132,14 +163,14 @@ export class ListItemComponent implements OnInit, OnDestroy {
    }
    timKiem(){
     let obj ={
-        hoatDongKhCN:"",
-        linhVucNghienCuu:[],
-        capQuanLy:"",
-        nam:0,
-        tenDeTaiSK:"",
-        tenChuNhiemTG:""
+        hoatDongKhCN:this.hoatDongKhCN,
+        linhVucNghienCuu:this.linhVucNghienCuu,
+        capQuanLy:this.capQuanLy,
+        nam:this.selectedYear,
+        tenDeTaiSK:this.tenDeTaiSK,
+        tenChuNhiemTG:this.tenChuNhiemTG
     }
-   this._serviceApi.execServiceLogin("DEA672A5-4533-4C16-8D99-7E6D4D277941", [{"name":"TIM_KIEM","value":obj},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+   this._serviceApi.execServiceLogin("63912FAF-0865-4E94-BDBB-6048F2D720C9", [{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
       this.listData = data.data || [];
          if(data.data != null && data.data.length >0){
             this.length = data.data[0].TotalPage;

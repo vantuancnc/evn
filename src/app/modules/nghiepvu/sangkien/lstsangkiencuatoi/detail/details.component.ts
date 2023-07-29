@@ -77,7 +77,7 @@ export class DetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // this.geListYears();
+        this.geListYears();
         this.getListLinhVucNghienCuu();
         this.getListCapDoSK();
         this.getListDonViChuDauTu();
@@ -89,6 +89,17 @@ export class DetailsComponent implements OnInit {
         console.log(this.actionType);
     }
 
+    geListYears(){
+        var obj = { "NAME": 0, "ID": 0 };
+        var year = (new Date()).getFullYear();
+        var yearStart = year - 4;
+        var yearEnd = yearStart + 10;
+        for (let i = yearStart; i <= yearEnd; i++) {
+            obj = { "NAME": i, "ID": i }
+            this.listYears.push(obj);
+        }
+        this.form.get("nam").setValue((new Date()).getFullYear());
+    }
     getListFolderFile() {
         this._serviceApi
             .execServiceLogin('EEB9967E-0EEB-43AC-A2F7-1CB64C51377B', null)
@@ -144,8 +155,11 @@ export class DetailsComponent implements OnInit {
         this.form = this._formBuilder.group({
             method: actionType,
             maTrangThai:[null],
-			nam: [null],
+			nam: new Date().getFullYear(),
             capDoSangKien: [null, [Validators.required]],
+            donViApDungInfo:{},
+            donViApDung:[null,[Validators.required]],
+            donViChuDauTuInfo:{},
             donViChuDauTu: [null, [Validators.required]],
             tenGiaiPhap: [null, [Validators.required]],
             tacGiaGiaiPhap: this._formBuilder.array([]),
@@ -199,6 +213,7 @@ export class DetailsComponent implements OnInit {
                 { name: 'METHOD_BUTTON', value: method },
             ])
             .subscribe((data) => {
+                debugger;
                 this.form.patchValue(data.data);
             });
     }
@@ -259,7 +274,15 @@ export class DetailsComponent implements OnInit {
                 console.log(item);
                 item.get('ten').setValue(data.data.username);
                 item.get('maThanhVien').setValue(data.data.userId);
+            } else if (type == 'DKAPDUNGSK') {
+                console.log('data1', data);
+             //   console.log(item);
+              //  item.get('ten').setValue(data.data.username);
+                debugger;
+                item.get('donViApDungInfo').setValue(data.data);
+                item.get('donViApDung').setValue(data.data.name);
             }
+            
         });
     }
     getListChucDanh() {
@@ -282,7 +305,7 @@ export class DetailsComponent implements OnInit {
         }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
-        this.form.get('nam').setValue(new Date().getFullYear());
+        //this.form.get('nam').setValue(new Date().getFullYear());
         if(method=="SUA"){
             if(status=="LUU"){
                 this.form.get('maTrangThai').setValue('SOAN');

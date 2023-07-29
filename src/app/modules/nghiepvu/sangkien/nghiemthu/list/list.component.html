@@ -78,7 +78,24 @@
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tr *ngFor="let item of listGiao; let i = index">
+                <td class="stt_table">{{ i+ 1}}</td>
+                <td>{{item.tenGiaiPhap}}</td>
+                <td class="text-center">{{item.tenCapDoSangKien}}</td>
+                <td class="text-center">{{item.tenDonViChuDauTu}}</td>
+                <td class="text-center">{{item.nam}}</td>
+                <td class="text-center">{{item.tenTrangThai}}</td>
+                <td class="action-table">
+                    <div class="flex justify-evenly"  style="float: left;">
+                        <i  (click)="updateAction(item)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
+                        <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>
+                      <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i> 
+                        <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-pencil cursor-point"  [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
+                         <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
+                    </div>
+                </td>
+            </tr>
+            <!-- <tbody>
                 <tr>
                     <td class="stt_table">1</td>
                     <td>Bản đăng ký định hướng 2023</td>
@@ -97,7 +114,7 @@
                         </div>
                     </td>
                 </tr>
-            </tbody>
+            </tbody> -->
         </table>
         <!-- phan trang -->
         <mat-paginator
@@ -110,7 +127,6 @@
             aria-label="Select page"
         >
         </mat-paginator>
-        <button (click)="openAlertDialog()" >Mop pup up fille</button>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

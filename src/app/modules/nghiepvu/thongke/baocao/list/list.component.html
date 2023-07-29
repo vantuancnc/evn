@@ -3,11 +3,11 @@
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
-            <h1 class="title-component">Báo cáo - Thống kê hoạt động KHCN EVN</h1>
+            <h1 class="title-component">Báo cáo - Thống kê</h1>
         </div>
 
        <div class="px-3 bg-blue-500 py-3 text-white uppercase">
-        Báo cáo - Thống kê hoạt động KHCN EVN
+       Tổng hợp danh sách đề tài/ nhiệm vụ KHCN
        </div>
        <table class="table table_custom" style="margin-top: 0">
         <thead>
@@ -19,21 +19,21 @@
         <tbody>
             <tr>
                 <td class="stt_table">1</td>
-                <td class="uppercase" (click)="THEOHOATDONG()">Theo lĩnh vực khoa học</td>
+                <td class="uppercase" (click)="THEOHOATDONG('TKKHOAHOC')">Theo lĩnh vực khoa học</td>
             </tr>
             <tr>
-                <td class="stt_table">1</td>
-                <td class="uppercase"  (click)="THEOHOATDONG()">Theo lĩnh vực khoa học</td>
+                <td class="stt_table">2</td>
+                <td class="uppercase"  (click)="THEOHOATDONG('TKDETAI')">Theo cấp đề tài</td>
             </tr>
             <tr>
-                <td class="stt_table">1</td>
-                <td class="uppercase"  (click)="THEOHOATDONG()">Theo lĩnh vực khoa học</td>
+                <td class="stt_table">3</td>
+                <td class="uppercase"  (click)="THEOHOATDONG('TKDONVI')">Theo đơn vị</td>
             </tr>
         </tbody>
     </table>
 
     <div class="px-3 bg-blue-500 py-3 text-white uppercase mt-8">
-        TỔNG HỢP DANH SÁCH SÁNG KIẾN KHCN
+        TỔNG HỢP DANH SÁCH SÁNG KIẾN
        </div>
        <table class="table table_custom" style="margin-top: 0">
         <thead>
@@ -45,15 +45,15 @@
         <tbody>
             <tr>
                 <td class="stt_table">1</td>
-                <td class="uppercase"  (click)="THEOSANGKIEN()">Theo lĩnh vực khoa học</td>
+                <td class="uppercase"  (click)="THEOSANGKIEN('TKAPDUNG')">Theo lĩnh vực áp dụng</td>
             </tr>
             <tr>
-                <td class="stt_table">1</td>
-                <td class="uppercase" (click)="THEOSANGKIEN()">Theo lĩnh vực khoa học</td>
+                <td class="stt_table">2</td>
+                <td class="uppercase" (click)="THEOSANGKIEN('TKSANGKIEN')">Theo cấp sáng kiến</td>
             </tr>
             <tr>
-                <td class="stt_table">1</td>
-                <td class="uppercase" (click)="THEOSANGKIEN()">Theo lĩnh vực khoa học</td>
+                <td class="stt_table">3</td>
+                <td class="uppercase" (click)="THEOSANGKIEN('TKSKDONVI')">Theo đơn vị</td>
             </tr>
         </tbody>
     </table>

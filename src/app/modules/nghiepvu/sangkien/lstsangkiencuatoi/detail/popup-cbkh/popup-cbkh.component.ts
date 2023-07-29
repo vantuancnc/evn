@@ -29,7 +29,10 @@ export class PopupCbkhComponent implements OnInit {
     public listDongChuNhiem = [];
     public listThuKy = [];
     public listThanhVien = [];
+    public listDonViChuDauTu =[];
     public getDinhHuongSubcription: Subscription;
+    public searchname:String=null;
+    public listDonViChuDauTuAll=[];
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private _formBuilder: UntypedFormBuilder,
@@ -54,13 +57,24 @@ export class PopupCbkhComponent implements OnInit {
 
     ngOnInit(): void {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
+        if(this.checkType=="DKAPDUNGSK"){
+            this.timkiemDonViChuDauTu(this.checkType);
+        }else
         if(this.checkType=="KEHOACH"){
             this.timkiemKehoach();
         }else{
             this.timkiemNguoi(this.checkType);
         }
        
+        
        
+    }
+
+    timKiemNgay(){
+        if(this.searchname)
+             this.listDonViChuDauTu = this.listDonViChuDauTuAll.filter(c => c.name.toLowerCase().includes(this.searchname.toLowerCase()) );
+        else
+            this.listDonViChuDauTu = this.listDonViChuDauTuAll;
     }
 
 
@@ -92,9 +106,23 @@ export class PopupCbkhComponent implements OnInit {
                 this.listThuKy = data.data || [];
             }else if(type=="THANHVIEN"){
                 this.listThanhVien = data.data || [];
+            }else if(type=="DKAPDUNGSK"){
+                this.listThanhVien = data.data || [];
             }
               
            })
+    }
+
+    timkiemDonViChuDauTu(type) {
+        this._serviceApi
+            .execServiceLogin('176BC0B0-7431-47F0-A802-BEDF83E85261', null)
+            .subscribe((data) => {
+                console.log(data.data);
+                if(type=="DKAPDUNGSK"){
+                this.listDonViChuDauTu = data.data || [];
+                this.listDonViChuDauTuAll= data.data || [];
+                }
+            });
     }
     // ngOnDestroy() {
     //     this.getDinhHuongSubcription.unsubscribe()

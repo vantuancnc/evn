@@ -102,8 +102,8 @@
                 <th class="">Thời gian thực hiện</th>
             </tr>
         </thead>
-        <tbody formArrayName="linhVuc" *ngIf="form.get('linhVuc').value.lenght >0">
-            <tr *ngFor="let item of form.get('linhVuc')['controls'];let i = index"
+        <tbody formArrayName="linhVuc">
+            <tr *ngFor="let item of $any(form.get('linhVuc')).controls;let i = index"
                         [formGroup]="item">
                         <td colspan="9">{{item.tenLinhVuc}}</td>
                         <ng-container
@@ -111,7 +111,7 @@
                         <tr [formGroupName]="k">
                             <td class="stt_table">{{k+1}}</td>
                             <td>{{item2.get('tenDeTaiSK').value}}</td>
-                            <td>{{item2.get('tenChuNhiemTG').value}}</td>
+                            <td>{{item2.get('chuNhiem').value}}</td>
                             <td>{{item2.get('capQuanLy').value}}</td>
                             <td>{{item2.get('linhVucKhoaHoc').value}}</td>
                             <td>{{item2.get('donViChuTri').value}}</td>

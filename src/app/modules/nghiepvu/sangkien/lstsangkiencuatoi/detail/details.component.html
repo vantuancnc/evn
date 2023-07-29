@@ -1,17 +1,17 @@
 <div
-    *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA'"
+    *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' || actionType == 'THONGTINSK'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
     [formGroup]="form"
     novalidate
 >
     <div class="">
-        <h1 class="title-component">ĐĂNG KÝ SÁNG KIẾN</h1>
+        <h1 class="title-component" *ngIf="actionType != 'THONGTINSK'">ĐĂNG KÝ SÁNG KIẾN</h1>
+        <h1 class="title-component" *ngIf="actionType == 'THONGTINSK'">THÔNG TIN SÁNG KIẾN</h1>
     </div>
     <div class="flex flex-row row gap-4 items-center">
-        <div class="basis-2/12">
+        <div class="basis-1/4">
             <label for="">Cấp độ sáng kiến<span>(*)</span></label>
-        </div>
-        <div class="basis-2/5">
+
             <ng-select
                 [items]="listCapDo"
                 bindLabel="NAME"
@@ -29,14 +29,33 @@
                 </div>
             </div>
         </div>
-        <div class="basis-2/12">
-            <label for="">Đơn vị chủ đầu tư<span>(*)</span></label>
-        </div>
-        <div class="basis-2/5">
+        <div class="basis-1/4">
+            <label for="">Năm<span>(*)</span></label>
+     
             <ng-select
-                [items]="listDonViChuDauTu"
+                [items]="listYears"
                 bindLabel="NAME"
                 bindValue="ID"
+                placeholder="Lựa chọn"
+                formControlName="nam"
+            >
+            </ng-select>
+            <div
+                *ngIf="submitted.check && f?.capDoSangKien?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.capDoSangKien.errors.required">
+                    Trường bắt buộc nhập
+                </div>
+            </div>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Đơn vị chủ đầu tư<span>(*)</span></label>
+        
+            <ng-select
+                [items]="listDonViChuDauTu"
+                bindLabel="name"
+                bindValue="id"
                 placeholder="Lựa chọn"
                 formControlName="donViChuDauTu"
             >
@@ -49,6 +68,22 @@
                     Trường bắt buộc nhập
                 </div>
             </div>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Đơn vị đăng ký/áp dụng<span>(*)</span></label>
+        <div class=" select-cbkh flex items-center form-control"> 
+            <input
+            class="inputselect"
+            type="text"
+            name=""
+            id=""
+            formControlName="donViApDung"
+        />
+        <i
+            (click)="openAlertDialog('DKAPDUNGSK', form)"
+            class="fa fa-search"
+        ></i>
+    </div>   
         </div>
     </div>
 
