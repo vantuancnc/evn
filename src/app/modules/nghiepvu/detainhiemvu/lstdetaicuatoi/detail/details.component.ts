@@ -475,13 +475,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 item.get('soDienThoai').setValue(data.data.sdt);
                 item.get('email').setValue(data.data.email);
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
+                item.get('maThanhVien').setValue(data.data.userId);
             }
         });
     }
 
     THEM_THANHVIEN(item?: any): FormGroup {
         return this._formBuilder.group({
-            ma: item?.ma || null,
+            maThanhVien: item?.maThanhVien || null,
             ten: item?.ten || null,
             chucDanh: item?.chucDanh || null,
             soDienThoai: item?.soDienThoai || null,
@@ -492,7 +493,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
     addMember() {
         return this._formBuilder.group({
-            ma: '',
+            maThanhVien: '',
             ten: '',
             chucDanh: '',
             soDienThoai: '',

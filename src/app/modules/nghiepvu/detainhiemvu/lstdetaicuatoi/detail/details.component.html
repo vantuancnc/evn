@@ -1766,7 +1766,7 @@
                                     </thead>
                                     <tbody formArrayName="listFile">
 
-                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index"  [formGroupName]="k">
                                             <td class="stt_table">{{k+1}}</td>
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>

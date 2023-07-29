@@ -348,7 +348,7 @@
     <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px">Trạng thái<span>(*)</span></label>
         <ng-select
-            [items]="listYears"
+            [items]="listTrangThai"
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
@@ -366,10 +366,60 @@
     >Kiến nghị của hội đồng</label>
 <textarea class="form-control" name="" formControlName="kienNghiHoiDong" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
 
-  
+<div class="flex flex-row row items-center"  *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+
+    <label for="" class="w-100">{{item.get('fileName').value}}</label>
+
+            <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
+                <table class="table table_custom action-table">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên file</th>
+                            <th class="text-center">Kích thước
+                            </th>
+                            <th class="text-center">Số văn bản
+                            </th>
+                            <th style="width: 100px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listFile">
+                        <ng-container
+                            *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                            <tr [formGroupName]="k">
+                                <td class="stt_table">{{k+1}}</td>
+                                <td>{{item2.get('fileName').value}}</td>
+                                <td>
+                                    {{item2.get('size').value >(1024 *
+                                    1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                    >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                    +"K"}}</td>
+
+                                <td>{{item2.get('sovanban').value}}</td>
+                                <td class="text-center"> <i
+                                        style="color: red; cursor: pointer;    margin-right: 10px;"
+                                        (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                        title="Xóa bỏ"></i>
+                                    <i class="fa fa-cloud-download"
+                                        style="color: green; cursor: pointer;" aria-hidden="true"
+                                        (click)="downLoadFile(item2)" title="Download file"></i>
+                                </td>
+
+                            </tr>
+                        </ng-container>
+
+                    </tbody>
+                </table>
+            </div>
+       
+            <label class="custom-file-upload add_button-import">
+                <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </label>
+</div>
 
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <div class="basis-1/5">
             <label for="">Phiếu đánh giá của các thành viên hội đồng</label>
         </div>
@@ -384,7 +434,7 @@
         <div class="basis-1/5">
            <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button>
         </div>
-    </div>
+    </div> -->
 
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
         <input type="checkbox" name="" id="" formControlName="isEmail">
@@ -541,11 +591,11 @@
     <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px">Trạng thái<span>(*)</span></label>
         <ng-select
-            [items]="listYears"
+            [items]="listTrangThai"
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            [(ngModel)]="selectedYear"
+            formControlName="maTrangThai"
             style="width: 200px"
         >
         </ng-select>
@@ -553,7 +603,7 @@
 
 
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <div class="basis-1/5">
             <label for="">Giấy chứng nhận sáng kiến</label>
         </div>
@@ -576,10 +626,61 @@
         <div class="basis-1/5">
            <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button>
         </div>
+    </div> -->
+    <div class="flex flex-row row items-center"  *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+
+        <label for="" class="w-100">{{item.get('fileName').value}}</label>
+    
+                <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
+                    <table class="table table_custom action-table">
+                        <thead>
+                            <tr>
+                                <th class="stt_table">STT</th>
+                                <th>Tên file</th>
+                                <th class="text-center">Kích thước
+                                </th>
+                                <th class="text-center">Số văn bản
+                                </th>
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="listFile">
+                            <ng-container
+                                *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                <tr [formGroupName]="k">
+                                    <td class="stt_table">{{k+1}}</td>
+                                    <td>{{item2.get('fileName').value}}</td>
+                                    <td>
+                                        {{item2.get('size').value >(1024 *
+                                        1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                        >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                        +"K"}}</td>
+    
+                                    <td>{{item2.get('sovanban').value}}</td>
+                                    <td class="text-center"> <i
+                                            style="color: red; cursor: pointer;    margin-right: 10px;"
+                                            (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                            title="Xóa bỏ"></i>
+                                        <i class="fa fa-cloud-download"
+                                            style="color: green; cursor: pointer;" aria-hidden="true"
+                                            (click)="downLoadFile(item2)" title="Download file"></i>
+                                    </td>
+    
+                                </tr>
+                            </ng-container>
+    
+                        </tbody>
+                    </table>
+                </div>
+           
+                <label class="custom-file-upload add_button-import">
+                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                    <i class="fa fa-cloud-upload"></i> Upload file
+                </label>
     </div>
 
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
-        <input type="checkbox" name="" id="">
+        <input type="checkbox" name="" id="" formControlName="isEmail">
         <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
     </div>
 

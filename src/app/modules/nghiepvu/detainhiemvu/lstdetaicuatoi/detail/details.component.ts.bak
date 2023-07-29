@@ -370,6 +370,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 item.get('soDienThoai').setValue(data.data.sdt);
                 item.get('email').setValue(data.data.email);
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
+                 item.get('maThanhVien').setValue(data.data.userId);
             }
         });
     }

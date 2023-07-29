@@ -209,7 +209,7 @@ export class DetailsComponent implements OnInit {
     }
     addMember() {
         return this._formBuilder.group({
-            ma: '',
+            maThanhVien: '',
             ten: '',
             namSinh: '',
             chucDanh: '',
@@ -257,8 +257,8 @@ export class DetailsComponent implements OnInit {
             } else if (type == 'THANHVIEN') {
                 console.log('data1', data);
                 console.log(item);
-                debugger;
                 item.get('ten').setValue(data.data.username);
+                item.get('maThanhVien').setValue(data.data.userId);
             }
         });
     }

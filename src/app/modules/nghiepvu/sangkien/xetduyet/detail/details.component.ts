@@ -182,6 +182,10 @@ export class DetailsComponent implements OnInit {
         this.getListChucDanh();
         if (this.actionType == 'updateActionHDXDCN'){
             this.getListTrangThaiHSXD();
+        }else  if (this.actionType == 'updateActionKQXDCN') {
+            this.getListTrangThaiKQXD();
+        }else  if (this.actionType == 'updateActionKQ') {
+            this.getListTrangThaiCNXK();
         }
        // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
     }
@@ -198,6 +202,41 @@ export class DetailsComponent implements OnInit {
                     }
                     return;
                 });
+                this.form.get('maTrangThai').setValue('DA_TLHDXDTC');
+            });
+    }
+
+    getListTrangThaiKQXD() {
+        this._serviceApi
+            .execServiceLogin('F78D616F-CB41-46B3-A5A2-429E9F9C07AD', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(function (str) {
+                    if (
+                        str.ID == 'KHONG_CONG_NHAN' || str.ID == 'DA_CONG_NHAN' || str.ID == 'Y_CAU_HIEU_CHINH'
+                    ) {
+                        return str;
+                    }
+                    return;
+                });
+                this.form.get('maTrangThai').setValue('DA_CONG_NHAN');
+            });
+    }
+
+    getListTrangThaiCNXK() {
+        this._serviceApi
+            .execServiceLogin('F78D616F-CB41-46B3-A5A2-429E9F9C07AD', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(function (str) {
+                    if (
+                        str.ID == 'DA_TRA_THU_LAO'
+                    ) {
+                        return str;
+                    }
+                    return;
+                });
+                this.form.get('maTrangThai').setValue('DA_TRA_THU_LAO');
             });
     }
 
@@ -270,7 +309,8 @@ export class DetailsComponent implements OnInit {
                 item.get('soDienThoai').setValue(data.data.sdt);
                 item.get('email').setValue(data.data.email);
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
-                //item.get('maThanhVien').setValue(data.data.);
+                item.get('maThanhVien').setValue(data.data.userId);
+                item.get('maThanhVien').setValue(data.data.userId);
             }
         });
     }
@@ -281,7 +321,7 @@ export class DetailsComponent implements OnInit {
     }
     addMember() {
         return this._formBuilder.group({
-            ma: '',
+            maThanhVien: '',
             ten: '',
             chucDanh: '',
             soDienThoai: '',
@@ -314,6 +354,15 @@ export class DetailsComponent implements OnInit {
             }else if(status=="CHAPTHUAN"){
                 this.form.get('maTrangThai').setValue('DA_RA_SOAT');
             }
+        }else if( method = 'CHUNGNHANSK'){
+            let tenTrangThai = "";
+            let lstTrangThai = this.listTrangThai.filter(c => c.ID ==this.form.get('maTrangThai').value);
+            if(lstTrangThai !=null && lstTrangThai.length >0){
+                tenTrangThai = lstTrangThai[0].NAME;
+            }
+            let noiDung = tenTrangThai+' '+ this.form.get('tenGiaiPhap').value;
+            debugger;
+            this.form.get('noiDungGuiMail').setValue(noiDung);
         }
         var token = localStorage.getItem("accessToken");
         this._serviceApi
