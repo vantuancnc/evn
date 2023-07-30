@@ -61,7 +61,6 @@ export class DetailsComponent implements OnInit {
             } else {
                 this.actionType = null;
             }
-            console.log(this.actionType);
             if (this.actionType == 'updateActionHSTH') {
                 this.method = 'CAPNHATHSTHUCHIEN';
             } else if (this.actionType == 'updateActionGH') {
@@ -76,6 +75,7 @@ export class DetailsComponent implements OnInit {
         this.form = this._formBuilder.group({
             maDeTai: [null],
             lyDo: [null],
+            thang: [null],
 
             lanGiaHanThu: [null],
             soLanGiaHan: [null],
@@ -134,6 +134,7 @@ export class DetailsComponent implements OnInit {
             nhiemVuVaPhamViNghienCuu: [null],
             ketQuaDuKien: [null],
             kienNghiDeXuat: [null],
+            noiDungGuiMail: [null],
             listFolderFile: this._formBuilder.array([]),
             listFile: this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
@@ -265,7 +266,6 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
         this._serviceApi
