@@ -28,7 +28,7 @@ export class LichsuComponent implements OnInit {
       })
     }else if(this.typeLichSu=="SANGKIEN"){
       this.noidung ="thông tin bản đăng ký sáng kiến";
-      this._serviceApi.execServiceLogin("90B27610-123D-4EEE-9A41-10F9DBB43281", [{"name":"MA_SANGKIEN","value":this.madeTaiSK}]).subscribe((data) => {
+      this._serviceApi.execServiceLogin("6CB00DBC-A70D-41E1-956E-0C67E2A24342", [{"name":"MA_SANGKIEN","value":this.madeTaiSK}]).subscribe((data) => {
         this.listLichSu =data.data;
         console.log(this.listLichSu);
       })

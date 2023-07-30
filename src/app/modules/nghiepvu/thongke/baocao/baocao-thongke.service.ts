@@ -3,7 +3,7 @@ import { BehaviorSubject, forkJoin, map, Observable, of, switchMap, take, tap, t
 import { ServiceService } from 'app/shared/service/service.service';
 import ShortUniqueId from 'short-unique-id';
 import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailService } from 'app/shared/commons/BaseDetail.service';
+import { BaseDetailService } from 'app/shared/commons/basedetail.service';
 import { BaseService } from 'app/shared/commons/base.service';
 
 @Injectable({

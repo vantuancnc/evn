@@ -63,6 +63,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listThang = [];
     public listNam = [];
     public idParam: string = null;
+    public screen;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -79,6 +80,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.actionType = params?.type;
             } else {
                 this.actionType = null;
+            }
+            if (params?.screen) {
+                this.screen = params?.screen;
             }
             if (params?.title) {
                 this.title_lichsu = params?.title;
@@ -556,9 +560,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    this._router.navigateByUrl(
-                        'nghiepvu/detainhiemvu/lstdetaicuatoi'
-                    );
+                    this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
