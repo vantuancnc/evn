@@ -275,6 +275,13 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log(data.data);
+                this._messageService.showSuccessMessage(
+                    'Thành công',
+                    'Thông báo'
+                );
+                this._router.navigateByUrl(
+                    'nghiepvu/detainhiemvu/dangthuchien'
+                );
             });
     }
 }
