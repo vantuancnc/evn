@@ -74,7 +74,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
-            console.log(params);
 
             if (params?.type) {
                 this.actionType = params?.type;
@@ -136,21 +135,21 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
             chuNhiemDeTaiInfo: '',
             chuNhiemDeTai: [null, [Validators.required]],
-            gioiTinh: '',
+            gioiTinh: 0,
             hocHam: [null],
             hocVi: [null],
             donViCongTac: [null],
 
             dongChuNhiemDeTaiInfo: '',
             dongChuNhiemDeTai: [null, [Validators.required]],
-            gioiTinhDongChuNhiem: [null],
+            gioiTinhDongChuNhiem: 0,
             hocHamDongChuNhiem: [null],
             hocViDongChuNhiem: [null],
             donViCongTacDongChuNhiem: [null],
 
             thuKyDeTaiInfo: '',
             thuKyDeTai: [null],
-            gioiTinhThuKy: [null],
+            gioiTinhThuKy: 0,
             hocHamThuKy: [null],
             hocViThuKy: [null],
             donViCongTacThuKy: [null],
@@ -216,9 +215,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getListLinhVucNghienCuu();
         this.getListGioiTinh();
         this.getListChucDanh();
-        // this.detail();
-        // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
-        console.log(this.actionType);
     }
 
     getThang() {
@@ -269,7 +265,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
-                console.log(this.form);
+               debugger;
 
                 let formDocParent = this.form.get(
                     'listFolderFile'
@@ -401,9 +397,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         );
                     }
                 }
-                setTimeout(() => {
-                    console.log('form,', this.form);
-                }, 10000);
+                console.log('form,', this.form);
             });
     }
 
@@ -433,24 +427,21 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
         data.afterClosed().subscribe((data) => {
             if (type == 'KEHOACH') {
-                console.log('data2', data);
                 this.form.get('canCuThucHien').setValue(data.data.name);
                 this.form.get('keHoach').setValue(data.data);
             } else if (type == 'CHUNHIEM') {
-                console.log('data1', data);
                 this.form.get('chuNhiemDeTai').setValue(data.data.username);
                 this.form.get('chuNhiemDeTaiInfo').setValue(data.data);
-                this.form.get('gioiTinh').setValue(data.data.gioiTinh + '');
+                this.form.get('gioiTinh').setValue(data.data.gioiTinh);
                 this.form.get('hocHam').setValue(data.data.maHocHam);
                 this.form.get('hocVi').setValue(data.data.maHocVi);
                 this.form.get('donViCongTac').setValue(data.data.noiLamViec);
             } else if (type == 'DONGCHUNHIEM') {
-                console.log('data1', data);
                 this.form.get('dongChuNhiemDeTai').setValue(data.data.username);
                 this.form.get('dongChuNhiemDeTaiInfo').setValue(data.data);
                 this.form
                     .get('gioiTinhDongChuNhiem')
-                    .setValue(data.data.gioiTinh + '');
+                    .setValue(data.data.gioiTinh);
                 this.form
                     .get('hocHamDongChuNhiem')
                     .setValue(data.data.maHocHam);
@@ -459,19 +450,17 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     .get('donViCongTacDongChuNhiem')
                     .setValue(data.data.noiLamViec);
             } else if (type == 'THUKY') {
-                console.log('data1', data);
                 this.form.get('thuKyDeTai').setValue(data.data.username);
                 this.form.get('thuKyDeTaiInfo').setValue(data.data);
                 this.form
                     .get('gioiTinhThuKy')
-                    .setValue(data.data.gioiTinh + '');
+                    .setValue(data.data.gioiTinh);
                 this.form.get('hocHamThuKy').setValue(data.data.maHocHam);
                 this.form.get('hocViThuKy').setValue(data.data.maHocVi);
                 this.form
                     .get('donViCongTacThuKy')
                     .setValue(data.data.noiLamViec);
             } else if (type == 'THANHVIEN') {
-                console.log('data1', data);
                 item.get('ten').setValue(data.data.username);
                 item.get('soDienThoai').setValue(data.data.sdt);
                 item.get('email').setValue(data.data.email);
@@ -523,6 +512,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             // }else if(status=="LUUGUI"){
             //     this.form.get('maTrangThai').setValue("DA_NTHU");
             // }
+        }else if (method == 'CAPNHAT') {
+             if(status=="LUU"){
+            this.form.get('maTrangThai').setValue('CHUA_GUI');
+            this.form.get('noiDungGuiMail').setValue("Chưa gửi hồ sơ thuyết minh " + this.form.get('tenDeTai').value);
+             }else if(status=="LUUGUI"){
+                this.form.get('maTrangThai').setValue("DA_GUI");
+                this.form.get('noiDungGuiMail').setValue("Đã gửi hồ sơ thuyết minh " + this.form.get('tenDeTai').value);
+            }
         }
         this._serviceApi
             .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
@@ -530,15 +527,16 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 { name: 'TOKEN_LINK', value: token },
             ])
             .subscribe((data) => {
-                if (data.data.status == 1) {
+                if (data.status == 1) {
                     this._messageService.showSuccessMessage(
                         'Thông báo',
-                        data.data.message
+                        data.message
                     );
+                    this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
-                        'Lỗi trong quá trình thực hiện'
+                        data.message
                     );
                 }
             });
@@ -611,7 +609,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('61808455-D993-4C3A-8117-1978C43F20C9', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listFolderFile = data.data || [];
                 let val = this.form.get('listFolderFile') as FormArray;
                 for (let i = 0; i < this.listFolderFile.length; i++) {
@@ -624,7 +621,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listCapQuanLy = data.data || [];
             });
     }
@@ -633,7 +629,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listDonViChuTri = data.data || [];
                 this.listDonViCongTac = data.data || [];
             });
@@ -643,7 +638,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listHocHam = data.data || [];
             });
     }
@@ -652,7 +646,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listHocVi = data.data || [];
             });
     }
@@ -661,7 +654,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('942181CC-FD57-42FE-8010-59B6FF1D26DB', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listNguonKinhPhi = data.data || [];
             });
     }
@@ -670,7 +662,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('89191345-88FF-4C2E-B3CF-6FE315D6A631', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listKhoanChi = data.data || [];
             });
     }
@@ -679,18 +670,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('FF1D2502-E182-4242-A754-BCCC29B70C61', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listLinhVucNghienCuu = data.data || [];
             });
     }
 
     getListGioiTinh() {
-        this._serviceApi
-            .execServiceLogin('0DBB4D71-326D-4846-9E50-5665E573E8B6', null)
-            .subscribe((data) => {
-                console.log(data.data);
-                this.listGioiTinh = data.data || [];
-            });
+        var obj ={"ID":1,"NAME":"Nam"};
+        this.listGioiTinh.push(obj);
+        obj ={"ID":2,"NAME":"Nữ"};
+        this.listGioiTinh.push(obj);
     }
 
     getListChucDanh() {
@@ -731,7 +719,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
-        console.log(item);
     }
     handleUploadThucHien(event, item, index) {
         let arr = item.get('listFolderFileThucHien') as FormArray;
@@ -743,7 +730,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
-        console.log(item);
     }
     deleteItemFile(items, i) {
         const control = items.get('listFile');
@@ -777,7 +763,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     { name: 'TOKEN_LINK', value: 'Bearer ' + token },
                 ])
                 .subscribe((data) => {
-                    console.log('downloadFile:' + JSON.stringify(data));
+              
                 });
         }
     }

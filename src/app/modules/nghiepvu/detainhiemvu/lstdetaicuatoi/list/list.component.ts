@@ -26,7 +26,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
     public listYears = [];
-    public txtSeach;
+    public txtSeach:String='' ;
     public listGiao = [];
     public ListFleDemo = [
         {id:1,name:'ten_file',kichthuoc:'20mb'},
@@ -89,8 +89,11 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     }
 
     timKiem() {
-        this.getGiaoSubcription = this._serviceApi.execServiceLogin("00249219-4EE7-466D-BD84-269064AC9D9B", [{"name":"TEN_DETAI","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+        this.getGiaoSubcription = this._serviceApi.execServiceLogin("00249219-4EE7-466D-BD84-269064AC9D9B", [{"name":"TEN_DETAI","value":this.txtSeach},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
           this.listGiao = data.data || [];
+          if(this.listGiao != null && this.listGiao.length >0){
+            this.length =this.listGiao[0].totalPage;
+          }
         })
     }
 
