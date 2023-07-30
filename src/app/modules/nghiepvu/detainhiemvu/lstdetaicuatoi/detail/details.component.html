@@ -1856,8 +1856,6 @@
 
     <div class="action-all-f">
         <button class="add_button" (click)="onSubmit('LUU','HSNHIEMTHU')"><i class="fa fa-save"></i> Lưu</button>
-    </div>
-    <div class="action-all-f">
         <button class="add_button" (click)="onSubmit('LUUGUI','HSNHIEMTHU')"><i class="fa fa-save"></i> Lưu &
             Gửi</button>
     </div>
@@ -1923,6 +1921,7 @@
             <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index"  formGroupName="{{i}}">
                 <td class="stt_table">{{i+1}}</td>
                 <td>{{item.get('fileName').value}}</td>
+                <td></td>
                 <td>
                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                         <table class="table table_custom action-table">
@@ -1935,6 +1934,7 @@
                                     <th class="text-center">Số văn bản
                                     </th>
                                     <th style="width: 100px;"></th>
+                        
                                 </tr>
                             </thead>
                             <tbody formArrayName="listFile">

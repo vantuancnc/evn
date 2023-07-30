@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
 import {
@@ -23,22 +30,19 @@ import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
 
-
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
-
 export class DetailsComponent implements OnInit {
-
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
-    public actionType =  null
-    public listThang =  [];
-    public method =  null;
+    public actionType = null;
+    public listThang = [];
+    public method = null;
     public form: FormGroup;
     public idParam: string = null;
 
@@ -51,69 +55,65 @@ export class DetailsComponent implements OnInit {
         public dialog: MatDialog
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
-        this._activatedRoute.queryParams
-        .subscribe(params => {
-          if(params?.type){
-            this.actionType = params?.type
-          }else{
-            this.actionType =null
-          }
-          console.log( this.actionType);
-		   if(this.actionType=="updateActionHSTH"){
-            this.method="CAPNHATHSTHUCHIEN";
-          }else
-          if(this.actionType=="updateActionGH"){
-            this.method="GIAHAN";
-          }
-          this.initForm(this.method);
-          this.detail(this.method);
-          
-        }
-      );
+        this._activatedRoute.queryParams.subscribe((params) => {
+            if (params?.type) {
+                this.actionType = params?.type;
+            } else {
+                this.actionType = null;
+            }
+            console.log(this.actionType);
+            if (this.actionType == 'updateActionHSTH') {
+                this.method = 'CAPNHATHSTHUCHIEN';
+            } else if (this.actionType == 'updateActionGH') {
+                this.method = 'GIAHAN';
+            }
+            this.initForm(this.method);
+            this.detail(this.method);
+        });
     }
 
     initForm(actionType) {
         this.form = this._formBuilder.group({
-            maDeTai:[null],
-            lyDo:[null],
+            maDeTai: [null],
+            lyDo: [null],
 
-            lanGiaHanThu:[null],
-            soLanGiaHan:[null],
-            thoiGianHop:[null],
-            ketQuaPhieuDanhGia:[null],
-            ketLuanKienNghiHD:[null],
-            diaDiem:[null],
-            method:actionType,
-            maTrangThai:[null],
-            yKien: "",
-            isEmail:true,
+            lanGiaHanThu: [null],
+            soLanGiaHan: [null],
+            thoiGianHop: [null],
+            ketQuaPhieuDanhGia: [null],
+            ketLuanKienNghiHD: [null],
+            diaDiem: [null],
+            method: actionType,
+            maTrangThai: [null],
+            yKien: '',
+            isEmail: true,
             tenDeTai: [null, [Validators.required]],
             canCuThucHien: [null],
             keHoach: [null],
-            tenCapQuanLy:[null],
+            tenCapQuanLy: [null],
             capQuanLy: [null, [Validators.required]],
             vanBanChiDaoSo: [null],
-            linhVucNghienCuu:[],
+            linhVucNghienCuu: [],
             //LINHVUCNGHIENCUU: this._formBuilder.array([]),
             donViChuTri: [null, [Validators.required]],
             thoiGianThucHienTu: [null, [Validators.required]],
             thoiGianThucHienDen: [null, [Validators.required]],
 
-            chuNhiemDeTaiInfo:"",
+            chuNhiemDeTaiInfo: '',
             chuNhiemDeTai: [null, [Validators.required]],
             gioiTinh: [null],
             hocHam: [null],
             hocVi: [null],
             donViCongTac: [null],
 
-            dongChuNhiemDeTaiInfo:"",
+            dongChuNhiemDeTaiInfo: '',
             dongChuNhiemDeTai: [null, [Validators.required]],
             gioiTinhDongChuNhiem: [null],
             hocHamDongChuNhiem: [null],
             hocViDongChuNhiem: [null],
             donViCongTacDongChuNhiem: [null],
 
-            thuKyDeTaiInfo:"",
+            thuKyDeTaiInfo: '',
             thuKyDeTai: [null],
             gioiTinhThuKy: [null],
             hocHamThuKy: [null],
@@ -134,11 +134,8 @@ export class DetailsComponent implements OnInit {
             nhiemVuVaPhamViNghienCuu: [null],
             ketQuaDuKien: [null],
             kienNghiDeXuat: [null],
-            listFolderFile:this._formBuilder.array([]),
-            listFile:this._formBuilder.array(
-                            [
-                            ]
-                        )
+            listFolderFile: this._formBuilder.array([]),
+            listFile: this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -148,44 +145,49 @@ export class DetailsComponent implements OnInit {
         });
     }
 
-    detail(method){
-        this._serviceApi.execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [{"name":"MA_DE_TAI","value":this.idParam},{"name":"METHOD_BUTTON","value":method}]).subscribe((data) => {
-            this.form.patchValue(data.data);
-        })
+    detail(method) {
+        this._serviceApi
+            .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
+                { name: 'MA_DE_TAI', value: this.idParam },
+                { name: 'METHOD_BUTTON', value: method },
+            ])
+            .subscribe((data) => {
+                this.form.patchValue(data.data);
+            });
     }
-    getThang(){
-        this.listThang=[];
-        for(var i=1;i<=18;i++){
-            this.listThang.push({ID:i,NAME:i});
+    getThang() {
+        this.listThang = [];
+        for (var i = 1; i <= 18; i++) {
+            this.listThang.push({ ID: i, NAME: i });
         }
     }
 
-    submit(maTrangThai,method){
+    submit(maTrangThai, method) {
         this.form.get('method').setValue(method);
-        this.form.get("maTrangThai").setValue(maTrangThai);
+        this.form.get('maTrangThai').setValue(maTrangThai);
         console.log(this.form.value);
         // var token = localStorage.getItem("accessToken");
         // this._serviceApi
         // .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
         // .subscribe((data) => {
         //     console.log(data.data);
-           
+
         // })
     }
 
     ngOnInit(): void {
         this.geListYears();
-        if(this.actionType=="updateActionGH"){
-        this.getThang();
+        if (this.actionType == 'updateActionGH') {
+            this.getThang();
         }
-        this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
 
-
     geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listYears = data.data || [];
-        })
+        this.getYearSubscription = this._serviceApi
+            .execServiceLogin('E5050E10-799D-4F5F-B4F2-E13AFEA8543B', null)
+            .subscribe((data) => {
+                this.listYears = data.data || [];
+            });
     }
 
     openAlertDialog() {
@@ -193,26 +195,26 @@ export class DetailsComponent implements OnInit {
             data: {
                 message: 'HelloWorld',
                 buttonText: {
-                    cancel: 'Done'
-                }
+                    cancel: 'Done',
+                },
             },
             width: '800px',
             panelClass: 'custom-PopupCbkh',
             position: {
                 top: '100px',
-            }
+            },
         });
     }
 
     deleteItemFile(items, i) {
         // remove address from the list
-            const control = items.get('listFile');
-            control.removeAt(i);
-
+        const control = items.get('listFile');
+        control.removeAt(i);
     }
     downloadTempExcel(userInp, fileName) {
-        var mediaType = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
-       
+        var mediaType =
+            'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
+
         const downloadLink = document.createElement('a');
 
         downloadLink.href = mediaType + userInp;
@@ -222,7 +224,7 @@ export class DetailsComponent implements OnInit {
     downLoadFile(item) {
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
-            let url = "";
+            let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
@@ -230,48 +232,49 @@ export class DetailsComponent implements OnInit {
             }
             this.downloadTempExcel(url, item.fileName);
         } else {
-            var token = localStorage.getItem("accessToken");
-            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{ "name": "DUONG_DAN", "value": item.duongdan }, { "name": "TOKEN_LINK", "value": "Bearer " + token }]).subscribe((data) => {
-                console.log("downloadFile:" + JSON.stringify(data));
-            })
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    { name: 'DUONG_DAN', value: item.duongdan },
+                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                ])
+                .subscribe((data) => {
+                    console.log('downloadFile:' + JSON.stringify(data));
+                });
         }
-
     }
     handleUpload(event) {
-        let arr =this.form.get("listFile") as FormArray;;
+        let arr = this.form.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
-                arr.push(this.addFile(itemVal,reader.result));
+            reader.onload = () => {
+                arr.push(this.addFile(itemVal, reader.result));
             };
-          
         }
     }
-    addFile(itemVal,base64){
+    addFile(itemVal, base64) {
         return this._formBuilder.group({
-       fileName: itemVal.name,
-       base64: base64,
-       size: itemVal.size,
-       sovanban: "",
-       mafile: "",
-        })
-   }
-
-    
-    onSubmit(status,method){
-        console.log(this.form.value);
-        this.form.get('method').setValue(method);
-        var token = localStorage.getItem("accessToken");
-        this._serviceApi
-        .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
-        .subscribe((data) => {
-            console.log(data.data);
-           
-        })
-
+            fileName: itemVal.name,
+            base64: base64,
+            size: itemVal.size,
+            sovanban: '',
+            mafile: '',
+        });
     }
 
-
+    onSubmit(status, method) {
+        console.log(this.form.value);
+        this.form.get('method').setValue(method);
+        var token = localStorage.getItem('accessToken');
+        this._serviceApi
+            .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
+                { name: 'DE_TAI', value: JSON.stringify(this.form.value) },
+                { name: 'TOKEN_LINK', value: token },
+            ])
+            .subscribe((data) => {
+                console.log(data.data);
+            });
+    }
 }
