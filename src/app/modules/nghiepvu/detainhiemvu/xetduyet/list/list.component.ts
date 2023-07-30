@@ -80,8 +80,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe()
-        this.getGiaoSubcription.unsubscribe();
+      //  this.getYearSubscription.unsubscribe()
+      //  this.getGiaoSubcription.unsubscribe();
     }
 
     //phân trang
@@ -118,11 +118,11 @@ export class ListItemComponent implements OnInit, OnDestroy {
         })
     }
 
-  
     editer(item){
+        debugger;
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-            { queryParams: { type: 'CHITIET' } }
+            { queryParams: { type: 'CHINHSUA',screen:"/nghiepvu/detainhiemvu/xetduyet/" } }
           );
        }
 

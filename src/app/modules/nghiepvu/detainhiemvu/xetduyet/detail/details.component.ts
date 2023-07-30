@@ -41,6 +41,7 @@ export class DetailsComponent implements OnInit {
     public form: FormGroup;
     public idParam: string = null;
     public listChucDanh = [];
+    public fileThanhLapHD:{maLoaiFile:"",fileName:"",base64:"",size:0,sovanban:"",ngayVanBan:"",mafile:"",duongDan:"",rowid:"",kieuFile:"",loaiFile:""};
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -77,12 +78,12 @@ export class DetailsComponent implements OnInit {
 
 
     ngOnInit(): void {
+        this.getListChucDanh();
         if(this.actionType=="updateActionHD"){
         this.geListTrangThaiHD();
         }else{
             this.geListTrangThaiThanhLapHD();
         }
-        this._messageService.showSuccessMessage("Thông báo", "Thành công")
     }
 
     // initFormHD(){
@@ -117,6 +118,10 @@ export class DetailsComponent implements OnInit {
 
             let formDocParentTamUng = this.form.get(
                 'listFolderFileTamUng'
+            ) as FormArray;
+
+            let formDocParentHD = this.form.get(
+                'listFolderFileHD'
             ) as FormArray;
 
             if (data.data.listFolderFile != null) {
@@ -199,6 +204,35 @@ export class DetailsComponent implements OnInit {
                     }
                 }
             }
+
+            if (data.data.listFolderFileHD != null) {
+                for (let i = 0; i < data.data.listFolderFileHD.length; i++) {
+                    formDocParentHD.push(
+                        this.addListDocParent(data.data.listFolderFileHD[i])
+                    );
+                    if (
+                        data.data.listFolderFileHD[i].listFile != null &&
+                        data.data.listFolderFileHD[i].listFile.length > 0
+                    ) {
+                        let formChild = formDocParentHD
+                            .at(i)
+                            .get('listFile') as FormArray;
+                        for (
+                            let j = 0;
+                            j < data.data.listFolderFileHD[i].listFile.length;
+                            j++
+                        ) {
+                            formChild.push(
+                                this.addListDocChild(
+                                    data.data.listFolderFileHD[i].listFile[j]
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+
+
             if (data.data.danhSachThanhVien != null) {
                 let formThanhVien = this.form.get(
                     'danhSachThanhVien'
@@ -214,6 +248,22 @@ export class DetailsComponent implements OnInit {
                     );
                 }
             }
+
+            if (data.data.danhSachThanhVienHD != null) {
+                let formThanhVien = this.form.get(
+                    'danhSachThanhVienHD'
+                ) as FormArray;
+
+                for (
+                    let i = 0;
+                    i < data.data.danhSachThanhVienHD.length;
+                    i++
+                ) {
+                    formThanhVien.push(
+                        this.THEM_THANHVIEN(data.data.danhSachThanhVienHD[i])
+                    );
+                }
+            }
             let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
             if(thoiGianTu){
                 this.form.get('thoiGianThucHienTu').setValue(new Date(thoiGianTu));
@@ -222,6 +272,7 @@ export class DetailsComponent implements OnInit {
             if(thoiGianDen){
                 this.form.get('thoiGianThucHienDen').setValue(new Date(thoiGianDen));
             }
+            console.log(this.form);
         })
     }
     addListDocParent(item?: any) {
@@ -240,28 +291,37 @@ export class DetailsComponent implements OnInit {
             mafile: item?.mafile || null,
             maFolder: item?.maFolder || null,
             tenFolder: item?.tenFolder || null,
+            duongDan:item?.duongDan || null,
+            rowid:item?.rowid || null,
         });
     }
     THEM_THANHVIEN(item?: any): FormGroup {
         return this._formBuilder.group({
-            ma: item?.ma || null,
+            maThanhVien: item?.maThanhVien || null,
             ten: item?.ten || null,
             chucDanh: item?.chucDanh || null,
             soDienThoai: item?.soDienThoai || null,
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
+            tenChucDanh: item?.tenChucDanh || null,
+            ma: item?.ma || null,
             ghiChu: item?.ghiChu || null,
+            loaiHD:item?.loaiHD || 0,
         });
     }
 
     addMember(){
         return this._formBuilder.group({
-            ma:"",
+            maThanhVien:'',
             ten: '',
-            chucDanh: '',
-            soDienThoai: '',
-            email:'',
-            donViCongTac:''
+            chucDanh:'',
+            soDienThoai:'',
+            email: '',
+            donViCongTac: '',
+            tenChucDanh: '',
+            ma: '',
+            ghiChu: '',
+            loaiHD:0
           });
     }
     addThanhVien(){
@@ -275,6 +335,18 @@ export class DetailsComponent implements OnInit {
             control.removeAt(i);
 
     }
+    addThanhVienHD(){
+        let ar =  this.form.get('danhSachThanhVienHD') as FormArray;
+        ar.push(this.addMember());
+     
+    }
+    removeItemHD(items, i) {
+        // remove address from the list
+            const control = items.get('danhSachThanhVienHD');
+            control.removeAt(i);
+
+    }
+
 
     initForm(actionType) {
         this.form = this._formBuilder.group({
@@ -338,7 +410,8 @@ export class DetailsComponent implements OnInit {
             listFile:this._formBuilder.array(
                             [
                             ]
-                        )
+                        ),
+            listFolderFileHD:this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -400,7 +473,6 @@ export class DetailsComponent implements OnInit {
     geListTrangThaiHD() {
         this._serviceApi.execServiceLogin("2EE0D143-CA88-4CFF-AC24-448236ECD72C", null).subscribe((data) => {
             this.listTrangThai = data.data || [];
-            debugger;
             this.listTrangThai  = this.listTrangThai .filter(c => c.ID=='DA_TLHDXD');
             this.form.get("maTrangThai").setValue('DA_TLHDXD');
         })
@@ -415,6 +487,7 @@ export class DetailsComponent implements OnInit {
                 }
                 return;
               });
+              this.form.get("maTrangThai").setValue('DANG_THUC_HIEN');
         })
     }
 
@@ -455,9 +528,11 @@ export class DetailsComponent implements OnInit {
                   this.form.get('thuKyDeTaiInfo').setValue(data.data);
                   
               }else if(type=='THANHVIEN'){
-                  console.log('data1', data);
-                  console.log(item);
-                 item.get('ten').setValue(data.data.username);
+                item.get('ten').setValue(data.data.username);
+                item.get('soDienThoai').setValue(data.data.sdt);
+                item.get('email').setValue(data.data.email);
+                item.get('donViCongTac').setValue(data.data.noiLamViec);
+                item.get('maThanhVien').setValue(data.data.userId);
               }
            
              
@@ -533,17 +608,26 @@ export class DetailsComponent implements OnInit {
             }
             
         }
+        if(method=='RASOAT'){
+            if(status=="TRALAI"){
+                this.form.get('maTrangThai').setValue("Y_CAU_HIEU_CHINH");
+            }else if(status=="CHAPTHUAN"){
+                this.form.get('maTrangThai').setValue("DA_PHE_DUYET");
+            }
+            
+        }
         this._serviceApi
             .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
                 { name: 'DE_TAI', value: JSON.stringify(this.form.value) },
                 { name: 'TOKEN_LINK', value: token },
             ])
             .subscribe((data) => {
-                if (data.data.status == 1) {
+                if (data.status == 1) {
                     this._messageService.showSuccessMessage(
                         'Thông báo',
-                        data.data.message
+                        data.message
                     );
+                    this._router.navigateByUrl("/nghiepvu/detainhiemvu/xetduyet/");
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
