@@ -186,3 +186,12 @@ input[type="file"] {
 .cursor-point{
     cursor: pointer !important;
 }
+
+.form-date {
+    border: 1px solid #ccc;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    overflow: hidden;padding: 5px;
+}

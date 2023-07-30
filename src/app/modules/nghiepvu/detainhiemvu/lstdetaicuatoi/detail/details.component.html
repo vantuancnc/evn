@@ -72,9 +72,20 @@
             <label style="margin-right: 10px">Từ</label>
         </div>
         <div class="basis-3/4 flex date-customt">
-            <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" />
+            <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
+           <div class="form-date">
+            <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu" >
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+           </div>
+
             <label class="dem-pading">đến</label>
-            <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" />
+            <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
+            <div class="form-date">
+                <input matInput [matDatepicker]="picker1" formControlName="thoiGianThucHienDen" >
+                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+               </div>
         </div>
     </div>
 
