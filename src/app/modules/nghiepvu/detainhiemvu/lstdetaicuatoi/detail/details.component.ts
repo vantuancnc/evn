@@ -265,7 +265,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
-               debugger;
 
                 let formDocParent = this.form.get(
                     'listFolderFile'
@@ -397,6 +396,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         );
                     }
                 }
+                let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
+                if(thoiGianTu){
+                    this.form.get('thoiGianThucHienTu').setValue(new Date(thoiGianTu));
+                }
+                let thoiGianDen = this.form.get('thoiGianThucHienDen').value;
+                if(thoiGianDen){
+                    this.form.get('thoiGianThucHienDen').setValue(new Date(thoiGianDen));
+                }
+              
                 console.log('form,', this.form);
             });
     }

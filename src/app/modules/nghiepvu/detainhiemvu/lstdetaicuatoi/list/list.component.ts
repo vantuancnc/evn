@@ -116,13 +116,6 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
 
      }
 
-   detail(item){
-    this._router.navigate(
-        ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-        { queryParams: { type: 'CHITIET' } }
-      );
-   }
-
    lichsu(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
@@ -164,6 +157,12 @@ updateActionTIENDO(item){
     this._router.navigate(
         ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
         { queryParams: { type: 'CHINHSUA' } }
+      );
+   }
+   detail(item){
+    this._router.navigate(
+        ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+        { queryParams: { type: 'CHITIET' } }
       );
    }
 

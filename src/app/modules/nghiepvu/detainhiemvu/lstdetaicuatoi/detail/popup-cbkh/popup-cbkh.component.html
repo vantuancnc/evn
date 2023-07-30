@@ -5,7 +5,7 @@
 <div class="content-popup">
     <div class="box-search flex items-center	">
         <label for="">Tìm kiếm</label>
-        <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+        <input type="text" class="form-control" [(ngModel)]="q" (ngModelChange)="timkiemKehoach()" placeholder="Nhập từ khóa cần tìm..." name="" id="">
     </div>
 
     <table class="table table_custom">
@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             <ng-container  *ngFor="let item of listKehoach; let i = index">
-            <tr (click)="submit(item)">
+            <tr (click)="submit(item)" class="cursor-point">
                 <td class="stt_table">{{i+1}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.nguoiGui}} </td>
@@ -47,7 +47,7 @@
     <div class="content-popup">
         <div class="box-search flex items-center	">
             <label for="">Tìm kiếm</label>
-            <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+            <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
         </div>
     
         <table class="table table_custom">
@@ -64,7 +64,7 @@
                 <ng-container  *ngFor="let item of listChuNhiem; let i = index">
 
                
-                <tr (click)="submit(item)">
+                <tr (click)="submit(item)"  class="cursor-point">
                     <td class="stt_table">{{i+1}}</td>
                     <td>{{item.username}}</td>
                     <td>{{item.orgName}} </td>
@@ -91,7 +91,7 @@
         <div class="content-popup">
             <div class="box-search flex items-center	">
                 <label for="">Tìm kiếm</label>
-                <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
             </div>
         
             <table class="table table_custom">
@@ -108,7 +108,7 @@
                     <ng-container  *ngFor="let item of listDongChuNhiem; let i = index">
     
                    
-                        <tr (click)="submit(item)">
+                        <tr (click)="submit(item)"  class="cursor-point">
                             <td class="stt_table">{{i+1}}</td>
                             <td>{{item.username}}</td>
                             <td>{{item.orgName}} </td>
@@ -135,7 +135,7 @@
             <div class="content-popup">
                 <div class="box-search flex items-center	">
                     <label for="">Tìm kiếm</label>
-                    <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                    <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
                 </div>
             
                 <table class="table table_custom">
@@ -152,7 +152,7 @@
                         <ng-container  *ngFor="let item of listThuKy; let i = index">
         
                        
-                            <tr (click)="submit(item)">
+                            <tr (click)="submit(item)"  class="cursor-point">
                                 <td class="stt_table">{{i+1}}</td>
                                 <td>{{item.username}}</td>
                                 <td>{{item.orgName}} </td>
@@ -179,7 +179,7 @@
         <div class="content-popup">
             <div class="box-search flex items-center	">
                 <label for="">Tìm kiếm</label>
-                <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
             </div>
         
             <table class="table table_custom">
@@ -195,7 +195,7 @@
                     <ng-container  *ngFor="let item of listThanhVien; let i = index">
     
                    
-                        <tr (click)="submit(item)">
+                        <tr (click)="submit(item)"  class="cursor-point">
                             <td class="stt_table">{{i+1}}</td>
                             <td>{{item.username}}</td>
                             <td>{{item.orgName}} </td>
@@ -206,10 +206,10 @@
             </table>
         
             <div class="action-pop">
-                <button class="add_button"><i class="fa fa-plus"></i>
+                <!-- <button class="add_button"><i class="fa fa-plus"></i>
                     Tìm kiếm</button>
                 <button class="add_button selectbtn"><i class="fa fa-plus"></i>
-                    Chọn</button>
+                    Chọn</button> -->
                 <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
                     Hủy</button>
             </div>

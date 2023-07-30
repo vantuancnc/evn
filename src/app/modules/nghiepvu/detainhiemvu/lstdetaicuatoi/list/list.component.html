@@ -37,8 +37,6 @@
                     <th class="text-center">Thời gian thực hiện</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center">Năm đăng ký</th>
-                    <th class="text-center">TBáo cáo tiến độ thực hiện</th>
-
                     <th class="text-center action-table"></th>
                 </tr>
             </thead>
@@ -50,23 +48,23 @@
                         <td>{{item.tenCapQuanLy}}</td>
                         <td class="text-center">{{item.chuNhiemDeTai}}</td>
                         <td>{{item.tenDonViChuTri}}</td>
-                        <td class="text-center">{{item.thoiGianThucHienDen | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                        <td class="text-center">{{item.thoiGianThucHienTu | date:'dd/MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'dd/MM/yyyy' }}</td>
                         <td>{{item.tenTrangThai}}</td>
                         <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                         <td></td>
                     <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
-                            <i  (click)="updateActionTIENDO(item)" title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i>
-                            <i  (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>
-                            <i  (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
+                        <div class="flex">
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)" title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
                             <i (click)="detail(item)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
+                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
                         </div>
                     </td>
                 </tr>

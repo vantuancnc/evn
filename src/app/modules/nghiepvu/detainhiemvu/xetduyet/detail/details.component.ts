@@ -199,7 +199,6 @@ export class DetailsComponent implements OnInit {
                     }
                 }
             }
-            console.log(this.form.value);
             if (data.data.danhSachThanhVien != null) {
                 let formThanhVien = this.form.get(
                     'danhSachThanhVien'
@@ -214,6 +213,14 @@ export class DetailsComponent implements OnInit {
                         this.THEM_THANHVIEN(data.data.danhSachThanhVien[i])
                     );
                 }
+            }
+            let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
+            if(thoiGianTu){
+                this.form.get('thoiGianThucHienTu').setValue(new Date(thoiGianTu));
+            }
+            let thoiGianDen = this.form.get('thoiGianThucHienDen').value;
+            if(thoiGianDen){
+                this.form.get('thoiGianThucHienDen').setValue(new Date(thoiGianDen));
             }
         })
     }

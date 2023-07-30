@@ -146,4 +146,10 @@ export class ListItemComponent implements OnInit, OnDestroy {
             { queryParams: { type: 'updateActionRaSoat' } }
           );
     }
+    detail(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'CHITIET' } }
+          );
+       }
 }
