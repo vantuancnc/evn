@@ -13,6 +13,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
 import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-confirmcomponent';
+import { SnotifyToast } from 'ng-alt-snotify';
 
 @Component({
     selector: 'component-list',
@@ -118,26 +119,40 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
 
   
-    editer(item){
+    // editer(item){
+    //     this._router.navigate(
+    //         ['/nghiepvu/detainhiemvu/nghiemthu'],
+    //         { queryParams: { type: 'CHINHSUA' } }
+    //       );
+    // }
+
+    // detail(item){
+    //     this._router.navigate(
+    //         ['/nghiepvu/detainhiemvu/lstdetaicuatoi'], 
+    //         { queryParams: { type: 'CHITIET' } }
+    //       );
+    // }
+
+    updateActionHSTH(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'CHINHSUA' } }
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'updateActionHSTH' } }
           );
+    }
+    updateActionHD(item) {
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/xetduyet/' + item.maDeTai],
+            { queryParams: { type: 'updateActionHD' } }
+        );
     }
 
-    detail(item){
+    updateActionKQ(item) {
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'], 
-            { queryParams: { type: 'CHITIET' } }
-          );
+            ['/nghiepvu/detainhiemvu/xetduyet/' + item.maDeTai],
+            { queryParams: { type: 'updateActionKQ' } }
+        );
     }
 
-    updateActionHDNT(item){
-        this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'updateActionHDNT' } }
-          );
-    }
 
     updateActionKQNT(item){
         this._router.navigate(
@@ -146,9 +161,66 @@ export class ListItemComponent implements OnInit, OnDestroy {
           );
     }
     updateActionHSQT(item){
+
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
-            { queryParams: { type: 'updateActionHSQT' } }
+          ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+          { queryParams: { type: 'updateActionHSQT' } }
+        );
+      
+      }
+      editer(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'CHINHSUA',screen:"/nghiepvu/detainhiemvu/lstdetaicuatoi/"  } }
           );
+       }
+       detail(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'CHITIET' } }
+          );
+       }
+    
+       xoa(item){
+        this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenDeTai + "\"", (toast: SnotifyToast) => {
+          this._messageService.notify().remove(toast.id);
+          this._serviceApi.execServiceLogin("9A2E2C8E-72F8-41E1-BEF7-A14E4FF5DF62", [{"name":"MA_DE_TAI","value":item.tenDeTai},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+            console.log(data);
+            switch (data.data) {
+                              case 1:
+                                  this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                  break;
+                              case 0:
+                                  this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                                  break;
+                              case -1:
+                                  this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                                  break;
+                          }
+           })
+        })
+       }
+
+    timKiem() {
+        let obj={
+            capQuanLy:'',
+            q:""
+        }
+        this._serviceApi
+            .execServiceLogin('F2F9604E-336C-47FB-BA0B-53A4D3869795', [
+                { name: 'LOAI_TIM_KIEM', value: 'NGHIEMTHU' },
+                { name: 'TIM_KIEM', value: JSON.stringify(obj) },
+                { name: 'PAGE_NUM', value: this.pageIndex },
+                { name: 'PAGE_ROW_NUM', value: this.pageSize },
+            ])
+            .subscribe((data) => {
+                this.listGiao = data.data || [];
+            });
     }
+    lichsu(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
+          );
+       }
 }

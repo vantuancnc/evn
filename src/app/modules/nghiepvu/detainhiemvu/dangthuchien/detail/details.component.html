@@ -1,5 +1,5 @@
-<!-- <div
-    *ngIf="actionType == 'updateActionHSTH'"
+<div
+    *ngIf="actionType == 'updateActionHSTH'" [formGroup]="form"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
@@ -127,9 +127,9 @@
     <div class="action-all-f">
         <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
     </div>
-</div> -->
+</div>
 <div
-    *ngIf="actionType == 'updateActionGH'"
+    *ngIf="actionType == 'updateActionGH'" [formGroup]="form"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
@@ -183,7 +183,7 @@
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            formControlName="thang"
+            formControlName="thang" 
             style="width: 100%"
         >
         </ng-select>
@@ -216,9 +216,10 @@
             </tr>
         </thead>
         <tbody formArrayName="listFolderFile">
-            <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+            <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" formGroupName="{{i}}">
                 <td class="stt_table">{{i+1}}</td>
                 <td>{{item.get('fileName').value}}</td>
+                <td></td>
                 <td >
                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                         <table class="table table_custom action-table">
@@ -230,13 +231,15 @@
                                     </th>
                                     <th class="text-center">Số văn bản
                                     </th>
+                                    <th class="text-center">
+                                    </th>
                                     <th style="width: 100px;"></th>
                                 </tr>
                             </thead>
-                            <tbody formArrayName="listFile">
+                            <tbody>
                              
-
-                                <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                <ng-container  formArrayName="listFile">
+                                <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index" formGroupName="{{k}}">
                                     <td class="stt_table">{{k+1}}</td>
                                     <td>{{item2.get('fileName').value}}</td>
                                     <td>
@@ -248,20 +251,23 @@
                                     </td>  
                     
                                 </tr>
-                    
+                                </ng-container>
                             </tbody>
                         </table>
                     </div> 
                 </td>
                 <td class="text-center">
                     <label class="custom-file-upload add_button-import">
-                        <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
+                        <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
                         <i class="fa fa-cloud-upload"></i> Upload file
                     </label>
                     <!-- <button class="add_button">
                         <i class="fa fa-link"></i> Upload file
                     </button> -->
                 </td>
+                <td><button class="add_button" style="margin-left: 99px;">
+                    <i class="fa fa-search"></i> Tìm kiếm từ D-Office
+                </button></td>
             </tr>
         </tbody>
         <!-- <tbody>

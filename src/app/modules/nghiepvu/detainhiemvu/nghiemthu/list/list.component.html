@@ -72,6 +72,35 @@
             </thead>
             <tbody>
                 <tr>
+                    <tr *ngFor="let item of listGiao; let i = index">
+                        <td class="stt_table">{{ i+ 1}}</td>
+                        <td>{{item.tenDeTai}}</td>
+                        <td>{{item.tenCapQuanLy}}</td>
+                        <td class="text-center">{{item.chuNhiemDeTai}}</td>
+                        <td>{{item.tenDonViChuTri}}</td>
+                        <td class="text-center">{{item.thoiGianThucHienTu | date:'dd/MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'dd/MM/yyyy' }}</td>
+                        <td>{{item.tenTrangThai}}</td>
+                        <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
+                        <td></td>
+                    <td class="text-center action-table">
+                        <div class="flex">
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionKQ(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
+                            <i (click)="detail(item)"
+                                class="fa fa-info-circle"
+                                title="Xem chi tiết"
+                            ></i>
+                            <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
+                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <!-- <tbody>
+                <tr>
                     <td class="stt_table">1</td>
                     <td>Bản đăng ký định hướng 2023</td>
                     <td>Cấp EVN</td>
@@ -89,13 +118,13 @@
                             <i class="fa fa-repeat"  title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" (click)="editer($event)"
                             class="fa fa-pencil" title="Chỉnh sửa"></i>
-                            <i (click)="updateActionHDNT($event)" title="Cập nhập HĐNT" class="fa fa-users"></i>
+                            <i (click)="updateActionHDNT(item)" title="Cập nhập HĐNT" class="fa fa-users"></i>
                             <i  (click)="updateActionKQNT($event)" title="Cập nhập KQNT" class="fa  fa-pencil-square"></i>
                             <i  (click)="updateActionHSQT($event)" title="Cập nhập HSQT" class="fa fa-retweet"></i>
                         </div>
                     </td>
                 </tr>
-            </tbody>
+            </tbody> -->
         </table>
         <!-- phan trang -->
         <mat-paginator
@@ -108,7 +137,6 @@
             aria-label="Select page"
         >
         </mat-paginator>
-        <button (click)="openAlertDialog()" >Mop pup up fille</button>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

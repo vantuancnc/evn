@@ -76,9 +76,10 @@ export class DetailsComponent implements OnInit {
         this.form = this._formBuilder.group({
             maDeTai: [null],
             lyDo: [null],
+            thang: [null],
 
             lanGiaHanThu: [null],
-            soLanGiaHan: [null],
+            soLanGiaHan: 0,
             thoiGianHop: [null],
             ketQuaPhieuDanhGia: [null],
             ketLuanKienNghiHD: [null],
@@ -134,6 +135,7 @@ export class DetailsComponent implements OnInit {
             nhiemVuVaPhamViNghienCuu: [null],
             ketQuaDuKien: [null],
             kienNghiDeXuat: [null],
+            noiDungGuiMail: [null],
             listFolderFile: this._formBuilder.array([]),
             listFile: this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
@@ -152,8 +154,71 @@ export class DetailsComponent implements OnInit {
                 { name: 'METHOD_BUTTON', value: method },
             ])
             .subscribe((data) => {
+                console.log(data.data);
                 this.form.patchValue(data.data);
+                let formDocParent = this.form.get(
+                    'listFolderFile'
+                ) as FormArray;
+                 // listFolderFile
+                 if (data.data.listFolderFile != null) {
+                    for (let i = 0; i < data.data.listFolderFile.length; i++) {
+                        formDocParent.push(
+                            this.addListDocParent(data.data.listFolderFile[i])
+                        );
+                        if (
+                            data.data.listFolderFile[i].listFile != null &&
+                            data.data.listFolderFile[i].listFile.length > 0
+                        ) {
+                            let formChild = formDocParent
+                                .at(i)
+                                .get('listFile') as FormArray;
+                            for (
+                                let j = 0;
+                                j < data.data.listFolderFile[i].listFile.length;
+                                j++
+                            ) {
+                                formChild.push(
+                                    this.addListDocChild(
+                                        data.data.listFolderFile[i].listFile[j]
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+                let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
+                if (thoiGianTu) {
+                    this.form
+                        .get('thoiGianThucHienTu')
+                        .setValue(new Date(thoiGianTu));
+                }
+                let thoiGianDen = this.form.get('thoiGianThucHienDen').value;
+                if (thoiGianDen) {
+                    this.form
+                        .get('thoiGianThucHienDen')
+                        .setValue(new Date(thoiGianDen));
+                }
+
             });
+    }
+    addListDocParent(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            maFolder: item?.maFolder || null,
+            listFile: this._formBuilder.array([]),
+        });
+    }
+
+    addListDocChild(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            base64: item?.base64 || null,
+            size: item?.size || 0,
+            sovanban: item?.sovanban || null,
+            mafile: item?.mafile || null,
+            maFolder: item?.maFolder || null,
+            tenFolder: item?.tenFolder || null,
+        });
     }
     getThang() {
         this.listThang = [];
@@ -233,22 +298,22 @@ export class DetailsComponent implements OnInit {
                 });
         }
     }
-    handleUpload(event) {
-        let arr = this.form.get('listFile') as FormArray;
+    handleUpload(event, item, index) {
+        let arr = item.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
             reader.onload = () => {
-                arr.push(this.addFile(itemVal, reader.result));
+                arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
     }
-    addFile(itemVal, base64) {
+    addFile(item, itemVal, base64) {
         return this._formBuilder.group({
-            fileName: itemVal.name,
-            base64: base64,
-            size: itemVal.size,
+            fileName: itemVal?.name || null,
+            base64: base64 || null,
+            size: itemVal?.size || null,
             sovanban: '',
             mafile: '',
         });

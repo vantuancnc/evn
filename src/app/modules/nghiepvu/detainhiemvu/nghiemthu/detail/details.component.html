@@ -1,5 +1,5 @@
 <div
-    *ngIf="actionType == 'updateActionHDNT'"
+    *ngIf="actionType == 'updateActionHDNT'" [formGroup]="form"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
@@ -142,7 +142,7 @@
     ></textarea>
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit()"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
 <div
@@ -551,7 +551,7 @@
     <textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
 
     <div class="action-all-f">
-        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit()"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
 
