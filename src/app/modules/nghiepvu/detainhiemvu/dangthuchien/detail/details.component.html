@@ -1,4 +1,4 @@
-<div
+<!-- <div
     *ngIf="actionType == 'updateActionHSTH'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
@@ -127,7 +127,7 @@
     <div class="action-all-f">
         <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
     </div>
-</div>
+</div> -->
 <div
     *ngIf="actionType == 'updateActionGH'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
@@ -160,7 +160,8 @@
             <label for="">Số lần gia hạn:</label>
         </div>
         <div class="basis-1/5">
-            <input type="text"   formControlName="soLanGiaHan"  class="form-control" name="" id="">
+            {{form.get('soLanGiaHan').value}}
+            <!-- <input type="text"   formControlName="soLanGiaHan"  class="form-control" name="" id=""> -->
         </div>
     </div>
     <div class="flex items-center">
@@ -168,7 +169,8 @@
             <label for="">Thời gian thực hiện từ</label>
         </div>
         <div class="basis-1/5">
-            <input type="date" class="form-control" formControlName="thoiGianThucHienTu" name="" id="" />
+            {{form.get('thoiGianThucHienTu').value | date:'dd/MM/yyyy'}} -  {{form.get('thoiGianThucHienDen').value | date:'dd/MM/yyyy'}}
+            <!-- <input type="date" class="form-control" formControlName="thoiGianThucHienTu" name="" id="" /> -->
         </div>
     </div>
     <div class="flex items-center mt-1 mb-1">

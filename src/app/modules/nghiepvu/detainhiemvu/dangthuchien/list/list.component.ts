@@ -145,11 +145,11 @@ export class ListItemComponent implements OnInit, OnDestroy {
         );
     }
 
-    updateActionHSTH(item) {
+    updateActionHSTH(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/dangthuchien/' + item.maDeTai],
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
             { queryParams: { type: 'updateActionHSTH' } }
-        );
+          );
     }
 
     updateActionGH(item) {

@@ -157,23 +157,13 @@ export class DetailsComponent implements OnInit {
     }
     getThang() {
         this.listThang = [];
+        let thang =[]
         for (var i = 1; i <= 18; i++) {
-            this.listThang.push({ ID: i, NAME: i });
+            thang.push({ ID: i, NAME: i });
         }
+        this.listThang = thang;
     }
 
-    submit(maTrangThai, method) {
-        this.form.get('method').setValue(method);
-        this.form.get('maTrangThai').setValue(maTrangThai);
-        console.log(this.form.value);
-        // var token = localStorage.getItem("accessToken");
-        // this._serviceApi
-        // .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [{"name":"DE_TAI","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
-        // .subscribe((data) => {
-        //     console.log(data.data);
-
-        // })
-    }
 
     ngOnInit(): void {
         this.geListYears();
@@ -274,7 +264,18 @@ export class DetailsComponent implements OnInit {
                 { name: 'TOKEN_LINK', value: token },
             ])
             .subscribe((data) => {
-                console.log(data.data);
+                if (data.status == 1) {
+                    this._messageService.showSuccessMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                    this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+                } else {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                }
             });
     }
 }
