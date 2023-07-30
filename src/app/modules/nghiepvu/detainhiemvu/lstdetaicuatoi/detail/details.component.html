@@ -12,6 +12,10 @@
             <label for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
             <input type="text" placeholder="Nhập tên đề tài" class="form-control" name="" id=""
                 formControlName="tenDeTai" />
+
+                <div *ngIf="submitted.check && f?.tenDeTai?.errors" class="invalid-feedback">
+                    <div *ngIf="f.tenDeTai.errors.required">Trường bắt buộc nhập</div>
+                  </div>
         </div>
         <div class="basis-1/2">
             <label for="">Căn cứ thực hiện (từ bản định hướng)</label>
@@ -27,6 +31,10 @@
             <ng-select [items]="listCapQuanLy" bindLabel="NAME" bindValue="ID" placeholder="Cấp quản lý"
                 formControlName="capQuanLy">
             </ng-select>
+
+            <div *ngIf="submitted.check && f?.capQuanLy?.errors" class="invalid-feedback">
+                <div *ngIf="f.capQuanLy.errors.required">Trường bắt buộc nhập</div>
+              </div>
         </div>
         <div class="basis-1/4">
             <label for="">Văn bản chỉ đạo số</label>
@@ -61,6 +69,9 @@
             <ng-select [items]="listDonViChuTri" bindLabel="NAME" bindValue="ID" placeholder="Chọn đơn vị chủ trì"
                 formControlName="donViChuTri">
             </ng-select>
+            <div *ngIf="submitted.check && f?.donViChuTri?.errors" class="invalid-feedback">
+                <div *ngIf="f.donViChuTri.errors.required">Trường bắt buộc nhập</div>
+              </div>
         </div>
         <div class="basis-1/4"></div>
         <div class="basis-1/4"></div>
@@ -78,6 +89,9 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
            </div>
+           <div *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors" class="invalid-feedback">
+            <div *ngIf="f.thoiGianThucHienTu.errors.required">Trường bắt buộc nhập</div>
+          </div>
 
             <label class="dem-pading">đến</label>
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
@@ -86,6 +100,9 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
                </div>
+               <div *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors" class="invalid-feedback">
+                <div *ngIf="f.thoiGianThucHienDen.errors.required">Trường bắt buộc nhập</div>
+              </div>
         </div>
     </div>
 
@@ -96,6 +113,9 @@
                 <input class="inputselect" type="text" name="" id="" formControlName="chuNhiemDeTai" />
                 <i (click)="openAlertDialog('CHUNHIEM')" class="fa fa-search"></i>
             </div>
+            <div *ngIf="submitted.check && f?.chuNhiemDeTai?.errors" class="invalid-feedback">
+                <div *ngIf="f.chuNhiemDeTai.errors.required">Trường bắt buộc nhập</div>
+              </div>
         </div>
         <div class="basis-1/12">
             <label for="">Giới tính</label>
@@ -135,6 +155,9 @@
                 <input class="inputselect" type="text" name="" id="" formControlName="dongChuNhiemDeTai" />
                 <i (click)="openAlertDialog('DONGCHUNHIEM')" class="fa fa-search"></i>
             </div>
+            <div *ngIf="submitted.check && f?.dongChuNhiemDeTai?.errors" class="invalid-feedback">
+                <div *ngIf="f.dongChuNhiemDeTai.errors.required">Trường bắt buộc nhập</div>
+              </div>
         </div>
         <div class="basis-1/12">
             <label for="">Giới tính</label>
@@ -259,6 +282,9 @@
             <ng-select [items]="listNguonKinhPhi" bindLabel="NAME" bindValue="ID" placeholder="Nguồn kinh phí"
                 formControlName="nguonKinhPhi">
             </ng-select>
+            <div *ngIf="submitted.check && f?.nguonKinhPhi?.errors" class="invalid-feedback">
+                <div *ngIf="f.nguonKinhPhi.errors.required">Trường bắt buộc nhập</div>
+              </div>
         </div>
         <div class="basis-1/5">
             <label for="">Tổng kinh phí</label>

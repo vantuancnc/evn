@@ -50,6 +50,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listNguonKinhPhi = [];
     public listKhoanChi = [];
     public listChucDanh = [];
+    submitted = { check: false };
 
     public actionType: string = null;
     public form: FormGroup;
@@ -74,7 +75,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
-
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
@@ -397,14 +397,18 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     }
                 }
                 let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
-                if(thoiGianTu){
-                    this.form.get('thoiGianThucHienTu').setValue(new Date(thoiGianTu));
+                if (thoiGianTu) {
+                    this.form
+                        .get('thoiGianThucHienTu')
+                        .setValue(new Date(thoiGianTu));
                 }
                 let thoiGianDen = this.form.get('thoiGianThucHienDen').value;
-                if(thoiGianDen){
-                    this.form.get('thoiGianThucHienDen').setValue(new Date(thoiGianDen));
+                if (thoiGianDen) {
+                    this.form
+                        .get('thoiGianThucHienDen')
+                        .setValue(new Date(thoiGianDen));
                 }
-              
+
                 console.log('form,', this.form);
             });
     }
@@ -460,9 +464,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             } else if (type == 'THUKY') {
                 this.form.get('thuKyDeTai').setValue(data.data.username);
                 this.form.get('thuKyDeTaiInfo').setValue(data.data);
-                this.form
-                    .get('gioiTinhThuKy')
-                    .setValue(data.data.gioiTinh);
+                this.form.get('gioiTinhThuKy').setValue(data.data.gioiTinh);
                 this.form.get('hocHamThuKy').setValue(data.data.maHocHam);
                 this.form.get('hocViThuKy').setValue(data.data.maHocVi);
                 this.form
@@ -505,6 +507,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+        this.submitted.check = true;
+        if (this.form.invalid) {
+            return;
+        }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
@@ -520,13 +526,23 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             // }else if(status=="LUUGUI"){
             //     this.form.get('maTrangThai').setValue("DA_NTHU");
             // }
-        }else if (method == 'CAPNHAT') {
-             if(status=="LUU"){
-            this.form.get('maTrangThai').setValue('CHUA_GUI');
-            this.form.get('noiDungGuiMail').setValue("Chưa gửi hồ sơ thuyết minh " + this.form.get('tenDeTai').value);
-             }else if(status=="LUUGUI"){
-                this.form.get('maTrangThai').setValue("DA_GUI");
-                this.form.get('noiDungGuiMail').setValue("Đã gửi hồ sơ thuyết minh " + this.form.get('tenDeTai').value);
+        } else if (method == 'CAPNHAT') {
+            if (status == 'LUU') {
+                this.form.get('maTrangThai').setValue('CHUA_GUI');
+                this.form
+                    .get('noiDungGuiMail')
+                    .setValue(
+                        'Chưa gửi hồ sơ thuyết minh ' +
+                            this.form.get('tenDeTai').value
+                    );
+            } else if (status == 'LUUGUI') {
+                this.form.get('maTrangThai').setValue('DA_GUI');
+                this.form
+                    .get('noiDungGuiMail')
+                    .setValue(
+                        'Đã gửi hồ sơ thuyết minh ' +
+                            this.form.get('tenDeTai').value
+                    );
             }
         }
         this._serviceApi
@@ -540,7 +556,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+                    this._router.navigateByUrl(
+                        'nghiepvu/detainhiemvu/lstdetaicuatoi'
+                    );
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
@@ -683,9 +701,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     getListGioiTinh() {
-        var obj ={"ID":1,"NAME":"Nam"};
+        var obj = { ID: 1, NAME: 'Nam' };
         this.listGioiTinh.push(obj);
-        obj ={"ID":2,"NAME":"Nữ"};
+        obj = { ID: 2, NAME: 'Nữ' };
         this.listGioiTinh.push(obj);
     }
 
@@ -770,9 +788,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     { name: 'DUONG_DAN', value: item.duongdan },
                     { name: 'TOKEN_LINK', value: 'Bearer ' + token },
                 ])
-                .subscribe((data) => {
-              
-                });
+                .subscribe((data) => {});
         }
     }
     getListTrangThaiHSThucHien() {
