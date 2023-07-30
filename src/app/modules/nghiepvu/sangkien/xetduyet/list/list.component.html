@@ -129,9 +129,9 @@
                             <i  (click)="updateActionKQXDCN(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
                             <i   (click)="updateActionKQ(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
 
-                            <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>
+                            <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maSangKien]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>
                           <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i> 
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-pencil cursor-point"  [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-pencil cursor-point"  [routerLink]="[item.maSangKien]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
                              <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
                         </div>
                     </td>

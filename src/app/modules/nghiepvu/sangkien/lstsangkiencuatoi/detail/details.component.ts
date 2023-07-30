@@ -48,10 +48,9 @@ export class DetailsComponent implements OnInit {
     public submitted = { check: false };
     public listChucDanh = [];
     public listLinhVucNghienCuu;
-    public listDonViChuDauTu=[];
-    public listCapDo=[];
-    public listFolderFile=[];
-
+    public listDonViChuDauTu = [];
+    public listCapDo = [];
+    public listFolderFile = [];
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -70,7 +69,7 @@ export class DetailsComponent implements OnInit {
             }
             if (this.actionType == 'updateActionHSTH') {
                 this.method = 'CAPNHATHSTHUCHIEN';
-            } 
+            }
             this.initForm(this.method);
             this.detail(this.method);
         });
@@ -85,20 +84,18 @@ export class DetailsComponent implements OnInit {
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
         }
-        this._messageService.showSuccessMessage('Thông báo', 'Thành công');
-        console.log(this.actionType);
     }
 
-    geListYears(){
-        var obj = { "NAME": 0, "ID": 0 };
-        var year = (new Date()).getFullYear();
+    geListYears() {
+        var obj = { NAME: 0, ID: 0 };
+        var year = new Date().getFullYear();
         var yearStart = year - 4;
         var yearEnd = yearStart + 10;
         for (let i = yearStart; i <= yearEnd; i++) {
-            obj = { "NAME": i, "ID": i }
+            obj = { NAME: i, ID: i };
             this.listYears.push(obj);
         }
-        this.form.get("nam").setValue((new Date()).getFullYear());
+        this.form.get('nam').setValue(new Date().getFullYear());
     }
     getListFolderFile() {
         this._serviceApi
@@ -141,7 +138,6 @@ export class DetailsComponent implements OnInit {
             });
     }
 
-    
     getListDonViChuDauTu() {
         this._serviceApi
             .execServiceLogin('176BC0B0-7431-47F0-A802-BEDF83E85261', null)
@@ -154,12 +150,12 @@ export class DetailsComponent implements OnInit {
     initForm(actionType) {
         this.form = this._formBuilder.group({
             method: actionType,
-            maTrangThai:[null],
-			nam: new Date().getFullYear(),
+            maTrangThai: [null],
+            nam: new Date().getFullYear(),
             capDoSangKien: [null, [Validators.required]],
-            donViApDungInfo:{},
-            donViApDung:[null,[Validators.required]],
-            donViChuDauTuInfo:{},
+            donViApDungInfo: {},
+            donViApDung: [null, [Validators.required]],
+            donViChuDauTuInfo: {},
             donViChuDauTu: [null, [Validators.required]],
             tenGiaiPhap: [null, [Validators.required]],
             tacGiaGiaiPhap: this._formBuilder.array([]),
@@ -173,7 +169,7 @@ export class DetailsComponent implements OnInit {
             thamGiaToChuc: [null],
             soTienLamLoi: [null],
             donDangKy: [null],
-            thuTruongDonVi:[null],
+            thuTruongDonVi: [null],
             taiLieuDinhKem: [null],
             listFolderFile: this._formBuilder.array([]),
         });
@@ -189,7 +185,7 @@ export class DetailsComponent implements OnInit {
             base64: base64,
             size: itemVal.size,
             sovanban: '',
-            mafile: ''
+            mafile: '',
         });
     }
 
@@ -276,13 +272,12 @@ export class DetailsComponent implements OnInit {
                 item.get('maThanhVien').setValue(data.data.userId);
             } else if (type == 'DKAPDUNGSK') {
                 console.log('data1', data);
-             //   console.log(item);
-              //  item.get('ten').setValue(data.data.username);
+                //   console.log(item);
+                //  item.get('ten').setValue(data.data.username);
                 debugger;
                 item.get('donViApDungInfo').setValue(data.data);
                 item.get('donViApDung').setValue(data.data.name);
             }
-            
         });
     }
     getListChucDanh() {
@@ -294,7 +289,7 @@ export class DetailsComponent implements OnInit {
     }
     removeItem(items, i) {
         // remove address from the list
-        const control = items.get('danhSachThanhVien');
+        const control = items.get('tacGiaGiaiPhap');
         control.removeAt(i);
     }
 
@@ -306,21 +301,23 @@ export class DetailsComponent implements OnInit {
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
-        if(method=="SUA"){
-            if(status=="LUU"){
+        if (method == 'SUA') {
+            if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('SOAN');
-            }else if(status=="LUUGUI"){
+            } else if (status == 'LUUGUI') {
                 this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
             }
         }
-        var token = localStorage.getItem("accessToken");
+        var token = localStorage.getItem('accessToken');
         this._serviceApi
-        .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [{"name":"SANG_KIEN","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
-        .subscribe((data) => {
-            debugger;
-            console.log(data.data);
-
-        })
+            .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [
+                { name: 'SANG_KIEN', value: JSON.stringify(this.form.value) },
+                { name: 'TOKEN_LINK', value: token },
+            ])
+            .subscribe((data) => {
+                debugger;
+                console.log(data.data);
+            });
     }
 
     exportMau() {
@@ -378,5 +375,4 @@ export class DetailsComponent implements OnInit {
                 });
         }
     }
-    
 }
