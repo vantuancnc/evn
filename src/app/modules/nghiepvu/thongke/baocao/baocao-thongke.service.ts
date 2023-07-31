@@ -26,7 +26,6 @@ export class BaoCaoThongkeService extends BaseService implements BaseDetailServi
 
     createObject(param: any): Observable<any> {
         let userId: string = param.userId;
-        debugger;
         const uid = new ShortUniqueId();
         return this._lstApiInput.pipe(
             take(1),

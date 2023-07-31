@@ -66,7 +66,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public screen;
     public madeTaiSK;
     public typeLichSu;
-
+    public checkChuNhiem=true;
+    public listMaFolder=['HOSO_DANG_KY','DE_NGHI_TAM_UNG']
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -267,12 +268,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     detail(method) {
+        debugger;
+        this.getListDangNhap();
         this._serviceApi
             .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
                 { name: 'MA_DE_TAI', value: this.idParam },
                 { name: 'METHOD_BUTTON', value: method },
             ])
             .subscribe((data) => {
+                debugger;
                 console.log('formData,', data.data);
                 this.form.patchValue(data.data);
 
@@ -420,6 +424,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 }
 
                 console.log('form,', this.form);
+            });
+    }
+
+    getListDangNhap() {
+        this.getYearSubscription = this._serviceApi
+            .execServiceLogin('EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8', [{"name":"USERID","value":"STR"}])
+            .subscribe((data) => {
+                console.log(data.data);
+                debugger;
             });
     }
 
@@ -754,7 +767,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
             reader.onload = () => {
-                debugger;
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }

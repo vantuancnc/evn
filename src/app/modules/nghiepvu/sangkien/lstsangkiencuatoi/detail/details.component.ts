@@ -209,7 +209,6 @@ export class DetailsComponent implements OnInit {
                 { name: 'METHOD_BUTTON', value: method },
             ])
             .subscribe((data) => {
-                debugger;
                 this.form.patchValue(data.data);
             });
     }
@@ -274,7 +273,6 @@ export class DetailsComponent implements OnInit {
                 console.log('data1', data);
                 //   console.log(item);
                 //  item.get('ten').setValue(data.data.username);
-                debugger;
                 item.get('donViApDungInfo').setValue(data.data);
                 item.get('donViApDung').setValue(data.data.name);
             }
@@ -315,7 +313,6 @@ export class DetailsComponent implements OnInit {
                 { name: 'TOKEN_LINK', value: token },
             ])
             .subscribe((data) => {
-                debugger;
                 console.log(data.data);
             });
     }

@@ -181,7 +181,6 @@ export class ApiGiaoDetailsComponent implements OnInit {
         // }
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
-                debugger;
                 this._serviceApi.dataKeHoach.next(data.data);
                 this.listFile = data.data || [];
                 this.listFile =data.data.listFile;
@@ -379,8 +378,7 @@ export class ApiGiaoDetailsComponent implements OnInit {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {
-                // debugger;            
+            reader.onload = () => {           
                 this.listupload.push({
                     fileName: itemVal.name,
                     base64: reader.result,

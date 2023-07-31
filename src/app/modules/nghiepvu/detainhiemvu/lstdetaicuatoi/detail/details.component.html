@@ -1457,7 +1457,8 @@
                         <th class="stt_table">STT</th>
                         <th>Tên hồ sơ</th>
                         <th>Người cập nhập</th>
-                        <th>Ngày cập nhập</th>
+                        <th>Ngày cập nhập</th>           
+                        <td></td>
                         <th>File đính kèm</th>
                         <th>Ghi chú</th>
                     </tr>
@@ -1465,7 +1466,7 @@
                 <tbody formArrayName="listFolderFileThucHien">
                     <tr *ngFor="let item of form.controls.listFolderFileThucHien['controls']; let i = index"   formGroupName="{{i}}">
                         <td class="stt_table">{{i+1}}</td>
-                        <td>{{item.get('fileName').value}}</td>
+                        <td>{{item.get('fileName').value}}  {{item.get('maFolder').value}}</td>
                         <td></td>
                         <td></td>
                         <td>
@@ -1512,7 +1513,8 @@
                             </ng-container>
                         </td>
                         <td class="text-center">
-                            <label class="custom-file-upload add_button-import">
+                            <label class="custom-file-upload add_button-import" *ngIf="(
+                            (this.listMaFolder.indexOf(item.get('maFolder').value) >-1) && checkChuNhiem) ||  (this.listMaFolder.indexOf(item.get('maFolder').value) ==-1 && !checkChuNhiem) ">
                                 <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label>
@@ -1556,7 +1558,7 @@
                 <tbody formArrayName="listFolderFileTamUng">
                     <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index">
                         <td class="stt_table">{{i+1}}</td>
-                        <td>{{item.get('fileName').value}}</td>
+                        <td>{{item.get('fileName').value}} {{item.get('maFolder').value}}</td>
                         <td></td>
                         <td></td>
                         <td>

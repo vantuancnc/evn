@@ -361,7 +361,6 @@ export class DetailsComponent implements OnInit {
                 tenTrangThai = lstTrangThai[0].NAME;
             }
             let noiDung = tenTrangThai+' '+ this.form.get('tenGiaiPhap').value;
-            debugger;
             this.form.get('noiDungGuiMail').setValue(noiDung);
         }
         var token = localStorage.getItem("accessToken");

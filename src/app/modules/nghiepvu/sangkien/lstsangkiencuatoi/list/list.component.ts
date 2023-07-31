@@ -108,7 +108,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
       this.length = event.length;
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
-      debugger;
       this.timKiem();
 
     }

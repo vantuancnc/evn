@@ -115,22 +115,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
 
     updateDate() {
-        //debugger;
         if (this.idParam != undefined && this.idParam != null) {
-            //debugger;
-            // this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
-
-            //     this.form.get("name").patchValue(data.data.TEN_KE_HOACH);
-            //     this.form.get("year").patchValue(data.data.NAM);
-            //     this.form.get("maKeHoach").patchValue(this.idParam);
-
-            // })
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
                 //console.log(data.data);
                 this._serviceApi.dataKeHoach.next(data.data);
                 this.listFile = data.data || [];
                 this.listFile =data.data.listFile;
-                debugger;
                 this.form.get("name").patchValue(data.data.name);
                 this.form.get("year").patchValue(data.data.nam);
                 this.form.get("maKeHoach").patchValue(this.idParam);
@@ -212,9 +202,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 this._serviceApi.dataKeHoach.next(kehoach);
                 this.listChiTietImport = data.data || [];
                 this.showTable = true
-                // debugger;
             })
-            // console.log(reader.result);
         };
     }
 
@@ -296,8 +284,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {
-                // debugger;            
+            reader.onload = () => {        
                 this.listupload.push({
                     fileName: itemVal.name,
                     base64: reader.result,

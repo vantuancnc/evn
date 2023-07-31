@@ -394,8 +394,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {
-                // debugger;            
+            reader.onload = () => {        
                 this.listupload.push({
                     fileName: itemVal.name,
                     base64: reader.result,

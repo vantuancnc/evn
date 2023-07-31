@@ -106,7 +106,6 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         this.addNew();
         let arr = this.listDinhHuong.filter(c => c.state==true);
         let listKeHoach =[];
-        debugger;
         if(arr !=undefined && arr.length >0){
           for(let i=0;i< arr.length;i++){
             if(arr[i] !=undefined && arr[i].listKeHoach !=undefined && arr[i].listKeHoach.length >0){

@@ -599,7 +599,6 @@ export class DetailsComponent implements OnInit {
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
-        debugger;
         if(method=='HSNHIEMTHU'){
             if(status=="LUU"){
                 this.form.get('maTrangThai').setValue("CHUA_GUI_HS_NTHU");
