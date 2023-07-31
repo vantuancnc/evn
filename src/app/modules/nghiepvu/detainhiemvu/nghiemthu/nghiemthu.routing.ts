@@ -84,9 +84,6 @@ export const NghiemThuRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: DetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
           }
         ]
       }

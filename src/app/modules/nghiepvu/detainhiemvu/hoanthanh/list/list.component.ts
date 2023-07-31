@@ -62,7 +62,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.geListYears();
-        this.getListDinhHuong()
+        this.timKiem()
     }
 
     geListYears() {
@@ -70,6 +70,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             this.listYears = data.data || [];
         })
     }
+
+    
 
 
     addNew(): void {
@@ -80,8 +82,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe()
-        this.getGiaoSubcription.unsubscribe();
+        //this.getYearSubscription.unsubscribe()
+        //this.getGiaoSubcription.unsubscribe();
     }
 
     getListDinhHuong() {
@@ -104,11 +106,27 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     }
     timKiem() {
-        this._serviceApi.execServiceLogin("00249219-4EE7-466D-BD84-269064AC9D9B", [{"name":"TEN_DETAI","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
-          this.listGiao = data.data || [];
-        })
+        let obj={
+            capQuanLy:'',
+            q:""
+        }
+        this._serviceApi
+            .execServiceLogin('F2F9604E-336C-47FB-BA0B-53A4D3869795', [
+                { name: 'LOAI_TIM_KIEM', value: 'NGHIEMTHU' },
+                { name: 'TIM_KIEM', value: JSON.stringify(obj) },
+                { name: 'PAGE_NUM', value: this.pageIndex },
+                { name: 'PAGE_ROW_NUM', value: this.pageSize },
+            ])
+            .subscribe((data) => {
+                this.listGiao = data.data || [];
+            });
     }
-
+    lichsu(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
+          );
+       }
    // mo popup file
     openAlertDialog() {
         this.dialog.open(PopupFileComponent, {

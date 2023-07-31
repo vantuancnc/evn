@@ -436,7 +436,7 @@
             <table class="table table_custom" style="margin-top: 0">
                 <tbody>
                     <tr>
-                        <td>Tên đề tài</td>
+                        <td style="width: 30%;">Tên đề tài</td>
                         <td style="font-weight: 600; color: #2a3493">
                             {{form.get('tenDeTai').value}}
                         </td>
@@ -1359,7 +1359,7 @@
 <!--LICH SU-->
 <div *ngIf="actionType == 'LICHSU'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" [formGroup]="form">
-    <app-lichsu></app-lichsu>
+    <app-lichsu title_lichsu="" [typeLichSu]='typeLichSu' [madeTaiSK]="madeTaiSK"></app-lichsu>
 </div>
 
 <!--TIENDO-->

@@ -1,6 +1,6 @@
 <div
     *ngIf="actionType == 'THEOHOATDONG'"
-    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" 
 >
     <div class="">
         <h1 class="title-component">Báo cáo - Thống kê Đề tài/ nhiệm vụ EVN  </h1>
@@ -88,7 +88,7 @@
        
     </div>
 
-    <table class="table table_custom mt-4">
+    <table class="table table_custom mt-4"  [formGroup]="form">
         <thead>
             <tr>
                 <th class="stt_table">STT</th>
@@ -104,7 +104,7 @@
         </thead>
         <tbody formArrayName="linhVuc" *ngIf="form.get('linhVuc').value.lenght >0">
             <tr *ngFor="let item of form.get('linhVuc')['controls'];let i = index"
-                        [formGroup]="item">
+                        [formGroupName]="i">
                         <td colspan="9">{{item.tenLinhVuc}}</td>
                         <ng-container
                         *ngFor="let item2 of item.get('listData')['controls']; let k = index">

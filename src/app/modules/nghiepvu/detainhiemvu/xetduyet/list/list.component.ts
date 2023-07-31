@@ -129,6 +129,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
             });
     }
 
+    lichsu(item){
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            { queryParams: { type: 'LICHSU' } }
+          );
+       }
+
   
     editer(item){
         this._router.navigate(

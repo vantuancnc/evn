@@ -169,9 +169,69 @@ export class DetailsComponent implements OnInit {
         }
         this._serviceApi.execServiceLogin("8EA6E3A8-860D-46A9-98B6-AD215E62FE45", [{"name":"LOAI_TIM_KIEM","value":this.loaiTimKiem},{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             debugger;
+           console.log(data.data);
             this.form.patchValue(data.data);
+            let formDocParent = this.form.get(
+              'linhVuc'
+          ) as FormArray;
+
+          if (data.data != null && data.data.length >0) {
+            for (let i = 0; i < data.data.length; i++) {
+                formDocParent.push(
+                    this.addListDocParent(data.data[i])
+                );
+                if (
+                    data.data[i].listData != null &&
+                    data.data[i].listData.length > 0
+                ) {
+                    let formChild = formDocParent
+                        .at(i)
+                        .get('listData') as FormArray;
+                    for (
+                        let j = 0;
+                        j < data.data[i].listData.length;
+                        j++
+                    ) {
+                        formChild.push(
+                            this.addListDocChild(
+                                data.data[i].listData[j]
+                            )
+                        );
+                    }
+                }
+            }
+        }
+        console.log(this.form);
         })
     }
+
+    addListDocParent(item?: any) {
+      return this._formBuilder.group({
+        tenLinhVuc: item?.tenLinhVuc || null,
+        listData: this._formBuilder.array([]),
+      });
+  }
+
+  addListDocChild(item?: any) {
+      return this._formBuilder.group({
+        capQuanLy: item?.capQuanLy || null,
+        donViChuTri: item?.donViChuTri || null,
+        hoatDongKeHoach: item?.hoatDongKeHoach || 0,
+        kinhPhi: item?.kinhPhi || null,
+        linhVucKhoaHoc: item?.linhVucKhoaHoc || null,
+        loaiDeTaiSK: item?.loaiDeTaiSK || null,
+        maCapQuanLy: item?.maCapQuanLy || null,
+        maDeTaiSK: item?.maDeTaiSK || null,
+        maDonViChuTri: item?.maDonViChuTri || null,
+        maNghienCuu: item?.maNghienCuu || null,
+        nam: item?.nam || null,
+        nguonKinhPhi: item?.nguonKinhPhi || null,
+        tenChuNhiemTG: item?.tenChuNhiemTG || null,
+        tenDeTaiSK: item?.tenDeTaiSK || null,
+        tenNghienCuu: item?.tenNghienCuu || null,
+        thoiGianThucHien: item?.thoiGianThucHien || null,
+      });
+  }
 
     length = 0;
     pageSize = 20;

@@ -83,10 +83,7 @@ export const HoanThanhRoutes: Route[] = [
           {
             path: ':id',
             runGuardsAndResolvers: 'always',
-            component: DetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
+            component: DetailsComponent
           }
         ]
       }

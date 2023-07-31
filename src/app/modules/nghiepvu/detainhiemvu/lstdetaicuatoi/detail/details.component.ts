@@ -64,6 +64,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listNam = [];
     public idParam: string = null;
     public screen;
+    public madeTaiSK;
+    public typeLichSu;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -105,6 +107,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.idParam != '' &&
                 this.idParam != null
             ) {
+                this.madeTaiSK=this.idParam;
+                this.typeLichSu='DETAI';
+
                 this.detail(this.method);
             }
         });
@@ -268,6 +273,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 { name: 'METHOD_BUTTON', value: method },
             ])
             .subscribe((data) => {
+                console.log('formData,', data.data);
                 this.form.patchValue(data.data);
 
                 let formDocParent = this.form.get(
@@ -560,7 +566,12 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+                    if(this.screen){
+                        this._router.navigateByUrl(this.screen);
+                    }else{
+                        this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+                    }
+                   
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',

@@ -331,8 +331,8 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 if (data.status == 1) {
                     this._messageService.showSuccessMessage(
-                        'Thông báo',
-                        data.message
+                        'Thành công',
+                        'Thông báo'
                     );
                     this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
                 } else {
