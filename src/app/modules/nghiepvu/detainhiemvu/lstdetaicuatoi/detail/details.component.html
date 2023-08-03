@@ -1464,7 +1464,7 @@
                 <tbody formArrayName="listFolderFileThucHien">
                     <tr *ngFor="let item of form.controls.listFolderFileThucHien['controls']; let i = index"   formGroupName="{{i}}">
                         <td class="stt_table">{{i+1}}</td>
-                        <td>{{item.get('fileName').value}}  {{item.get('maFolder').value}}</td>
+                        <td>{{item.get('fileName').value}}</td>
                         <td></td>
                         <td></td>
                         <td>
@@ -1558,7 +1558,6 @@
                         <td class="stt_table">{{i+1}}</td>
                         <td>{{item.get('fileName').value}} {{item.get('maFolder').value}}</td>
                         <td></td>
-                        <td></td>
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
@@ -1601,14 +1600,21 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <label class="custom-file-upload add_button-import">
+                            <!-- <label class="custom-file-upload add_button-import">
                                 <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
-                            </label>
+                            </label> -->
+
+                            <label class="custom-file-upload add_button-import" *ngIf="(
+                                (this.listMaFolder2.indexOf(item.get('maFolder').value) >-1) && checkChuNhiem) ||  (this.listMaFolder2.indexOf(item.get('maFolder').value) ==-1 && !checkChuNhiem) ">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label>
                             <!-- <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
                         </td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -1742,10 +1748,16 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <label class="custom-file-upload add_button-import">
+                            <!-- <label class="custom-file-upload add_button-import">
                                 <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
-                            </label>
+                            </label> -->
+
+                            <label class="custom-file-upload add_button-import" *ngIf="(
+                                (this.listMaFolderNhiemThu1.indexOf(item.get('maFolder').value) >-1) && checkChuNhiem) ||  (this.listMaFolderNhiemThu1.indexOf(item.get('maFolder').value) ==-1 && !checkChuNhiem) ">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label>
                             <!-- <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
@@ -1786,7 +1798,7 @@
                 <tbody formArrayName="listFolderFileThucHien">
                     <tr *ngFor="let item of form.get('listFolderFileThucHien')['controls']; let i = index"  [formGroupName]="i">
                         <td class="stt_table">{{i+1}}</td>
-                        <td>{{item.get('fileName').value}}</td>
+                        <td>{{item.get('fileName').value}} {{item.get('maFolder').value}}</td>
                         <td></td>
                         <td></td>
                         <td>
@@ -1831,7 +1843,8 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <label class="custom-file-upload add_button-import">
+                            <label class="custom-file-upload add_button-import" *ngIf="(
+                            (this.listMaFolderNhiemThu2.indexOf(item.get('maFolder').value) >-1) && checkChuNhiem) ||  (this.listMaFolderNhiemThu2.indexOf(item.get('maFolder').value) ==-1 && !checkChuNhiem) ">
                                 <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label>
@@ -1948,7 +1961,7 @@
         <tbody formArrayName="listFolderFile">
             <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index"  formGroupName="{{i}}">
                 <td class="stt_table">{{i+1}}</td>
-                <td>{{item.get('fileName').value}}</td>
+                <td>{{item.get('fileName').value}} {{item.get('maFolder').value}}</td>
                 <td></td>
                 <td>
                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
@@ -1992,10 +2005,15 @@
                     </div>
                 </td>
                 <td class="text-center">
-                    <label class="custom-file-upload add_button-import">
+                    <!-- <label class="custom-file-upload add_button-import">
                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                         <i class="fa fa-cloud-upload"></i> Upload file
-                    </label>
+                    </label> -->
+                    <label class="custom-file-upload add_button-import" *ngIf="(
+                        (this.listMaFolderQuyetToan.indexOf(item.get('maFolder').value) >-1) && checkChuNhiem) ||  (this.listMaFolderQuyetToan.indexOf(item.get('maFolder').value) ==-1 && !checkChuNhiem) ">
+                            <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                            <i class="fa fa-cloud-upload"></i> Upload file
+                        </label>
                     <!-- <button class="add_button">
                         <i class="fa fa-link"></i> Upload file
                     </button> -->

@@ -66,8 +66,35 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public screen;
     public madeTaiSK;
     public typeLichSu;
-    public checkChuNhiem=true;
-    public listMaFolder=['HOSO_DANG_KY','DE_NGHI_TAM_UNG'];
+    public checkChuNhiem = true;
+    public listMaFolder = ['HOSO_DANG_KY', 'DE_NGHI_TAM_UNG'];
+    public listMaFolder2 = [
+        'KHCN BCAO_THINH_THIEN',
+        'BANG_XNHAN_KHOI_LUONG',
+        'BANG_CTIET_KINH_PHI',
+        'SPHAM_TUONG_UNG',
+        'TTU_THANH_TOAN',
+    ];
+    public listMaFolderNhiemThu1 = [
+        'BSAO_HOP_DONG_THUC_HIEN',
+        'BCAO_THOP_KET_QUA',
+        'BCAO_TOM_TAT_KET_QUA',
+        'VBAN_XAC_NHAN',
+        'BCAO_THINH_SDUNG',
+        'BCAO_THOP_SANPHAM',
+        'VBAN_BCAO_HTHIEN_KQUA',
+        'THOP_BAOCAO_THIEN',
+    ];
+    public listMaFolderNhiemThu2 = [
+        'BCAO_KQUA_THEO_BB_NTHU',
+        'TBI_LTRU_KQUA_THIEN',
+    ];
+    public listMaFolderQuyetToan = [
+        'CTU_HDON',
+        'QDINH_CNHAN',
+        'BBAN_GIAO_LUUTRU',
+        'HDON_THUE_TNCN',
+    ];
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -108,8 +135,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.idParam != '' &&
                 this.idParam != null
             ) {
-                this.madeTaiSK=this.idParam;
-                this.typeLichSu='DETAI';
+                this.madeTaiSK = this.idParam;
+                this.typeLichSu = 'DETAI';
 
                 this.detail(this.method);
             }
@@ -655,7 +682,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     getListDangNhap() {
         this.getYearSubscription = this._serviceApi
-            .execServiceLogin('EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8', [{"name":"USERID","value":"STR"}])
+            .execServiceLogin('EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8', [
+                { name: 'USERID', value: 'STR' },
+            ])
             .subscribe((data) => {
                 console.log(data.data);
             });
@@ -804,12 +833,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    if(this.screen){
+                    if (this.screen) {
                         this._router.navigateByUrl(this.screen);
-                    }else{
-                        this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+                    } else {
+                        this._router.navigateByUrl(
+                            'nghiepvu/detainhiemvu/lstdetaicuatoi'
+                        );
                     }
-                   
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',

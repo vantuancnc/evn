@@ -130,11 +130,12 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
             
           }
         }
-        if(listKeHoach != null && listKeHoach.length >0){
+        debugger;
+        //if(listKeHoach != null && listKeHoach.length >0){
           let kehoach = {listKeHoach:listKeHoach,capTao:'TCT', listFile:listFile}
           this._serviceApi.dataKeHoach.next(kehoach);
           this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong?type='+status);
-        }
+       // }
         
     }
 

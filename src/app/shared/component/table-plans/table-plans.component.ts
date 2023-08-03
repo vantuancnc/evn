@@ -136,6 +136,7 @@ export class TablePlansComponent {
 
 
     newNhiemvu(item): FormGroup {
+        debugger;
         let listNhiemVu21 = this.listNhiemVuMau.filter(c => c.MA_NHOM_CHA == item.MA_NHOM);
         let listNhiemVu2 = [];
         for (let i = 0; i < listNhiemVu21.length; i++) {
@@ -225,6 +226,7 @@ export class TablePlansComponent {
     }
 
     newItemNhiemvu(item): FormGroup {
+        debugger;
         return this._formBuilder.group({
             maDonVi: item.maDonVi,
             maKeHoachChiTiet: item.maKeHoachChiTiet,
