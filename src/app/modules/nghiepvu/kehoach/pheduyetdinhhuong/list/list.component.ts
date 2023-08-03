@@ -103,7 +103,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         this.actionClick = 'THEMMOI';
     }
 
-    tonghop(status) {
+    async tonghop(status) {
         this.addNew();
         let arr = this.listDinhHuong.filter((c) => c.state == true);
         let listKeHoach = [];
@@ -122,15 +122,17 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
                 }
             }
         }
-
+        // await this.delays(2000);
         let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT' };
         this._serviceApi.dataKeHoach.next(kehoach);
-        this._router.navigateByUrl(
-            'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
-        );
+        // this._router.navigateByUrl(
+        //     'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
+        // );
     }
 
-    delays() {}
+    delays(times) {
+        return new Promise((resolve) => setTimeout(resolve, times));
+    }
 
     checkAll(ev) {
         this.listDinhHuong

@@ -22,60 +22,72 @@ export class TablePlansComponent {
     @Input() submitted;
     // @Input('dataImport') dataImport:Subject<any>;
 
-    constructor(private _formBuilder: FormBuilder, private _serviceApi: ServiceService) {
-    }
+    constructor(
+        private _formBuilder: FormBuilder,
+        private _serviceApi: ServiceService
+    ) {}
 
     ngOnInit() {
         this.getListKeHoachChiTiet();
         this.geListNguonKinhPhi();
-        this.addFormtoParent(); 
+        this.addFormtoParent();
     }
     ngOnChanges(changes: SimpleChanges) {
-        console.log(this.submitted)
+        console.log(this.submitted);
     }
     keHoach;
     addFormtoParent() {
-        this.form.addControl('listNhiemVu', this._formBuilder.array([]))
+        this.form.addControl('listNhiemVu', this._formBuilder.array([]));
 
-        this._serviceApi.execServiceLogin("030A9A96-90D5-4AD0-80E4-C596AED63EE7", null).subscribe((data) => {
-            this.listDonvi = data.data || [];
-            if(this.listDonvi !=undefined && this.listDonvi.length >0){
-                this.keHoach = { capTao: 'TCT' };
-            }else{
-                this.keHoach = { capTao: 'DONVI' };
-            }
-            this.sub = this._serviceApi.dataKeHoach.subscribe((data) => {
-            if(data !=undefined){
-                this.keHoach = { capTao: data.capTao };
-            }
-                if(data !=undefined && data.listKeHoach !=undefined){
-                    this.listKeHoachChiTiet = data.listKeHoach;
+        this._serviceApi
+            .execServiceLogin('030A9A96-90D5-4AD0-80E4-C596AED63EE7', null)
+            .subscribe((data) => {
+                this.listDonvi = data.data || [];
+                if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+                    this.keHoach = { capTao: 'TCT' };
+                } else {
+                    this.keHoach = { capTao: 'DONVI' };
                 }
-                
-            })
-            this._serviceApi.execServiceLogin("CE428DEE-1945-495E-8F48-03747076AE6F", [{ "name": "ORGID", "value": "115" }, { "name": "USERID", "value": "STR" }]).subscribe((data) => {
-                this.listNhiemVuMau = data.data;
-                let listNhiemVu11 = this.listNhiemVuMau.filter(c => c.MA_NHOM_CHA == null);
-                for (let i = 0; i < listNhiemVu11.length; i++) {
-                    let arrTemp = this.form.get('listNhiemVu') as FormArray;
-                    arrTemp.push(this.newNhiemvu(listNhiemVu11[i]))
-                }
-            })
-        })
+                this.sub = this._serviceApi.dataKeHoach.subscribe((data) => {
+                    console.log('data', data);
 
+                    if (data != undefined) {
+                        this.keHoach = { capTao: data.capTao };
+                    }
+                    if (data != undefined && data.listKeHoach != undefined) {
+                        this.listKeHoachChiTiet = data.listKeHoach;
+                    }
+                });
+                this._serviceApi
+                    .execServiceLogin('CE428DEE-1945-495E-8F48-03747076AE6F', [
+                        { name: 'ORGID', value: '115' },
+                        { name: 'USERID', value: 'STR' },
+                    ])
+                    .subscribe((data) => {
+                        this.listNhiemVuMau = data.data;
+                        let listNhiemVu11 = this.listNhiemVuMau.filter(
+                            (c) => c.MA_NHOM_CHA == null
+                        );
+                        for (let i = 0; i < listNhiemVu11.length; i++) {
+                            let arrTemp = this.form.get(
+                                'listNhiemVu'
+                            ) as FormArray;
+                            arrTemp.push(this.newNhiemvu(listNhiemVu11[i]));
+                        }
+                    });
+            });
     }
 
     getListKeHoachChiTiet() {
         this.keHoach = { capTao: 'DONVI' };
         this.sub = this._serviceApi.dataKeHoach.subscribe((data) => {
-            if(data !=undefined){
+            if (data != undefined) {
                 this.keHoach = { capTao: data.capTao };
             }
-                if(data !=undefined && data.listKeHoach !=undefined){
-                    this.listKeHoachChiTiet = data.listKeHoach;
-                }
-                
-        })
+            if (data != undefined && data.listKeHoach != undefined) {
+                this.listKeHoachChiTiet = data.listKeHoach;
+            }
+        });
         // let maKeHoach = this.form.value.maKeHoach;
         // let typeRecord = this.form.value.typeRecord;
         // if (typeRecord != undefined && (typeRecord == "TH_DonVi" || typeRecord == "TH_EVN")) {
@@ -96,7 +108,7 @@ export class TablePlansComponent {
         //                 })
         //             }
 
-        //             //this.addFormtoParent(); 
+        //             //this.addFormtoParent();
         //         }
         //     })
         // } else {
@@ -111,7 +123,7 @@ export class TablePlansComponent {
         //             this.sub = this._serviceApi.dataImport.subscribe((data) => {
         //                 if (data != null && data.length > 0) {
         //                     this.listImport = data;
-        //                     //this.addFormtoParent(); 
+        //                     //this.addFormtoParent();
         //                 }
         //             })
         //         })
@@ -120,7 +132,7 @@ export class TablePlansComponent {
         //         this.sub = this._serviceApi.dataImport.subscribe((data) => {
         //             if (data != null && data.length > 0) {
         //                 this.listImport = data;
-        //                 //this.addFormtoParent(); 
+        //                 //this.addFormtoParent();
         //             }
         //         })
         //     }
@@ -128,9 +140,10 @@ export class TablePlansComponent {
         // this.addFormtoParent();
     }
 
-
     newNhiemvu(item): FormGroup {
-        let listNhiemVu21 = this.listNhiemVuMau.filter(c => c.MA_NHOM_CHA == item.MA_NHOM);
+        let listNhiemVu21 = this.listNhiemVuMau.filter(
+            (c) => c.MA_NHOM_CHA == item.MA_NHOM
+        );
         let listNhiemVu2 = [];
         for (let i = 0; i < listNhiemVu21.length; i++) {
             //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
@@ -140,28 +153,35 @@ export class TablePlansComponent {
             maNhom: item.MA_NHOM,
             noiDungDangKy: item.TEN_NHOM,
             listNhiemVu_cap2: this._formBuilder.array(listNhiemVu2),
-        })
+        });
     }
 
     newNhiemvu_cap2(item): FormGroup {
         let itemArr = [];
-        if (this.keHoach.capTao=='TCT') {
+        if (this.keHoach.capTao == 'TCT') {
             let listNhiemVu3 = [];
             if (this.listDonvi != null && this.listDonvi.length > 0) {
                 for (let i = 0; i < this.listDonvi.length; i++) {
                     //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
-                    listNhiemVu3.push(this.newNhiemvu_cap3(this.listDonvi[i], item));
+                    listNhiemVu3.push(
+                        this.newNhiemvu_cap3(this.listDonvi[i], item)
+                    );
                 }
                 return this._formBuilder.group({
                     maNhom: item.MA_NHOM,
                     noiDungDangKy: item.TEN_NHOM,
                     maDonVi: null,
                     listNhiemVu_cap3: this._formBuilder.array(listNhiemVu3),
-                })
+                });
             }
         } else {
-            if(this.listKeHoachChiTiet !=null && this.listKeHoachChiTiet.length >0){
-                let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM)
+            if (
+                this.listKeHoachChiTiet != null &&
+                this.listKeHoachChiTiet.length > 0
+            ) {
+                let listChiTiet = this.listKeHoachChiTiet.filter(
+                    (c) => c.maNhom == item.MA_NHOM
+                );
                 for (let i = 0; i < listChiTiet.length; i++) {
                     //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
                     itemArr.push(this.newItemNhiemvu(listChiTiet[i]));
@@ -172,15 +192,20 @@ export class TablePlansComponent {
                 maDonVi: null,
                 noiDungDangKy: item.TEN_NHOM,
                 listNhiemVu_cap3: this._formBuilder.array(itemArr),
-            })
+            });
         }
-
     }
 
     newNhiemvu_cap3(item, itemParent): FormGroup {
         let itemArr = [];
-        if(this.listKeHoachChiTiet !=null && this.listKeHoachChiTiet.length >0){
-            let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==itemParent.MA_NHOM && c.maDonVi ==item.maNhom)
+        if (
+            this.listKeHoachChiTiet != null &&
+            this.listKeHoachChiTiet.length > 0
+        ) {
+            let listChiTiet = this.listKeHoachChiTiet.filter(
+                (c) =>
+                    c.maNhom == itemParent.MA_NHOM && c.maDonVi == item.maNhom
+            );
             for (let i = 0; i < listChiTiet.length; i++) {
                 itemArr.push(this.newItemNhiemvu(listChiTiet[i]));
             }
@@ -190,9 +215,7 @@ export class TablePlansComponent {
             maDonVi: item.maNhom,
             noiDungDangKy: item.tenNhom,
             listNhiemVu_cap4: this._formBuilder.array(itemArr),
-        })
-       
-
+        });
     }
 
     newItemNhiemvu(item): FormGroup {
@@ -209,8 +232,8 @@ export class TablePlansComponent {
             noiDungHoatDong: item.noiDungHoatDong,
             thoiGianDuKien: item.thoiGianDuKien,
             yKienNguoiPheDuyet: item.yKienNguoiPheDuyet,
-            opinion: ''
-        })
+            opinion: '',
+        });
     }
 
     AddItemNhiemvu(items): FormGroup {
@@ -227,8 +250,8 @@ export class TablePlansComponent {
             noiDungHoatDong: '',
             thoiGianDuKien: '',
             yKienNguoiPheDuyet: '',
-            opinion: ''
-        })
+            opinion: '',
+        });
     }
     addCap2(items) {
         this.itemsAdd = items.get('listNhiemVu_cap3') as FormArray;
@@ -242,7 +265,6 @@ export class TablePlansComponent {
 
     listChitietDelete: FormArray;
 
-
     removeItem(items, i, cap) {
         // remove address from the list
 
@@ -251,34 +273,35 @@ export class TablePlansComponent {
             const control = items.get('listNhiemVu_cap3');
             item = control.value[i];
             control.removeAt(i);
-
         }
         if (cap == 4) {
             const control = items.get('listNhiemVu_cap4');
             item = control.value[i];
             control.removeAt(i);
-
         }
-
 
         if (item.maKeHoachChiTiet != undefined && item.maKeHoachChiTiet != '') {
-            this.listChitietDelete = this.form.get('listChitietDelete') as FormArray;
-            this.listChitietDelete.push(this.AddItemDelete(item.maKeHoachChiTiet));
+            this.listChitietDelete = this.form.get(
+                'listChitietDelete'
+            ) as FormArray;
+            this.listChitietDelete.push(
+                this.AddItemDelete(item.maKeHoachChiTiet)
+            );
         }
-
     }
 
     AddItemDelete(items): FormGroup {
         return this._formBuilder.group({
             maKeHoachChiTiet: items,
-
-        })
+        });
     }
 
     geListNguonKinhPhi() {
-        this._serviceApi.execServiceLogin("CCDB1CBC-F3D2-4893-85FE-F70C47990CF0", null).subscribe((data) => {
-            this.listNguonKinhPhi = data.data || [];
-        })
+        this._serviceApi
+            .execServiceLogin('CCDB1CBC-F3D2-4893-85FE-F70C47990CF0', null)
+            .subscribe((data) => {
+                this.listNguonKinhPhi = data.data || [];
+            });
     }
 
     ngDestroy() {
