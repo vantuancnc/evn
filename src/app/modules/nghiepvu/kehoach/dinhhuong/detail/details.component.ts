@@ -126,9 +126,11 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         });
         // }
     }
+
     resetFileUploader() {
         this.fileUpload2.nativeElement.value = null;
     }
+
     updateDate() {
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi
@@ -347,7 +349,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 });
             };
         }
-        this.resetFileUploader();
+        event.target.value = null;
     }
     openAlertDialog() {
         this.dialog.open(PopupFileComponent, {
