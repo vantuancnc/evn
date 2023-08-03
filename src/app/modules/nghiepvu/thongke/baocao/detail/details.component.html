@@ -43,7 +43,7 @@
 
         <div class="basis-2/5 flex justify-end">
            <button class="rounded-md text-white px-10 py-2 bg-blue-900" (click)="timKiem()">Thống kê</button>
-           <button class="rounded-md text-white px-10 py-2 bg-black ml-3">Xuất biểu mẫu</button>
+           <button class="rounded-md text-white px-10 py-2 bg-black ml-3"  (click)="export()">Xuất biểu mẫu</button>
         </div>
        
     </div>
@@ -102,77 +102,29 @@
                 <th class="">Thời gian thực hiện</th>
             </tr>
         </thead>
-        <tbody formArrayName="linhVuc" *ngIf="form.get('linhVuc').value.lenght >0">
-            <tr *ngFor="let item of form.get('linhVuc')['controls'];let i = index"
-                        [formGroupName]="i">
-                        <td colspan="9">{{item.tenLinhVuc}}</td>
-                        <ng-container
-                        *ngFor="let item2 of item.get('listData')['controls']; let k = index">
-                        <tr [formGroupName]="k">
-                            <td class="stt_table">{{k+1}}</td>
-                            <td>{{item2.get('tenDeTaiSK').value}}</td>
-                            <td>{{item2.get('tenChuNhiemTG').value}}</td>
-                            <td>{{item2.get('capQuanLy').value}}</td>
-                            <td>{{item2.get('linhVucKhoaHoc').value}}</td>
-                            <td>{{item2.get('donViChuTri').value}}</td>
-                            <td>{{item2.get('kinhPhi').value}}</td>
-                            <td>{{item2.get('nguonKinhPhi').value}}</td>
-                            <td>{{item2.get('thoiGianThucHien').value}}</td>
-                        </tr>
-                    </ng-container>
-                    </tr>
-            <!-- <tr>
-                <td colspan="9">Lĩnh vực khoa học 1</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-            </tr>
-            <tr>
-                <td colspan="9">Lĩnh vực khoa học 2</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-                <td>Noi dung</td>
-            </tr> -->
-            
+        <tbody>
+            <ng-container *ngFor="let item  of listLinhVuc; let i = index">
+                <tr>
+                    <td colspan="9">{{item.tenLinhVuc}}</td>
+                </tr>
+                <ng-container *ngFor="let items  of item.listData; let k = index">
+                <tr>
+                   <td class="stt_table">{{k+1}}</td>
+                   <td>{{items.tenDeTaiSK}}</td>
+                    <td>{{items.tenChuNhiemTG}}</td>
+                   <td>{{items.capQuanLy}}</td>
+                   <td>{{items.linhVucKhoaHoc}}</td>
+                   <td>{{items.donViChuTri}}</td>
+                   <td>{{items.kinhPhi}}</td>
+                   <td>{{items.nguonKinhPhi}}</td>
+                   <td>{{items.thoiGianThucHien}}</td> 
+               </tr>
+                
+            </ng-container>
+            </ng-container>
+    
         </tbody>
+       
     </table>
 
 </div>
@@ -222,7 +174,7 @@
 
         <div class="basis-2/5 flex justify-end">
            <button class="rounded-md text-white px-10 py-2 bg-blue-900"  (click)="timKiem()">Thống kê</button>
-           <button class="rounded-md text-white px-10 py-2 bg-black ml-3">Xuất biểu mẫu</button>
+           <button class="rounded-md text-white px-10 py-2 bg-black ml-3" (click)="export()">Xuất biểu mẫu</button>
         </div>
        
     </div>

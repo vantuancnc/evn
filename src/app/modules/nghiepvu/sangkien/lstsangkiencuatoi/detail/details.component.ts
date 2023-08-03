@@ -51,6 +51,7 @@ export class DetailsComponent implements OnInit {
     public listDonViChuDauTu = [];
     public listCapDo = [];
     public listFolderFile = [];
+    public screen;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -292,10 +293,11 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        this.submitted.check = true;
-        if (this.form.invalid) {
-            return;
-        }
+        debugger;
+        // this.submitted.check = true;
+        // if (this.form.invalid) {
+        //     return;
+        // }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
@@ -313,7 +315,23 @@ export class DetailsComponent implements OnInit {
                 { name: 'TOKEN_LINK', value: token },
             ])
             .subscribe((data) => {
-                console.log(data.data);
+                if (data.status == 1) {
+                    this._messageService.showSuccessMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                    if(this.screen){
+                        this._router.navigateByUrl(this.screen);
+                    }else{
+                        this._router.navigateByUrl('nghiepvu/sangkien/lstsangkiencuatoi');
+                    }
+                   
+                } else {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                }
             });
     }
 

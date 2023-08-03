@@ -47,9 +47,9 @@
                     <td class="text-center">{{item.tenTrangThai}}</td>
                     <td>{{item.yKienNguoiPheDuyet}}</td>
                     <td class="text-center action-table">
-                        <div class="flex justify-evenly">
+                        <div class="flex">
                             <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o" title="Xem lịch sử"></i>
+                            <i class="fa fa-clock-o" (click)="lichsu(item)"  title="Xem lịch sử"></i>
                             <i *ngIf="item.maTrangThai=='CGIAO' " class="fa fa-pencil"  [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
                             <i *ngIf="item.maTrangThai=='CGIAO' " class="fa fa-trash" title="Xóa bỏ"></i>
                         </div>

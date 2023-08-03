@@ -1,10 +1,10 @@
 <div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
-        <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> 
+        <h1 class="title-component">
             <span *ngIf="checkChiTiet !='duyet'" style="margin-left: 10px;">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</span>
         </h1>
-      
+        <!-- <i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i>  -->
     </div>
     <div class="header-detail">
         <div class="row-one flex items-center">
@@ -42,7 +42,7 @@
                     <i class="fa fa-user"></i> Giao thực hiện
                 </button>
                 <button class="add_button-export" *ngIf="checkChiTiet =='TH_DonVi' || checkChiTiet =='TH_EVN'">
-                    <i class="fa fa-plus"></i> Xuất dữ liệu biểu mẫu đăng ký
+                    <i class="fa fa-plus"></i>  Xuất biểu mẫu
                 </button>
                 <button class="add_button"  *ngIf="checkChiTiet =='duyet'" (click)="onSubmit('Y_CAU_HIEU_CHINH')">
                     <i class="fa fa-pencil"></i> Yêu cầu chỉnh sửa
@@ -107,5 +107,11 @@
             </p>
         </div>
     </div>
- <table-plans [form]="form" [submitted]="submitted" [class.khongthaotac]="checkChiTiet=='chitiet' || checkChiTiet=='duyet' "></table-plans>
+    <table-plans [form]="form" [submitted]="submitted" [class.khongthaotac]="checkChiTiet=='chitiet' || checkChiTiet=='duyet' "></table-plans>
+</div>
+<div *ngIf="actionType == 'LICHSU'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+
+    <app-lichsu-kehoach [makehoach]="makehoach"></app-lichsu-kehoach>
 </div>

@@ -1,11 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { MessageService } from 'app/shared/message.services';
 import { UserService } from 'app/core/user/user.service';
@@ -22,9 +15,10 @@ import { ListdinhhuongService } from '../../dinhhuong/listdinhhuong.service';
 @Component({
     selector: 'component-list',
     templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss'],
+    styleUrls: ['./list.component.scss']
 })
 export class ApiPheduyetdinhhuongListComponent implements OnInit {
+
     public selectedYear: [number];
     public selectedStatus: string;
     public actionClick: string = null;
@@ -37,12 +31,12 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     public checked;
     public getDinhHuongSubcription: Subscription;
     public listDinhHuong = [];
-    public selectedGrid: [{}];
-    public userLogin = { EMAIL: '', ORGID: '124' };
+    public selectedGrid:[{}];
+    public userLogin={EMAIL:'',ORGID:'124'};
     sizes: any[] = [
-        { size: '0', diameter: '16000 km' },
-        { size: '1', diameter: '32000 km' },
-    ];
+        { 'size': '0', 'diameter': '16000 km' },
+        { 'size': '1', 'diameter': '32000 km' }
+      ];
     /**
      * Constructor
      */
@@ -56,52 +50,63 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         private _functionService: FunctionService,
         private _serviceApi: ServiceService,
         private _listdinhhuongService: ListdinhhuongService,
-
+       
         private el: ElementRef
     ) {
-        this._activatedRoute.queryParams.subscribe((params) => {
-            if (params?.type) {
-                this.actionClick = params?.type;
-            } else {
-                this.actionClick = null;
-                this.timKiem();
-            }
-        });
+       
+        this._activatedRoute.queryParams
+        .subscribe(params => {
+          
+          if(params?.type){
+            this.actionClick = params?.type
+          }else{
+            this.actionClick = null
+            this.timKiem();
+          }
+        }
+      
+      );
+     
     }
 
     ngOnInit() {
         this.getUserLogin();
         this.actionClick = null;
         this._listdinhhuongService.getValueYear().subscribe((values: any) => {
-            if (values) {
+            if (values){
                 this.listYears = values;
                 // this.listYears.push({"NAME":2024,"ID":2024});
                 // this.listYears.push({"NAME":2025,"ID":2025})
             }
-        });
+               
+        })
         // this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
         //     if (values)
         //         this.listStatus = values;
         // })
-        this.listStatus = [
-            { MA_TRANG_THAI: '', TEN_TRANG_THAI: 'Tất cả' },
-            {
-                MA_TRANG_THAI: 'Y_CAU_HIEU_CHINH',
-                TEN_TRANG_THAI: 'Yêu cầu hiệu chỉnh',
-            },
-            { MA_TRANG_THAI: 'CHO_PHE_DUYET', TEN_TRANG_THAI: 'Chờ phê duyệt' },
-            { MA_TRANG_THAI: 'DA_PHE_DUYET', TEN_TRANG_THAI: 'Đã duyệt' },
-        ];
-        this.selectedYear = [new Date().getFullYear()];
-        this.selectedStatus = '';
+        this.listStatus =[{"MA_TRANG_THAI":"","TEN_TRANG_THAI":"Tất cả"},
+            {"MA_TRANG_THAI":"Y_CAU_HIEU_CHINH","TEN_TRANG_THAI":"Yêu cầu hiệu chỉnh"},
+        {"MA_TRANG_THAI":"CHO_PHE_DUYET","TEN_TRANG_THAI":"Chờ phê duyệt"},
+        {"MA_TRANG_THAI":"DA_PHE_DUYET","TEN_TRANG_THAI":"Đã duyệt"}]
+        this.selectedYear =[((new Date()).getFullYear())];
+        this.selectedStatus='';
         this.timKiem();
     }
 
-    onApiSelected(object: any): void {}
+
+    onApiSelected(object: any): void {
+
+    }
 
     addNew(): void {
         this.actionClick = 'THEMMOI';
     }
+    lichsu(item){
+      this._router.navigate(
+          ['/nghiepvu/kehoach/dinhhuong'],
+          { queryParams: { type: 'LICHSU',makehoach:item.maKeHoach } }
+        );
+     }
 
     async tonghop(status) {
         this.addNew();

@@ -19,11 +19,11 @@
             </div>
             <button *ngIf="userLogin.ORGID !='124'" class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
                 <!-- <i class="fa fa-file"></i> Tổng hợp đơn vị -->
-                Tổng hợp đơn vị
+                Tổng hợp
             </button>
             <button *ngIf="userLogin.ORGID =='124'" class="add_button  mg-left mr-5" (click)="tonghop('TH_EVN')">
                 <!-- <i class="fa fa-file"></i> -->
-                 Tổng hợp EVN
+                 Tổng hợp
             </button>
         </div>
         <table class="table table_custom">
@@ -50,13 +50,13 @@
                     <td class="action-table">
                         <div class="flex justify-evenly" style="float: left;">
                             <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o" title="Xem lịch sử"></i>
+                            <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
                             <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
              
                         </div>
                     </td>
                     <td class="text-center action-table-check">
-                        <input type="checkbox" *ngIf="item.tongHop==false" name="sizecb[]" value="{{item.id}}" [(ngModel)]="item.state"/>
+                        <input type="checkbox" name="sizecb[]" value="{{item.id}}" [(ngModel)]="item.state"/>
                     </td>
                    
                 </tr>

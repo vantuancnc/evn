@@ -31,10 +31,8 @@ import { ApiDinhHuongDetailsComponent } from './detail/details.component';
 import { ApiDinhHuongEmptyDetailsComponent } from './empty-details/empty-details.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
-
-
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
 
 @NgModule({
     imports: [
@@ -51,6 +49,7 @@ import { SharedModule } from 'app/shared/shared.module';
         NgSelectModule,
         MatTableModule,
         FormsModule,
+        MatDialogModule,
         MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
         MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
         CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
@@ -60,6 +59,7 @@ import { SharedModule } from 'app/shared/shared.module';
         ApiDinhHuongComponent,
         ApiDinhHuongDetailsComponent,
         ApiDinhHuongEmptyDetailsComponent,
+        PopupCbkhComponent,
     ]
 })
 export class ApiDinhHuongModule { }

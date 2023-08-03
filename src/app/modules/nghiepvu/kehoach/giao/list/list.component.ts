@@ -104,7 +104,12 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         this.selectedGrid="355B4604-D23D-4A64-8E24-B96085F0B0E4";
         this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong/'+this.selectedGrid+"?type="+status);
     }
-
+    lichsu(item){
+      this._router.navigate(
+          ['/nghiepvu/kehoach/dinhhuong'],
+          { queryParams: { type: 'LICHSU',makehoach:item.maKeHoach } }
+        );
+     }
 
     // getListDinhHuong() {
     //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
@@ -119,7 +124,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{"name":"NAM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
-                this.length = data.data[0].TotalPage;
+                this.length = data.data[0].totalPage;
              }
              
          })
@@ -129,7 +134,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.getDinhHuongSubcription.unsubscribe()
       //  this.getYearSubscription.unsubscribe()
-        this.getStatusSubscription.unsubscribe()
+       // this.getStatusSubscription.unsubscribe()
     }
 
      //phân trang

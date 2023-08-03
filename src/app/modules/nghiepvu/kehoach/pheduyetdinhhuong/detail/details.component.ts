@@ -43,6 +43,8 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     public listFile; 
     public user={EMAIL:''};
     public listFileDelete=[]; 
+    public actionType;
+    public makehoach;
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -54,18 +56,23 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         console.log('this.idParam',this.idParam);
+       this.makehoach = this.idParam;
         this._activatedRoute.queryParams.subscribe( params =>{
             this.checkChiTiet = params["type"];
+            this.updateKeHoach();
             this.getUserByMaKeHoach();
-            this.updateDate();
+            if (params?.type) {
+                this.actionType = params?.type;
+            } else {
+                this.actionType = null;
+            }
+            this.initForm()
 
           //  console.log('this.idParam2',JSON.stringify(params));
         }
            
         )
-        this.initForm()
-    
-        
+       
     }
 
 
@@ -88,39 +95,27 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     updateFile(){
         let typeRecord =  this.form.value.typeRecord;
         if(typeRecord !=undefined && (typeRecord=="TH_DonVi" || typeRecord=="TH_EVN")){
-            this._serviceApi.dataGrid.subscribe((data)=>{
-                if(data != null && data.length >0){
-                    let maKH = "";
-                    for(let i=0 ; i< data.length;i++){
-                        if(i==data.length -1){
-                            maKH +=data[i].MA_KE_HOACH;
-                        }else{
-                            maKH +=data[i].MA_KE_HOACH+',';
-                        }
-                    }
-                    if(maKH != ''){
-                        this._serviceApi.execServiceLogin("8EA30077-D521-40E7-B5EA-B3FD741B28C9", [{"name":"MA_KE_HOACH","value":maKH}]).subscribe((data) => {
-                       
-                            this.listFile = data.data  || [];
+            this._serviceApi.dataKeHoach.subscribe((data)=>{
+                if(data != null && data.listFile.length >0){
+                            this.listFile = data.listFile
                             if(this.listFile != null && this.listFile.length >0){
                                 for(let i =0 ; i< this.listFile.length;i++){
                                     this.listupload.push({
-                                        fileName:this.listFile[i].TEN_FILE,
-                                        base64:'',
-                                        duongdan:this.listFile[i].DUONG_DAN,
-                                        size: this.listFile[i].KICH_THUOC,
-                                        sovanban:this.listFile[i].SO_KY_HIEU,
-                                        mafile:this.listFile[i].MA_FILE
+                                        maLoaiFile:this.listFile[i].maLoaiFile,
+                                        fileName:this.listFile[i].fileName,
+                                        base64:this.listFile[i].base64,
+                                        duongdan:this.listFile[i].duongDan,
+                                        size: this.listFile[i].size,
+                                        sovanban:this.listFile[i].sovanban,
+                                        mafile:this.listFile[i].mafile
                                    });
                                 }
                             }
-                        })
-                    }
-                    
                 }
             })
         }
     }
+
 
     getUserByMaKeHoach() {
         if(this.idParam != undefined && this.idParam != ''){
@@ -160,13 +155,13 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                 typeRecord:this.checkChiTiet,
                 yKienNguoiPheDuyet:'',
                 year: [(new Date()).getFullYear(), [Validators.required]],
+                listNhiemVu:this._formBuilder.group([])
             }
             )
         // }
        
     }
-
-    updateDate(){
+    updateKeHoach(){
         // if(this.idParam != undefined && this.idParam !=null){
         //     this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
         
@@ -182,9 +177,10 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
 
         // }
+  
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
-
+       
                 this._serviceApi.dataKeHoach.next(data.data);
                 this.listFile = data.data || [];
                 this.listFile =data.data.listFile;
@@ -213,6 +209,54 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         }
      
     }
+
+    // updateDate(){
+    //     // if(this.idParam != undefined && this.idParam !=null){
+    //     //     this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
+        
+    //     //        // this.form.get("name").patchValue(data.data.Y_KIEN_NGUOI_PHE_DUYET);
+    //     //        // this.form.get("email").patchValue(true);
+    //     //        // this.form.get("maKeHoach").patchValue(this.idParam);
+    
+    //     //     })
+    //     //     this._serviceApi.execServiceLogin("D9680D9D-5705-42FA-9321-E04521D53014", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
+    //     //         this.listFile = data.data  || [];
+            
+    //     //     })
+
+
+    //     // }
+    //     if (this.idParam != undefined && this.idParam != null) {
+    //         this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
+
+    //             this._serviceApi.dataKeHoach.next(data.data);
+    //             this.listFile = data.data || [];
+    //             this.listFile =data.data.listFile;
+
+    //             this.form.get("name").patchValue(data.data.name);
+    //             this.form.get("yKienNguoiPheDuyet").patchValue(data.data.ykienNguoiPheDuyet);
+    //             this.form.get("year").patchValue(data.data.nam);
+    //             this.form.get("maKeHoach").patchValue(this.idParam);
+    //             if (this.listFile != null && this.listFile.length > 0) {
+    //                 for (let i = 0; i < this.listFile.length; i++) {
+
+    //                     this.listupload.push({
+    //                         fileName: this.listFile[i].fileName,
+    //                         base64: this.listFile[i].base64,
+    //                         duongDan: this.listFile[i].duongDan,
+    //                         size: this.listFile[i].size,
+    //                         sovanban: this.listFile[i].sovanban,
+    //                         mafile: this.listFile[i].mafile
+    //                     });
+    //                 }
+    //             }
+
+    //         })
+
+
+    //     }
+     
+    // }
 
     onChangEmail(){
         this.record.lock = !this.record.lock;

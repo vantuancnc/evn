@@ -82,16 +82,17 @@
                     <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                     <td class="text-center action-table">
                         <div class="flex">
-                            <i  *ngIf="item.maTrangThai=='DA_GUI' || item.maTrangThai=='DA_PHE_DUYET' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='DA_TLHDXD'"  (click)="updateActionRaSoat(item)" title="Rà soát HSĐK" class=" fa fa-check-square-o"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_PHE_DUYET' || item.maTrangThai=='DA_TLHDXD'" (click)="updateActionHD(item)" title="Cập nhập hội đồng XD/TC" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_TLHDXD'" (click)="updateActionKQ(item)" title="Cập nhập kết quả XD/TC" class="fa fa-caret-square-o-up"></i>
-                            <i (click)="detail(item)"
+                          <i (click)="detail(item)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-clock-o"   (click)="lichsu(item)" title="Xem lịch sử"></i>
                             <i class="fa fa-pencil" (click)="editer(item)"
                             class="fa fa-pencil" title="Chỉnh sửa"></i>
+                            <i  *ngIf="item.maTrangThai=='DA_GUI' || item.maTrangThai=='DA_PHE_DUYET' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='DA_TLHDXD'"  (click)="updateActionRaSoat(item)" title="Rà soát HSĐK" class=" fa fa-check-square-o"></i>
+                            <i  *ngIf="item.maTrangThai=='DA_PHE_DUYET' || item.maTrangThai=='DA_TLHDXD'" (click)="updateActionHD(item)" title="Cập nhập hội đồng XD/TC" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DA_TLHDXD'" (click)="updateActionKQ(item)" title="Cập nhập kết quả XD/TC" class="fa fa-caret-square-o-up"></i>
+                           
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
                         </div>
                     </td>

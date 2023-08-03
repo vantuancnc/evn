@@ -54,6 +54,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
             this.actionClick = params?.type
           }else{
             this.actionClick = null
+             this.timKiem();
           }
         }
       );
@@ -113,6 +114,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
 
     timKiem(){
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("DEA672A5-4533-4C16-8D99-7E6D4D277941", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM","value":this.selectedYear},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+         
           this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].totalPage;
@@ -152,11 +154,14 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
      xoa(item){
       this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.name + "\"", (toast: SnotifyToast) => {
         this._messageService.notify().remove(toast.id);
-        this._serviceApi.execServiceLogin("44126995-587A-48EE-840F-769F02050BBB", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+        this._serviceApi.execServiceLogin("CC1C9234-D950-4493-8189-1C65C07BE01C", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
           console.log(data);
           switch (data.data) {
                             case 1:
                                 this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                this.timKiem();
+                                // this._router.navigated = false;
+                                // this._router.navigate([data.data], { relativeTo: this._activatedRoute.parent });
                                 break;
                             case 0:
                                 this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");

@@ -53,8 +53,9 @@ export class ApiGiaoDetailsComponent implements OnInit {
         console.log('this.idParam',this.idParam);
         this._activatedRoute.queryParams.subscribe( params =>{
             this.checkChiTiet = params["type"];
+            this.updateKeHoach();
             this.getUserByMaKeHoach();
-            this.updateDate();
+           
 
           //  console.log('this.idParam2',JSON.stringify(params));
         }
@@ -163,7 +164,7 @@ export class ApiGiaoDetailsComponent implements OnInit {
        
     }
 
-    updateDate(){
+    updateKeHoach(){
         // if(this.idParam != undefined && this.idParam !=null){
         //     this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
         
@@ -287,10 +288,10 @@ export class ApiGiaoDetailsComponent implements OnInit {
         //this.getStatusSubscription.unsubscribe();
     }
     onSubmit(status) {
-        // this.submitted.check = true;
-        // if (this.form.invalid) {
-        //   return;
-        // }
+        this.submitted.check = true;
+        if (this.form.invalid) {
+            return;
+        }
         console.log(this.form.value);
         let email = 0;
         if(status=="DA_PHE_DUYET" || status=="Y_CAU_HIEU_CHINH"){
@@ -300,10 +301,64 @@ export class ApiGiaoDetailsComponent implements OnInit {
         if(this.form.value != undefined  && this.form.value != null && this.form.value.yKienNguoiPheDuyet != undefined &&  this.form.value.yKienNguoiPheDuyet != null){
             yKienNguoiPheDuyet = this.form.value.yKienNguoiPheDuyet;
         }
-        this._serviceApi.execServiceLogin("6E5C53E6-AB86-4865-97D2-83E048B47B56", [{"name":"MA_TRANG_THAI","value":status},{"name":"IS_EMAIL","value":email},{"name":"NAM","value":this.selectedYear},{"name":"GHI_CHU","value":yKienNguoiPheDuyet},{"name":"MA_KE_HOACH","value":this.idParam},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-          //  this.listChiTietImport = data.data || [];
-            this._messageService.showSuccessMessage("Thông báo", (status=="DA_PHE_DUYET"?"Duyệt":status=="LUU"?"Lưu":status=="DGIAO"?"Đã giao":"Yêu cầu hiệu chỉnh")+" thành công.");
-            this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
+       
+        console.log(this.form);
+        let name = this.form.value.name;
+        let nam = this.form.value.year;
+
+        let capTao = 'DONVI';
+        if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+            capTao = "TCT";
+        }
+        let listChiTiet = [];
+        let listFile = this.listupload;
+        let kehoach = { name: name, nam: nam,maTrangThai: status,maKeHoach:this.idParam};
+        for (let i = 0; i < this.form.value.listNhiemVu.length; i++) {
+            for (let j = 0; j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length; j++) {
+                let chitiet2 = this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
+                if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+                    for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
+                        let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
+
+                        if (itemChiTiet.listNhiemVu_cap4 != undefined && itemChiTiet.listNhiemVu_cap4.length > 0) {
+                            for(let i=0;i<itemChiTiet.listNhiemVu_cap4.length;i++){
+
+                                listChiTiet.push(itemChiTiet.listNhiemVu_cap4[i]);
+                            }
+                        }
+                    }
+                } else {
+
+                    if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
+                        for(let i=0;i<chitiet2.listNhiemVu_cap3.length;i++){
+
+                            listChiTiet.push(chitiet2.listNhiemVu_cap3[i]);
+                        }
+                    }
+                }
+
+
+            }
+        }
+        var token = localStorage.getItem("accessToken");
+        
+        this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, {"name":"TOKEN_LINK","value":"Bearer "+token},{ "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
+            // this._messageService.showSuccessMessage("Thông báo", data.message);
+            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            switch (data.status) {
+                case 1:
+                    this._messageService.showSuccessMessage("Thông báo", data.message);
+                   
+                        this._router.navigateByUrl('nghiepvu/kehoach/giao');
+                    
+                    break;
+                case 0:
+                    this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản ghi");
+                    break;
+                case -1:
+                    this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện");
+                    break;
+            }
         })
 
     }
