@@ -11,7 +11,7 @@
         <div class="basis-1/2">
             <label for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
             <input type="text" placeholder="Nhập tên đề tài" class="form-control" name="" id=""
-                formControlName="tenDeTai" />
+                formControlName="tenDeTai" /> 
 
                 <div *ngIf="submitted.check && f?.tenDeTai?.errors" class="invalid-feedback">
                     <div *ngIf="f.tenDeTai.errors.required">Trường bắt buộc nhập</div>
@@ -85,9 +85,11 @@
         <div class="basis-3/4 flex date-customt">
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
            <div class="form-date">
-            <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu" >
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu"  >
+            <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-datepicker  startView="multi-year"  #picker
+            (monthSelected)="setMonthAndYear($event, picker,'thoiGianThucHienTu')"
+            ></mat-datepicker>
            </div>
            <div *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors" class="invalid-feedback">
             <div *ngIf="f.thoiGianThucHienTu.errors.required">Trường bắt buộc nhập</div>
@@ -96,9 +98,11 @@
             <label class="dem-pading">đến</label>
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
             <div class="form-date">
-                <input matInput [matDatepicker]="picker1" formControlName="thoiGianThucHienDen" >
-                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
+                <input matInput [matDatepicker]="picker1" formControlName="thoiGianThucHienDen"  >
+                <mat-datepicker-toggle matIconSuffix [for]="picker1" ></mat-datepicker-toggle>
+                <mat-datepicker  startView="multi-year"  #picker1
+                (monthSelected)="setMonthAndYear($event, picker1,'thoiGianThucHienDen')"
+                ></mat-datepicker>
                </div>
                <div *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors" class="invalid-feedback">
                 <div *ngIf="f.thoiGianThucHienDen.errors.required">Trường bắt buộc nhập</div>
