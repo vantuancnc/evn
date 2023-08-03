@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil, timeout } from 'rxjs';
+import { Subscription, takeUntil, timeout, Subject } from 'rxjs';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, RequiredValidator, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
@@ -15,6 +15,9 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
+import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import { User } from 'app/core/user/user.types';
+import { DOfficeService } from 'app/shared/service/doffice.service'
 
 @Component({
     selector: 'component-details',
@@ -46,45 +49,73 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public listFileDelete = [];
     public actionType: string = null;
     public makehoach: string = null;
+    public screen;
+    public checkDOffice = false;
+    public linkDoffice = "";
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _router: Router,
         private _serviceApi: ServiceService,
         public _messageService: MessageService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private _userService: UserService,
+        private _dOfficeApi: DOfficeService,
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe(params => {
             this.checkChiTiet = params["type"];
-            this.updateDate();
+            this.updateKeHoach();
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
                 this.actionType = null;
+            }
+            if (params?.screen) {
+                this.screen = params?.screen;
             }
             if (params?.makehoach) {
                 this.makehoach = params?.makehoach;
             } else {
                 this.makehoach = null;
             }
-            // if (params?.title) {
-            //      this.title_lichsu = params?.title;
-            // }
+            this.initForm()
+            if (this.actionType == "THEMMOI") {
+                this._serviceApi.dataKeHoach.next([]);
+                this.getCheckQuyenDoffice();
+
+            }
         }
         )
-        this.initForm()
+
     }
 
 
     ngOnInit() {
         this.geListYears()
-       // this.getListStatus()
+        // this.getListStatus()
         this.geListNhomDonVi();
         this.selectedYear = (new Date()).getFullYear();
         // console.log(this.form.value);
 
     }
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.user = user;
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+
+    }
+
     geListNhomDonVi() {
         this._serviceApi.execServiceLogin("030A9A96-90D5-4AD0-80E4-C596AED63EE7", null).subscribe((data) => {
             this.listDonvi = data.data || [];
@@ -114,13 +145,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
     }
 
-    updateDate() {
+    updateKeHoach() {
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
                 //console.log(data.data);
                 this._serviceApi.dataKeHoach.next(data.data);
                 this.listFile = data.data || [];
-                this.listFile =data.data.listFile;
+                this.listFile = data.data.listFile;
                 this.form.get("name").patchValue(data.data.name);
                 this.form.get("year").patchValue(data.data.nam);
                 this.form.get("maKeHoach").patchValue(this.idParam);
@@ -192,13 +223,16 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         reader.onload = () => {
             let fileBase64 = reader.result.toString().split(',')[1];
             this._serviceApi.execServiceLogin("1E707636-93B5-43EA-97BC-2F850C14D1E3", [{ "name": "ORGID", "value": "115" }, { "name": "FILE_UPLOAD", "value": fileBase64 }]).subscribe((data) => {
+               debugger;
                 let arr = data.data || [];
-                let capTao ="DONVI";
-                if(this.listDonvi != null && this.listDonvi.length >0){
-                    capTao ='TCT';
+                let capTao = "DONVI";
+                if (this.listDonvi != null && this.listDonvi.length > 0) {
+                    capTao = 'TCT';
                 }
-                let kehoach = {capTao:capTao,
-                    listKeHoach:arr};
+                let kehoach = {
+                    capTao: capTao,
+                    listKeHoach: arr
+                };
                 this._serviceApi.dataKeHoach.next(kehoach);
                 this.listChiTietImport = data.data || [];
                 this.showTable = true
@@ -228,7 +262,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         // this.getYearSubscription.unsubscribe();
         //this.getStatusSubscription.unsubscribe();
     }
-    
+
     onSubmit(status) {
         this.submitted.check = true;
         if (this.form.invalid) {
@@ -244,38 +278,77 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         }
         let listChiTiet = [];
         let listFile = this.listupload;
-        let kehoach = { name: name, nam: nam,maTrangThai: status,maKeHoach:this.idParam};
+        let kehoach = { name: name, nam: nam, maTrangThai: status, maKeHoach: this.idParam };
         for (let i = 0; i < this.form.value.listNhiemVu.length; i++) {
-            for (let j = 0; j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length; j++) {
-                let chitiet2 = this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
-                if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+            let chitiet1 = this.form.value.listNhiemVu[i];
+            for (let j = 0; j < chitiet1.listNhiemVu_cap2.length; j++) {
+                let chitiet2 = chitiet1.listNhiemVu_cap2[j];
+                if (chitiet2.chiTiet == 0) {
+                    listChiTiet.push(chitiet2);
+                }
+                if (chitiet2 != null && chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
                     for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
-                        let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
-
-                        if (itemChiTiet.listNhiemVu_cap4 != undefined && itemChiTiet.listNhiemVu_cap4.length > 0) {
-                            for(let i=0;i<itemChiTiet.listNhiemVu_cap4.length;i++){
-
-                                listChiTiet.push(itemChiTiet.listNhiemVu_cap4[i]);
+                        let chitiet3 = chitiet2.listNhiemVu_cap3[k];
+                        if (chitiet3.chiTiet == 0) {
+                            listChiTiet.push(chitiet3);
+                        }
+                        if (chitiet3.listNhiemVu_cap4 != undefined && chitiet3.listNhiemVu_cap4.length > 0) {
+                            for (let i = 0; i < chitiet3.listNhiemVu_cap4.length; i++) {
+                                let chitiet4 = chitiet3.listNhiemVu_cap4[k];
+                                if (chitiet4.chiTiet == 0) {
+                                    listChiTiet.push(chitiet4);
+                                }
                             }
                         }
-                    }
-                } else {
 
-                    if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
-                        for(let i=0;i<chitiet2.listNhiemVu_cap3.length;i++){
-
-                            listChiTiet.push(chitiet2.listNhiemVu_cap3[i]);
-                        }
                     }
                 }
+
+                // if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+                //     for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
+                //         let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
+
+                //         if (itemChiTiet.listNhiemVu_cap4 != undefined && itemChiTiet.listNhiemVu_cap4.length > 0) {
+                //             for (let i = 0; i < itemChiTiet.listNhiemVu_cap4.length; i++) {
+
+                //                 listChiTiet.push(itemChiTiet.listNhiemVu_cap4[i]);
+                //             }
+                //         }
+                //     }
+                // } else {
+
+                //     if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
+                //         for (let i = 0; i < chitiet2.listNhiemVu_cap3.length; i++) {
+
+                //             listChiTiet.push(chitiet2.listNhiemVu_cap3[i]);
+                //         }
+                //     }
+                // }
 
 
             }
         }
+        debugger;
         var token = localStorage.getItem("accessToken");
-        this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, {"name":"TOKEN_LINK","value":"Bearer "+token},{ "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
-            this._messageService.showSuccessMessage("Thông báo", data.message);
-            this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+        this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, { "name": "TOKEN_LINK", "value": "Bearer " + token }, { "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
+            // this._messageService.showSuccessMessage("Thông báo", data.message);
+            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            switch (data.status) {
+                case 1:
+                    this._messageService.showSuccessMessage("Thông báo", data.message);
+                    if (this.screen) {
+                        this._router.navigateByUrl(this.screen);
+                    } else {
+                        this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+                    }
+                    break;
+                case 0:
+                    this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản ghi");
+                    break;
+                case -1:
+                    this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện");
+                    break;
+            }
         })
     }
     listupload = []
@@ -284,7 +357,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
+            reader.onload = () => {
                 this.listupload.push({
                     fileName: itemVal.name,
                     base64: reader.result,
@@ -296,10 +369,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         }
 
     }
-    openAlertDialog() {
-        this.dialog.open(PopupFileComponent, {
+    dataFile = [];
+    openAlertDialog(type) {
+        let data = this.dialog.open(PopupCbkhComponent, {
             data: {
-                listFile: this.listupload
+                type: type,
+                linkApi: this.linkDoffice,
+                maDv: this.user.ORGID,
             },
             width: '800px',
             panelClass: 'custom-PopupCbkh',
@@ -307,7 +383,25 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 top: '100px',
             }
         });
+        data.afterClosed().subscribe((data) => {
+            //if (type == 'DOFFICE') {
+            this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
+            if (this.dataFile != null && this.dataFile.length > 0) {
+
+                for (var i = 0; i < this.dataFile.length; i++) {
+                    let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
+                    this.listupload.push({
+                        fileName: this.dataFile[i].TEN_FILE,
+                        base64: dataBase64,
+                        size: 0,
+                        sovanban: data.KY_HIEU,
+                        mafile: ""
+                    })
+                }
+            }
+        })
     }
+
 
     exportMau() {
         if (this.idParam != undefined && this.idParam != null) {

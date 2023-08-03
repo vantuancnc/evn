@@ -101,26 +101,41 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     addNew(): void {
         this.actionClick = 'THEMMOI';
     }
+    lichsu(item){
+      this._router.navigate(
+          ['/nghiepvu/kehoach/dinhhuong'],
+          { queryParams: { type: 'LICHSU',makehoach:item.maKeHoach } }
+        );
+     }
 
     tonghop(status){
         this.addNew();
         let arr = this.listDinhHuong.filter(c => c.state==true);
         let listKeHoach =[];
+        let listFile =[];
         if(arr !=undefined && arr.length >0){
           for(let i=0;i< arr.length;i++){
             if(arr[i] !=undefined && arr[i].listKeHoach !=undefined && arr[i].listKeHoach.length >0){
               for(let j=0;j<arr[i].listKeHoach.length;j++){
                 let chitiet = arr[i].listKeHoach[j];
-                chitiet.maDonVi = arr[i].maDonVi;
+                //chitiet.maDonVi = arr[i].maDonVi;
                 listKeHoach.push(arr[i].listKeHoach[j]);
+              }
+            }
+            if(arr[i] !=undefined && arr[i].listFile !=undefined && arr[i].listFile.length >0){
+              for(let j=0;j<arr[i].listFile.length;j++){
+                listFile.push(arr[i].listFile[j]);
               }
             }
             
           }
         }
-        let kehoach = {listKeHoach:listKeHoach,capTao:'TCT'}
-        this._serviceApi.dataKeHoach.next(kehoach);
-        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong?type='+status);
+        if(listKeHoach != null && listKeHoach.length >0){
+          let kehoach = {listKeHoach:listKeHoach,capTao:'TCT', listFile:listFile}
+          this._serviceApi.dataKeHoach.next(kehoach);
+          this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong?type='+status);
+        }
+        
     }
 
     checkAll(ev) {
@@ -148,9 +163,9 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         
          this.selectedYear 
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("038D4EB5-55D0-49C4-8FDB-C242E6759955", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM_LIST","value":nam},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
-            this.listDinhHuong = data.data || [];
+          this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
-                this.length = data.data[0].TotalPage;
+                this.length = data.data[0].totalPage;
              }
              
          })
