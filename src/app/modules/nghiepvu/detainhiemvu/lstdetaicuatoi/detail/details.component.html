@@ -945,6 +945,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1092,6 +1093,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1247,6 +1249,7 @@
                                     )['controls'];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1399,6 +1402,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1570,6 +1574,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1741,6 +1746,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -2432,6 +2438,7 @@
                         bindValue="ID"
                         placeholder="Chọn kết quả"
                         [(ngModel)]="selectedYear"
+                        [ngModelOptions]="{ standalone: true }"
                     >
                     </ng-select>
                 </div>
