@@ -66,7 +66,7 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-1/4">
             <label for="">Đơn vị chủ trì<span>(*)</span></label>
-            <ng-select [items]="listDonViChuTri" bindLabel="NAME" bindValue="ID" placeholder="Chọn đơn vị chủ trì"
+            <ng-select [items]="listDonViChuTri" bindLabel="NAME" bindValue="ID" placeholder="--Đơn vị chủ trì--"
                 formControlName="donViChuTri">
             </ng-select>
             <div *ngIf="submitted.check && f?.donViChuTri?.errors" class="invalid-feedback">

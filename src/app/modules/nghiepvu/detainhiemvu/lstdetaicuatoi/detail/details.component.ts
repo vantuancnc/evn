@@ -982,7 +982,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     getListGioiTinh() {
-        var obj = { ID: 1, NAME: 'Nam' };
+        var obj = { ID: 0, NAME: '--Chọn--'};
+        this.listGioiTinh.push(obj);
+        obj = { ID: 1, NAME: 'Nam' };
         this.listGioiTinh.push(obj);
         obj = { ID: 2, NAME: 'Nữ' };
         this.listGioiTinh.push(obj);
