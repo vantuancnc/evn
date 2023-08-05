@@ -108,50 +108,59 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         );
      }
 
-    async tonghop(status) {
-        this.addNew();
-        let arr = this.listDinhHuong.filter((c) => c.state == true);
-        let listKeHoach = [];
-        if (arr != undefined && arr.length > 0) {
-            for (let i = 0; i < arr.length; i++) {
-                if (
-                    arr[i] != undefined &&
-                    arr[i].listKeHoach != undefined &&
-                    arr[i].listKeHoach.length > 0
-                ) {
-                    for (let j = 0; j < arr[i].listKeHoach.length; j++) {
-                        let chitiet = arr[i].listKeHoach[j];
-                        chitiet.maDonVi = arr[i].maDonVi;
-                        listKeHoach.push(arr[i].listKeHoach[j]);
-                    }
-                }
-            }
-        }
-        // await this.delays(2000);
-        let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT' };
-        this._serviceApi.dataKeHoach.next(kehoach);
-        // this._router.navigateByUrl(
-        //     'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
-        // );
-    }
+     async tonghop(status) {
+  
+      this.addNew();
+      let arr = this.listDinhHuong.filter((c) => c.state == true);
+      // let listKeHoach = [];
+      // let listFile = [];
+      // if (arr != undefined && arr.length > 0) {
+      //     for (let i = 0; i < arr.length; i++) {
+      //         if (
+      //             arr[i] != undefined &&
+      //             arr[i].listKeHoach != undefined &&
+      //             arr[i].listKeHoach.length > 0
+      //         ) {
+      //             for (let j = 0; j < arr[i].listKeHoach.length; j++) {
+      //                 let chitiet = arr[i].listKeHoach[j];
+      //                 chitiet.maDonVi = arr[i].maDonVi;
+      //                 listKeHoach.push(arr[i].listKeHoach[j]);
+      //             }
+      //         }
+      //         if( arr[i] != undefined &&
+      //           arr[i].listFile != undefined &&
+      //           arr[i].listFile.length > 0){
+      //             for (let j = 0; j < arr[i].listFile.length; j++) {
+      //               listFile.push(arr[i].listFile[j]);
+      //           }
+      //         }
+      //     }
+      // }
+      // await this.delays(2000);
 
-    delays(times) {
-        return new Promise((resolve) => setTimeout(resolve, times));
-    }
+     // let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
+      this._serviceApi.dataTongHop.next(arr);
+    //  setTimeout(function(){
+        this._router.navigateByUrl(
+          'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
+       );
+      // },100);
+    
+  }
+
+  delays(times) {
+      return new Promise((resolve) => setTimeout(resolve, times));
+  }
 
     checkAll(ev) {
-        this.listDinhHuong
-            .filter((c) => c.tongHop == false)
-            .forEach((x) => (x.state = ev.target.checked));
-
+        this.listDinhHuong.filter(c => c.tongHop==false).forEach(x => x.state = ev.target.checked);
+        
         console.log(this.listDinhHuong);
-    }
-
-    isAllChecked() {
-        return this.listDinhHuong
-            .filter((c) => c.tongHop == false)
-            .every((_) => _.state);
-    }
+      }
+      
+      isAllChecked() {
+        return this.listDinhHuong.filter(c => c.tongHop==false).every(_ => _.state);
+      }
 
     // getListDinhHuong() {
     //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
@@ -160,54 +169,47 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     //     })
     // }
 
-    timKiem() {
-        let nam = '';
-        if (this.selectedYear != null && this.selectedYear.length > 0) {
+    timKiem(){
+        let nam ="";
+         if(this.selectedYear != null && this.selectedYear.length >0 ){
             nam = this.selectedYear.join(',');
-        }
-
-        this.selectedYear;
-        this.getDinhHuongSubcription = this._serviceApi
-            .execServiceLogin('038D4EB5-55D0-49C4-8FDB-C242E6759955', [
-                { name: 'MA_TRANG_THAI', value: this.selectedStatus },
-                { name: 'NAM_LIST', value: nam },
-                { name: 'PAGE_NUM', value: this.pageIndex },
-                { name: 'PAGE_ROW_NUM', value: this.pageSize },
-            ])
-            .subscribe((data) => {
-                this.listDinhHuong = data.data || [];
-                if (data.data != null && data.data.length > 0) {
-                    this.length = data.data[0].TotalPage;
-                }
-            });
+         }
+        
+         this.selectedYear 
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("038D4EB5-55D0-49C4-8FDB-C242E6759955", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM_LIST","value":nam},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+          this.listDinhHuong = data.data || [];
+             if(data.data != null && data.data.length >0){
+                this.length = data.data[0].totalPage;
+             }
+             
+         })
     }
     getUserLogin() {
-        this._serviceApi
-            .execServiceLogin('EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8', [
-                { name: 'USERID', value: 'STR' },
-            ])
-            .subscribe((data) => {
+
+            this._serviceApi.execServiceLogin("EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8", [{"name":"USERID","value":"STR"}]).subscribe((data) => {
                 this.userLogin = data.data || {};
-            });
+            })
+        
     }
 
     ngOnDestroy() {
-        this.getDinhHuongSubcription.unsubscribe();
+        this.getDinhHuongSubcription.unsubscribe()
         //this.getYearSubscription.unsubscribe()
         //this.getStatusSubscription.unsubscribe()
     }
 
-    //phân trang
-    length = 0;
-    pageSize = 20;
-    pageIndex = 0;
-    pageSizeOptions = [10, 20, 50, 100];
-    showFirstLastButtons = true;
+     //phân trang
+     length = 0;
+     pageSize = 20;
+     pageIndex = 0;
+     pageSizeOptions = [10, 20, 50,100];
+     showFirstLastButtons = true;
+   
+     handlePageEvent(event: PageEvent) {
+       this.length = event.length;
+       this.pageSize = event.pageSize;
+       this.pageIndex = event.pageIndex;
+       this.timKiem();
+     }
 
-    handlePageEvent(event: PageEvent) {
-        this.length = event.length;
-        this.pageSize = event.pageSize;
-        this.pageIndex = event.pageIndex;
-        this.timKiem();
-    }
 }

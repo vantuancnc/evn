@@ -9,7 +9,7 @@
     <div class="header-detail">
         <div class="row-one flex items-center">
             <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
-                <label  class="wp-15" style="margin-right: 83px; width: 48%;"  for="">Tên<span>(*)</span></label>
+                <label  class="wp-15 title-dinhhuong"  for="">Tên<span>(*)</span></label>
                 <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
                     class="form-control input-form" />
                 <div *ngIf="submitted.check && f?.name?.errors" class="invalid-feedback">
@@ -85,7 +85,10 @@
             <div class="flex" *ngFor="let item of listupload; let i = index">
                 <label  class="wp-15" style="margin-right: 55px;"  for=""></label>
                 <div>{{item.fileName}} ({{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+' MB':item.size >1024?(item.size/(1024)).toFixed(1)+' KB':item.size.toFixed(1) +" K"}})</div>
-                <div> <i style="color: red; cursor: pointer;    margin-left: 20px;" (click)="deleteItemFile(item)" class="fa fa-trash cursor-point" title="Xóa bỏ"></i></div>
+                <div> <i *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA'" style="color: red; cursor: pointer;    margin-left: 20px;" (click)="deleteItemFile(item)" class="fa fa-trash cursor-point" title="Xóa bỏ"></i>
+                    <i class="fa fa-cloud-download" *ngIf="actionType == 'CHITIET'"
+                    style="color: green; cursor: pointer;" aria-hidden="true"
+                    (click)="downLoadFile(item)" title="Download file"></i></div>
             </div>
         </div>
         <div class="row-for">

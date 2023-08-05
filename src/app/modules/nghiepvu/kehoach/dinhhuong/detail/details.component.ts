@@ -1,23 +1,7 @@
-import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil, timeout } from 'rxjs';
-import {
-    AbstractControl,
-    FormArray,
-    FormBuilder,
-    FormGroup,
-    RequiredValidator,
-    UntypedFormBuilder,
-    UntypedFormGroup,
-    Validators,
-} from '@angular/forms';
+import { Subscription, takeUntil, timeout, Subject } from 'rxjs';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, RequiredValidator, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
@@ -56,6 +40,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public dataImport = {
         arr: []
     }
+    @ViewChild('fileUpload2') fileUpload2: ElementRef;
     public idParam: string = null;
     public checkChiTiet: string = null;
     public listDonvi = [];
@@ -65,7 +50,11 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     public listFileDelete = [];
     public actionType: string = null;
     public makehoach: string = null;
-    @ViewChild('fileUpload2') fileUpload2: ElementRef;
+    public screen;
+    public checkDOffice = false;
+    public linkDoffice = "";
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -95,7 +84,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             }
             this.initForm()
             if (this.actionType == "THEMMOI") {
-                this._serviceApi.dataKeHoach.next([]);
+                this._serviceApi.dataKeHoach.next({capTao:'DONVI'});
                 this.getCheckQuyenDoffice();
 
             }
@@ -235,7 +224,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         reader.onload = () => {
             let fileBase64 = reader.result.toString().split(',')[1];
             this._serviceApi.execServiceLogin("1E707636-93B5-43EA-97BC-2F850C14D1E3", [{ "name": "ORGID", "value": "115" }, { "name": "FILE_UPLOAD", "value": fileBase64 }]).subscribe((data) => {
-               debugger;
+              
                 let arr = data.data || [];
                 let capTao = "DONVI";
                 if (this.listDonvi != null && this.listDonvi.length > 0) {
@@ -340,7 +329,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
             }
         }
-        debugger;
+   
         var token = localStorage.getItem("accessToken");
         this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, { "name": "TOKEN_LINK", "value": "Bearer " + token }, { "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
             // this._messageService.showSuccessMessage("Thông báo", data.message);
@@ -381,6 +370,10 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         }
 
     }
+
+    resetFileUploader() {
+        this.fileUpload2.nativeElement.value = null;
+    }
     dataFile = [];
     openAlertDialog(type) {
         let data = this.dialog.open(PopupCbkhComponent, {
@@ -416,14 +409,14 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
 
     exportMau() {
-        if (this.idParam != undefined && this.idParam != null) {
+      //  if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi.execServiceLogin("FC95C3F7-942F-4C7E-88D7-46E12BFE9185", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
                 this.downloadTempExcel(data.data, "DANH_SACH_DANG_KY_DINH_HUONG.docx");
 
-            })
-        } else {
-            this._messageService.showWarningMessage("Thông báo", "Chức năng này không được sử dụng.");
-        }
+           })
+        // } else {
+        //     this._messageService.showWarningMessage("Thông báo", "Chức năng này không được sử dụng.");
+        // }
     }
 
     downLoadFile(item) {
