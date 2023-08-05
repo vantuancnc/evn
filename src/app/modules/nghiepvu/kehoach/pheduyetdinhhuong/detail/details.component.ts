@@ -409,7 +409,6 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         let listChiTiet = [];
         let listFile = this.listupload;
         let kehoach = { name: name, nam: nam,maTrangThai: status,maKeHoach:this.idParam,tongHop:true,capTao:capTao};
-        debugger;
         for (let i = 0; i < this.form.value.listNhiemVu.length; i++) {
             for (let j = 0; j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length; j++) {
                 let chitiet2 = this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];

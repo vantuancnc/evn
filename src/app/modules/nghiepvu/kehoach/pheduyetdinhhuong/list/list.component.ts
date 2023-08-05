@@ -153,13 +153,11 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
   }
 
     checkAll(ev) {
-        this.listDinhHuong.filter(c => c.tongHop==false).forEach(x => x.state = ev.target.checked);
-        
-        console.log(this.listDinhHuong);
+        this.listDinhHuong.forEach(x => x.state = ev.target.checked);
       }
       
       isAllChecked() {
-        return this.listDinhHuong.filter(c => c.tongHop==false).every(_ => _.state);
+        return this.listDinhHuong.every(_ => _.state);
       }
 
     // getListDinhHuong() {
