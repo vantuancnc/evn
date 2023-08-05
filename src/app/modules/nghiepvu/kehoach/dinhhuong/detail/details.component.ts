@@ -87,6 +87,8 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 this._serviceApi.dataKeHoach.next({capTao:'DONVI'});
                 this.getCheckQuyenDoffice();
 
+            }else if(this.actionType == "CHINHSUA"){
+                this.getCheckQuyenDoffice();
             }
         }
         )
