@@ -167,15 +167,12 @@
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
         </div>
-        <div
-            class="row-three flex items-center"
-            *ngIf="checkChiTiet == 'chitiet'"
-        >
-            <label class="w-50 inline-block" for=""
-                >Văn bản đăng ký<span>(*)</span></label
-            >
-
-            <div class="list-file" *ngIf="listupload.length > 0">
+      
+    <div class="flex items-center mt-3">
+        <label class="w-50 inline-block" for=""
+        ></label
+    >
+            <div class="list-file pl-3" *ngIf="listupload.length > 0">
                 <div
                     class="flex"
                     *ngFor="let item of listupload; let i = index"
@@ -219,6 +216,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- <div class="list-file" *ngIf="listupload.length >0">
             <table class="table table_custom action-table">
                 <thead>

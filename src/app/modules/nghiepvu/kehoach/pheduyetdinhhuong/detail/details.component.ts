@@ -130,6 +130,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                         }
                     }
                 }
+                debugger;
                 let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
                 this._serviceApi.dataKeHoach.next(kehoach);
         })
