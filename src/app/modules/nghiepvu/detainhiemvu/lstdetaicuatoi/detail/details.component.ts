@@ -837,6 +837,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         if (this.form.invalid) {
             return;
         }
+        if(this.form.value.thuKyDeTaiInfo === ''){
+            this.form.value.thuKyDeTaiInfo = {};
+        }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');

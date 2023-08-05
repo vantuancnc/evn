@@ -128,13 +128,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
     
    detail(item){
     this._router.navigate(
-        ['/nghiepvu/sangkien/lstsangkiencuatoi'],
-        { queryParams: { type: 'CHITIET' } }
+        ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
+        { queryParams: { type: 'CHITIET' ,screen:"/nghiepvu/sangkien/lstsangkiencuatoi/"} }
       );
    }
    editer(item){
     this._router.navigate(
-        ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+        ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
         { queryParams: { type: 'CHINHSUA' } }
       );
    }

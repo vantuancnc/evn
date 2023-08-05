@@ -84,6 +84,8 @@ export class DetailsComponent implements OnInit {
         this.getListChucDanh();
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
+        } else if (this.actionType == 'CHINHSUA') {
+            this.getEditerIdea('CAPNHAT');
         }
     }
 
@@ -110,6 +112,18 @@ export class DetailsComponent implements OnInit {
                 }
             });
     }
+
+    getEditerIdea(method?) {
+        this._serviceApi
+            .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
+                {name: 'MA_SANGKIEN', value: this.idParam},
+                {name: 'METHOD_BUTTON', value: method},
+            ])
+            .subscribe((data) => {
+                this.form.patchValue(data.data);
+            });
+    }
+
     newFolder(item?: any) {
         return this._formBuilder.group({
             maFolder: item?.maFolder,
@@ -204,14 +218,14 @@ export class DetailsComponent implements OnInit {
     }
 
     detail(method) {
-        this._serviceApi
-            .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
-                { name: 'MA_DE_TAI', value: this.idParam },
-                { name: 'METHOD_BUTTON', value: method },
-            ])
-            .subscribe((data) => {
-                this.form.patchValue(data.data);
-            });
+            this._serviceApi
+                .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
+                    {name: 'MA_SANGKIEN', value: this.idParam},
+                    {name: 'METHOD_BUTTON', value: method},
+                ])
+                .subscribe((data) => {
+                    this.form.patchValue(data.data);
+                });
     }
 
     addTacGia() {
@@ -354,8 +368,8 @@ export class DetailsComponent implements OnInit {
         }
     }
     deleteItemFile(items, i) {
-        const control = items.get('listFile');
-        control.removeAt(i);
+        // const control = items.get('listFile');
+        items.get('listFile').removeAt(i);
     }
     downloadTempExcel(userInp, fileName) {
         var mediaType =
