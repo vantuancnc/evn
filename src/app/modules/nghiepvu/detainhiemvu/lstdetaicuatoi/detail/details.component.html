@@ -7,7 +7,7 @@
     <div class="">
         <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ</h1>
         <div class="title-section">
-            <i class="fa fa-minus-circle"></i> Thông tin đề tài: 
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
         </div>
     </div>
     <div class="flex flex-row row gap-4">
@@ -132,36 +132,68 @@
         <div class="basis-1/4"></div>
         <div class="basis-1/4"></div>
     </div>
-     <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row gap-4">
         <div class="basis-1/4 flex justify-between items-center">
             <label for="">Thời gian thực hiện từ<span>(*)</span></label>
             <label style="margin-right: 10px">Từ</label>
         </div>
-        <div class="basis-3/4 flex date-customt">
+        <div class="basis-3/4 flex date-customt" style="margin-left: -7px">
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
-           <div class="form-date">
-            <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu"  >
-            <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
-            <mat-datepicker  startView="multi-year"  #picker
-            (monthSelected)="setMonthAndYear($event, picker,'thoiGianThucHienTu')"
-            ></mat-datepicker>
-           </div>
-           <div *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors" class="invalid-feedback">
-            <div *ngIf="f.thoiGianThucHienTu.errors.required">Trường bắt buộc nhập</div>
-          </div>
+            <div class="form-date">
+                <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="thoiGianThucHienTu"
+                />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker
+                    startView="multi-year"
+                    #picker
+                    (monthSelected)="
+                        setMonthAndYear($event, picker, 'thoiGianThucHienTu')
+                    "
+                ></mat-datepicker>
+            </div>
+            <div
+                *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.thoiGianThucHienTu.errors.required">
+                    Trường bắt buộc nhập
+                </div>
+            </div>
 
             <label class="dem-pading">đến</label>
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
             <div class="form-date">
-                <input matInput [matDatepicker]="picker1" formControlName="thoiGianThucHienDen"  >
-                <mat-datepicker-toggle matIconSuffix [for]="picker1" ></mat-datepicker-toggle>
-                <mat-datepicker  startView="multi-year"  #picker1
-                (monthSelected)="setMonthAndYear($event, picker1,'thoiGianThucHienDen')"
+                <input
+                    matInput
+                    [matDatepicker]="picker1"
+                    formControlName="thoiGianThucHienDen"
+                />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker
+                    startView="multi-year"
+                    #picker1
+                    (monthSelected)="
+                        setMonthAndYear($event, picker1, 'thoiGianThucHienDen')
+                    "
                 ></mat-datepicker>
-               </div>
-               <div *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors" class="invalid-feedback">
-                <div *ngIf="f.thoiGianThucHienDen.errors.required">Trường bắt buộc nhập</div>
-              </div>
+            </div>
+            <div
+                *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.thoiGianThucHienDen.errors.required">
+                    Trường bắt buộc nhập
+                </div>
+            </div>
         </div>
     </div>
 
