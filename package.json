@@ -9,7 +9,7 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
-        "build:dev": "ng build --watch --deploy-url /khcn/ --base-href /khcn/ --configuration=development",
+        "build:dev": "ng build --deploy-url /khcn/ --base-href /khcn/ --configuration=development",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint"

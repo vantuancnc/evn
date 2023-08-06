@@ -95,9 +95,9 @@
                                     >
                                         <tr [formGroupName]="k">
                                             <td>
-                                                <i
+                                                <!-- <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                                                ></i>
+                                                ></i> -->
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -256,7 +256,7 @@
                             formControlName="ten"
                         />
                         <i
-                            (click)="openAlertDialog('THANHVIEN', thanhvien)"
+                            (click)="openAlertDialog('HOIDONG', thanhvien)"
                             class="fa fa-search"
                         ></i>
                     </div>
@@ -619,9 +619,9 @@
                         </td>
 
                         <td>
-                            <i
+                            <!-- <i
                                 class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                            ></i>
+                            ></i> -->
                             {{ item2.get("sovanban").value }}
                         </td>
                         <td class="text-right">

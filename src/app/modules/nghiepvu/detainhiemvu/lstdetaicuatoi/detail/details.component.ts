@@ -7,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import { Subscription, takeUntil, timeout, Subject } from 'rxjs';
 import {
     AbstractControl,
     FormArray,
@@ -30,6 +30,7 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -131,12 +132,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         'BBAN_GIAO_LUUTRU',
         'HDON_THUE_TNCN',
     ];
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
+        private _userService: UserService,
+    
         public dialog: MatDialog
     ) {
         this.initForm();
@@ -991,6 +995,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.listDonViChuTri = data.data || [];
                 this.listDonViCongTac = data.data || [];
             });
+            this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+
+                this.form.get('donViChuTri').setValue(user.ORGID);
+            });
+           
     }
 
     getListHocHam() {

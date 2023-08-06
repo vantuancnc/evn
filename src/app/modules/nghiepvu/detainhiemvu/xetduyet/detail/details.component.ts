@@ -72,6 +72,12 @@ export class DetailsComponent implements OnInit {
 
           this.initForm(this.method);
           this.detail(this.method);
+          if(this.actionType=="updateActionHD"){
+            this.method="HOIDONG";
+            this.form.get('maTrangThai').setValue('DA_TLHDXD');
+          }else if(this.actionType=="updateActionKQ"){
+            this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
+          }
         }
       );
     }
@@ -356,7 +362,7 @@ export class DetailsComponent implements OnInit {
             ketLuanKienNghiHD:[null],
             diaDiem:[null],
             method:actionType,
-            maTrangThai:[null],
+            maTrangThai:[''],
             yKien: "",
             isEmail:true,
             tenDeTai: [null, [Validators.required]],
@@ -474,11 +480,12 @@ export class DetailsComponent implements OnInit {
         this._serviceApi.execServiceLogin("2EE0D143-CA88-4CFF-AC24-448236ECD72C", null).subscribe((data) => {
             this.listTrangThai = data.data || [];
             this.listTrangThai  = this.listTrangThai .filter(c => c.ID=='DA_TLHDXD');
-            this.form.get("maTrangThai").setValue('DA_TLHDXD');
+            this.form.get('maTrangThai').setValue("DA_TLHDXD");
         })
     }
 
     geListTrangThaiThanhLapHD() {
+        //let thisNow = this;
         this._serviceApi.execServiceLogin("2EE0D143-CA88-4CFF-AC24-448236ECD72C", null).subscribe((data) => {
             this.listTrangThai = data.data || [];
             this.listTrangThai  = this.listTrangThai.filter(function (str) {
@@ -528,6 +535,12 @@ export class DetailsComponent implements OnInit {
                   this.form.get('thuKyDeTaiInfo').setValue(data.data);
                   
               }else if(type=='THANHVIEN'){
+                item.get('ten').setValue(data.data.username);
+                item.get('soDienThoai').setValue(data.data.sdt);
+                item.get('email').setValue(data.data.email);
+                item.get('donViCongTac').setValue(data.data.noiLamViec);
+                item.get('maThanhVien').setValue(data.data.userId);
+              }else if(type=='HOIDONG'){
                 item.get('ten').setValue(data.data.username);
                 item.get('soDienThoai').setValue(data.data.sdt);
                 item.get('email').setValue(data.data.email);

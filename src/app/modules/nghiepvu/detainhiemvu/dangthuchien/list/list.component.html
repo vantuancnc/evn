@@ -82,8 +82,7 @@
                     <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
-                            <i  (click)="updateActionGH(item)" title="Gia hạn" class="fa fa-retweet"></i>
+                           
                             <i (click)="detail(item)"
                                 class="fa fa-info-circle" 
                                 title="Xem chi tiết"
@@ -92,6 +91,8 @@
                             <i class="fa fa-pencil" (click)="editer(item)"
                             class="fa fa-pencil" title="Chỉnh sửa"></i>
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
+                            <i (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
+                            <i  (click)="updateActionGH(item)" title="Gia hạn" class="fa fa-retweet"></i>
                         </div>
                     </td>
                 </tr>
