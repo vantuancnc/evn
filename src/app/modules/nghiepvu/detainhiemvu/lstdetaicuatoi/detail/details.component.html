@@ -561,7 +561,7 @@
             </div>
         </div>
         <div class="basis-1/5">
-            <label for="">Tổng kinh phí</label>
+            <label for="">Tổng kinh phí<span>(*)</span></label>
             <input
                 class="form-control"
                 placeholder="VNĐ"
@@ -570,6 +570,14 @@
                 name=""
                 id=""
             />
+            <div
+                *ngIf="submitted.check && f?.tongKinhPhi?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.tongKinhPhi.errors.required">
+                    Trường bắt buộc nhập
+                </div>
+            </div>
         </div>
         <div class="basis-1/5">
             <label for="">Phương thức khoán chi</label>
