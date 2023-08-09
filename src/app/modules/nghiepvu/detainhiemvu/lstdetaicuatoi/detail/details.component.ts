@@ -314,6 +314,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             this.listThang.push({ ID: i, NAME: i });
         }
     }
+    fomatMoney(data){
+        let a = +(data);
+        return new Intl.NumberFormat('en-US').format(a)
+    }
 
     getNam() {
         this.listNam = [];
