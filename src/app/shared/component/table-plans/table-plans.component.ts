@@ -10,7 +10,7 @@ import { Subscription, of, Subject } from 'rxjs';
     styleUrls: ['./table-plans.component.css'],
 })
 export class TablePlansComponent {
-    public mask = [ /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/,' ','-',' ', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/,];
+    public mask = [ /[0-1]/, /[1-2]/, '/', /[2]/, /[0]/, /[0-9]/, /[0-9]/,' ','-',' ', /[0-1]/, /[1-2]/, '/', /[2]/, /[0]/, /[0-9]/, /[0-9]/];
     public listNguonKinhPhi = [];
     public listNhiemVuMau = [];
     public listDonvi = [];
