@@ -180,12 +180,12 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
                 this._messageService.notify().remove(toast.id);
                 this._serviceApi
                     .execServiceLogin('9A2E2C8E-72F8-41E1-BEF7-A14E4FF5DF62', [
-                        { name: 'MA_DE_TAI', value: item.tenDeTai },
+                        { name: 'MA_DE_TAI', value: item.maDeTai },
                         { name: 'USERID', value: 'STR' },
                     ])
                     .subscribe((data) => {
                         console.log(data);
-                        switch (data.data) {
+                        switch (data.status) {
                             case 1:
                                 this._messageService.showSuccessMessage(
                                     'Thông báo',

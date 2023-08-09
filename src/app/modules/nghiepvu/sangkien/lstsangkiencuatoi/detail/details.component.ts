@@ -52,6 +52,13 @@ export class DetailsComponent implements OnInit {
     public listCapDo = [];
     public listFolderFile = [];
     public screen;
+    public data: any;
+    public listFileVB: any[] = [];
+    public listFileOther: any[] = [];
+    public listAuthor: any[] = [];
+    public madeTaiSK;
+    public typeLichSu;
+    public title_lichsu;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -68,12 +75,19 @@ export class DetailsComponent implements OnInit {
             } else {
                 this.actionType = null;
             }
+            if (params?.title) {
+                this.title_lichsu = params?.title;
+            }
             if (this.actionType == 'updateActionHSTH') {
                 this.method = 'CAPNHATHSTHUCHIEN';
             } else if (this.actionType == 'CHINHSUA') {
                 this.method = 'CAPNHAT';
+            } else {
+                this.method = 'DETAIL';
             }
             this.initForm(this.method);
+            this.madeTaiSK = this.idParam;
+            this.typeLichSu = 'SANGKIEN';
             this.detail(this.method);
         });
     }
@@ -216,6 +230,7 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
+                this.data = data.data;
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
@@ -252,7 +267,8 @@ export class DetailsComponent implements OnInit {
                     this.form
                         .get('linhVucNghienCuu')
                         .setValue(linhVucNghienCuu);
-                };
+                }
+                ;
 
                 // danh sách thành viên
                 if (data.data.tacGiaGiaiPhap != null) {
@@ -271,7 +287,14 @@ export class DetailsComponent implements OnInit {
                     }
                 }
                 this.selectedYear = parseInt(data.data.nam);
-                debugger
+                this.data.listFolderFile.forEach(n => {
+                    if (n.maFolder == 'VBDANGKY') {
+                        this.listFileVB = n.listFile;
+                    } else if (n.maFolder == 'KHAC') {
+                        this.listFileOther = n.listFile;
+                    }
+                })
+                this.listAuthor = this.data.danhSachThanhVien;
             });
     }
 
@@ -308,11 +331,12 @@ export class DetailsComponent implements OnInit {
             chucDanh: '',
             soDienThoai: '',
             email: '',
-            donViCongTac: '',
-            trinhDoChuyenMon: '',
-            noiDung: '',
+            diaChiNoiLamViec: '',
+            thanhTuu: '',
+            noiDungThamGia: '',
         });
     }
+
     THEM_THANHVIEN(item?: any): FormGroup {
         return this._formBuilder.group({
             maThanhVien: item?.maThanhVien || null,
@@ -322,8 +346,9 @@ export class DetailsComponent implements OnInit {
             soDienThoai: item?.soDienThoai || null,
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
-            trinhDoChuyenMon: item?.trinhDoChuyenMon || null,
-            noiDung: item?.noiDung || null,
+            diaChiNoiLamViec: item?.diaChiNoiLamViec || null,
+            thanhTuu: item?.thanhTuu || null,
+            noiDungThamGia: item?.noiDungThamGia || null,
         });
     }
 
@@ -422,7 +447,6 @@ export class DetailsComponent implements OnInit {
                     } else {
                         this._router.navigateByUrl('nghiepvu/sangkien/lstsangkiencuatoi');
                     }
-
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',

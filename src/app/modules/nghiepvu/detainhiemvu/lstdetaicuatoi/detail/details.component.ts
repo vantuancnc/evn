@@ -165,6 +165,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.method = 'CAPNHAT'; // cap nhat, them moi
             } else if (this.actionType == 'updateActionHSQT') {
                 this.method = 'HSQTOAN'; // CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN
+                this.f
             } else if (this.actionType == 'updateActionHSNT') {
                 this.method = 'HSNHIEMTHU'; //  CẬP NHẬP HỒ SƠ NGHIỆM THU
             } else {
@@ -332,6 +333,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            ghiChu:item?.ghiChu
         });
     }
 
@@ -472,7 +474,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         }
                     }
                 }
-
+                debugger;
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
@@ -812,6 +814,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         if (this.form.invalid) {
             return;
         }
+        
         if (this.form.value.thuKyDeTaiInfo === '') {
             this.form.value.thuKyDeTaiInfo = {};
         }
@@ -1133,6 +1136,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     }
                     return;
                 });
+                this.form.get('maTrangThai').setValue('DA_NTHU');
             });
     }
 }
