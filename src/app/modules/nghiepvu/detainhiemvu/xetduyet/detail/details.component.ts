@@ -363,7 +363,11 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianThucHienDen')
                         .setValue(new Date(thoiGianDen));
                 }
-                console.log(this.form);
+                if (method == 'HOIDONG') {
+                    this.form.get('maTrangThai').setValue('DA_TLHDXD');
+                } else if (method== 'THANHLAPHD') {
+                    this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
+                }
             });
     }
     addListDocParent(item?: any) {

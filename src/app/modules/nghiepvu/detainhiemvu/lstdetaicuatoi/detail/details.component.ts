@@ -178,8 +178,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             ) {
                 this.madeTaiSK = this.idParam;
                 this.typeLichSu = 'DETAI';
-
+               
                 this.detail(this.method);
+                if (this.actionType == 'updateActionHSTH') {
+                   this.form.get("maTrangThai").setValue("DANG_THUC_HIEN");
+                }
             }
         });
     }
@@ -354,6 +357,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     detail(method) {
+      
         this.getListDangNhap();
         this._serviceApi
             .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
@@ -376,6 +380,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     'listFolderFileTamUng'
                 ) as FormArray;
                 // listFolderFile
+         
                 if (data.data.listFolderFile != null) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
                         formDocParent.push(
@@ -478,7 +483,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         }
                     }
                 }
-                debugger;
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
@@ -704,6 +708,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     //  this.listFolderDK.listFile = data.data.listFile;
                     //  this.listFileDK =
                 }
+
+                if(method = 'CAPNHATHSTHUCHIEN'){
+                    this.form.get('maTrangThai').setValue('DA_NTHU');
+                }else if(method = 'HSQTOAN'){
+                    this.form.get('maTrangThai').setValue('DA_NTHU');
+                }
+
             });
     }
     // listFolderAll=[];
@@ -818,7 +829,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         if (this.form.invalid) {
             return;
         }
-        
         if (this.form.value.thuKyDeTaiInfo === '') {
             this.form.value.thuKyDeTaiInfo = {};
         }
@@ -837,6 +847,12 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             // }else if(status=="LUUGUI"){
             //     this.form.get('maTrangThai').setValue("DA_NTHU");
             // }
+        } else if (method == 'CAPNHATHSTHUCHIEN') {
+            // if(status=="LUU"){
+           // this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
+            // }else if(status=="LUUGUI"){
+            //     this.form.get('maTrangThai').setValue("DA_NTHU");
+            // }
         } else if (method == 'CAPNHAT') {
             if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('CHUA_GUI');
@@ -848,6 +864,26 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     );
             } else if (status == 'LUUGUI') {
                 this.form.get('maTrangThai').setValue('DA_GUI');
+               let listFolder = this.form.get('listFolderFile').value;
+               let check = false;
+                if(listFolder != null && listFolder.length >0){
+                    listFolder = listFolder.filter(c => c.maFolder !='KHAC');
+                    for(let i=0;i< listFolder.length;i++){
+                        if(listFolder[i].listFile.length==0){
+                            check =true;
+                            break;
+                        }
+                    }
+                }    
+                if(check){
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        "Vui lòng nhập đầy đủ hồ sơ thuyết minh."
+                    );
+                    return;
+                }
+                
+
                 this.form
                     .get('noiDungGuiMail')
                     .setValue(
@@ -867,8 +903,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    if (this.screen) {
-                        this._router.navigateByUrl(this.screen);
+                    if(this.form.get('maTrangThai').value=='HOAN_THANH'){
+                        this._router.navigateByUrl("nghiepvu/detainhiemvu/hoanthanh");
+                    }else 
+                    if (method == 'CAPNHATHSTHUCHIEN') {
+                        this._router.navigateByUrl("nghiepvu/detainhiemvu/dangthuchien");
                     } else {
                         this._router.navigateByUrl(
                             'nghiepvu/detainhiemvu/lstdetaicuatoi'

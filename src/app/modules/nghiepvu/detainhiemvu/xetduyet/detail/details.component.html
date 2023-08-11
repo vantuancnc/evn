@@ -102,28 +102,27 @@
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
-                                            </td>
-                                            <td>
-                                                {{
+                                                
+                                                ({{
                                                     item2.get("size").value >
                                                     1024 * 1024
                                                         ? (
                                                               item2.get("size")
                                                                   .value /
                                                               (1024 * 1024)
-                                                          ).toFixed(1) + "(MB)"
+                                                          ).toFixed(1) + "MB"
                                                         : item2.get("size")
                                                               .value > 1024
                                                         ? (
                                                               item2.get("size")
                                                                   .value / 1024
-                                                          ).toFixed(1) + "(KB)"
+                                                          ).toFixed(1) + "KB"
                                                         : item2
                                                               .get("size")
                                                               .value.toFixed(
                                                                   1
                                                               ) + "K"
-                                                }}
+                                                }})
                                             </td>
 
                                             <td>
