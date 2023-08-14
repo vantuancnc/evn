@@ -142,6 +142,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             year: [(new Date()).getFullYear(), [Validators.required]],
             maKeHoach: this.idParam,
             listChiTietImport: [],
+            
         }
         )
         // }

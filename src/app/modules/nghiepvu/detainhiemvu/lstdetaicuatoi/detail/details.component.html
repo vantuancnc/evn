@@ -706,6 +706,14 @@
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
+                                 <div
+        *ngIf="submitted.check &&  item.get('listFile').errors?.minLength"
+        class="invalid-feedback"
+    >
+        <div>
+            File bắt buộc upload
+        </div>
+    </div> 
                             </td>
                             <td>
                                 <div
@@ -828,7 +836,7 @@
                                         #fileUpload2
                                     />
                                     <i class="fa fa-cloud-upload"></i> Upload
-                                    file
+                                    
                                 </label>
                                 <!-- <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
@@ -3325,19 +3333,6 @@
                                 *ngIf="item.get('listFile').value.length > 0"
                             >
                                 <table class="table table_custom action-table">
-                                    <!-- <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">
-                                                Kích thước
-                                            </th>
-                                            <th class="text-center">
-                                                Số văn bản
-                                            </th>
-                                            <th style="width: 100px"></th>
-                                        </tr>
-                                    </thead> -->
                                     <tbody
                                         formArrayName="listFile"
                                         class="table_listfile"
@@ -3352,15 +3347,11 @@
                                             [formGroupName]="k"
                                         >
                                             <td>
-                                                <!-- <i
-                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                                                ></i> -->
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
-                                            </td>
-                                            <td>
-                                                {{
+
+                                                ({{
                                                     item2.get("size").value >
                                                     1024 * 1024
                                                         ? (
@@ -3379,14 +3370,8 @@
                                                               .value.toFixed(
                                                                   1
                                                               ) + "K"
-                                                }}
+                                                }})
                                             </td>
-                                            <!-- 
-                                            <td>
-                                                {{
-                                                    item2.get("sovanban").value
-                                                }}
-                                            </td> -->
                                             <td class="text-right">
                                                 <i
                                                     style="
@@ -3463,18 +3448,18 @@
         </mat-tab>
     </mat-tab-group>
 
-    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
+     <div style="display: flex; margin-top: 10px; align-items: center" *ngIf="screentype =='nghiemthu'">
         <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
         <ng-select
-            [items]="listYears"
+            [items]="listTrangThai"
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            [(ngModel)]="selectedYear"
+            formControlName="maTrangThai"
             style="width: 200px"
         >
         </ng-select>
-    </div> -->
+    </div> 
 
     <div
         class="flex items-center"
@@ -3496,11 +3481,15 @@
         style="padding: 10px; min-height: 100px"
     ></textarea>
 
+
     <div class="action-all-f">
-        <button class="add_button" (click)="onSubmit('LUU', 'HSNHIEMTHU')">
+        <button *ngIf="screentype =='nghiemthu'" class="add_button" (click)="onSubmit('LUU', 'HSNHIEMTHUSTATUS')">
             <i class="fa fa-save"></i> Lưu
         </button>
-        <button class="add_button" (click)="onSubmit('LUUGUI', 'HSNHIEMTHU')">
+        <button *ngIf="screentype !='nghiemthu'" class="add_button" (click)="onSubmit('LUU', 'HSNHIEMTHU')">
+            <i class="fa fa-save"></i> Lưu
+        </button>
+        <button *ngIf="screentype !='nghiemthu'" class="add_button" (click)="onSubmit('LUUGUI', 'HSNHIEMTHU')">
             <i class="fa fa-save"></i> Lưu & Gửi
         </button>
     </div>
@@ -3694,7 +3683,7 @@
         </tbody> -->
     </table>
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
             >Trạng thái <span>(*)</span></label
         >
@@ -3707,7 +3696,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div>
+    </div> -->
 
     <div
         class="flex items-center"
