@@ -269,7 +269,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
     onSubmit(status) {
         this.submitted.check = true;
-        if (this.form.invalid) {
+        if (this.form.invalid || this.listupload.length == 0) {
             return;
         }
         console.log(this.form);
